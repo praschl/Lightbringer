@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0B86E8DB-3E35-45D9-B11B-AFA7CF7A29F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiP.Core", "MiP.Core\MiP.Core.csproj", "{F643052E-2DF1-4613-B0D9-25A490DD52CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E1B4D4DC-23F9-456E-8DA4-B618F2B99DE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightbringer.Config", "Lightbringer.Config\Lightbringer.Config.csproj", "{94A9F761-9AA3-4E22-BB74-1A0939519C8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightbringer.Service", "Lightbringer.Service\Lightbringer.Service.csproj", "{71742D5C-AE34-4099-9162-D1850DEE92DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F643052E-2DF1-4613-B0D9-25A490DD52CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F643052E-2DF1-4613-B0D9-25A490DD52CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F643052E-2DF1-4613-B0D9-25A490DD52CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F643052E-2DF1-4613-B0D9-25A490DD52CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A9F761-9AA3-4E22-BB74-1A0939519C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A9F761-9AA3-4E22-BB74-1A0939519C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A9F761-9AA3-4E22-BB74-1A0939519C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A9F761-9AA3-4E22-BB74-1A0939519C8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71742D5C-AE34-4099-9162-D1850DEE92DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71742D5C-AE34-4099-9162-D1850DEE92DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71742D5C-AE34-4099-9162-D1850DEE92DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71742D5C-AE34-4099-9162-D1850DEE92DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F326FD6-7CC5-419A-85CA-01814A93EF03}
+	EndGlobalSection
+EndGlobal
