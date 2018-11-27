@@ -10,7 +10,7 @@ namespace MiP.Core.Services
 {
     public static class ServiceRunner
     {
-        private static ILog _log = LogManager.GetLogger(typeof(ServiceRunner));
+        private static readonly ILog _log = LogManager.GetLogger(typeof(ServiceRunner));
 
         public static void Run(IServiceProvider serviceProvider, string[] args = null)
         {

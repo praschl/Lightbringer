@@ -56,7 +56,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Daemons\DaemonService.cs" />
     <Compile Include="IoC\ServiceLocator.cs" />
     <Compile Include="LightbringerServiceProcessInstaller.cs">
       <SubType>Component</SubType>
@@ -75,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lightbringer.Config\Lightbringer.Config.csproj">
-      <Project>{94a9f761-9aa3-4e22-bb74-1a0939519c8a}</Project>
+      <Project>{94A9F761-9AA3-4E22-BB74-1A0939519C8A}</Project>
       <Name>Lightbringer.Config</Name>
     </ProjectReference>
     <ProjectReference Include="..\Lightbringer.Wcf.Contracts\Lightbringer.Wcf.Contracts.csproj">

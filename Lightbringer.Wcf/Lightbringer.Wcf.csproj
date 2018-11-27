@@ -60,21 +60,17 @@
     <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Daemons\DaemonService.cs" />
     <Compile Include="ServiceModules\NLogBehavior.cs" />
     <Compile Include="ServiceModules\NLogErrorHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceModules\WcfServiceModule.cs" />
-    <Compile Include="WcfServiceRegistrationModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lightbringer.Service\Lightbringer.Service.csproj">
-      <Project>{71742D5C-AE34-4099-9162-D1850DEE92DE}</Project>
-      <Name>Lightbringer.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lightbringer.Wcf.Contracts\Lightbringer.Wcf.Contracts.csproj">
       <Project>{F2CD2318-A9A6-4510-AF7C-43C3DFBFEA91}</Project>
       <Name>Lightbringer.Wcf.Contracts</Name>

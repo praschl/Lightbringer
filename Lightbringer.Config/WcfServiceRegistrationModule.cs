@@ -12,7 +12,7 @@ using Lightbringer.Wcf.ServiceModules;
 using MiP.Core.Logging;
 using MiP.Core.Services;
 
-namespace Lightbringer.Wcf
+namespace Lightbringer.Config
 {
     public class WcfServiceRegistrationModule : Module
     {
