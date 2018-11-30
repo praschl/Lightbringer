@@ -6,8 +6,8 @@ using System.ServiceModel.Description;
 using Autofac;
 using Autofac.Extras.DynamicProxy2;
 using Autofac.Integration.Wcf;
-using Lightbringer.Service.Daemons;
 using Lightbringer.Wcf.Contracts.Daemons;
+using Lightbringer.Wcf.Daemons;
 using Lightbringer.Wcf.ServiceModules;
 using MiP.Core.Logging;
 using MiP.Core.Services;
@@ -34,7 +34,7 @@ namespace Lightbringer.Config
         protected override void Load(ContainerBuilder builder)
         {
             // hier alle services registrieren
-            RegisterWcfServiceHost<IDaemonService, DaemonService>(builder, "daemonService");
+            RegisterWcfServiceHost<IDaemonService, DaemonService>(builder, "daemons");
         }
 
         private void RegisterWcfServiceHost<TContract, TService>(ContainerBuilder builder, string relativeUrl, params IServiceBehavior[] behaviors) where TService : TContract

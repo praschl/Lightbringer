@@ -16,6 +16,7 @@ namespace Lightbringer.Service.IoC
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterModule(new CoreRegistrationModule());
             builder.RegisterModule(new LightbringerServiceModule());
             builder.RegisterModule(new WcfServiceRegistrationModule(() => Instance));
 
