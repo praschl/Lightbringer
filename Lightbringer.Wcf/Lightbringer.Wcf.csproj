@@ -44,11 +44,15 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Daemons\DaemonService.cs" />
+    <Compile Include="Daemons\GetAllDaemonsQuery.cs" />
+    <Compile Include="IQuery.cs" />
     <Compile Include="ServiceModules\NLogBehavior.cs" />
     <Compile Include="ServiceModules\NLogErrorHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

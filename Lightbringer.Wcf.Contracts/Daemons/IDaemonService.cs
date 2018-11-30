@@ -6,6 +6,7 @@ namespace Lightbringer.Wcf.Contracts.Daemons
     public interface IDaemonService
     {
         [OperationContract]
+        [ServiceKnownType(typeof(DaemonDto[]))]
         AllDaemonsResponse GetAllDaemons(AllDaemonsRequest request);
     }
 }

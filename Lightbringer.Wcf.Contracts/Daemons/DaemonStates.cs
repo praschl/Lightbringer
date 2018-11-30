@@ -3,7 +3,7 @@
     public static class DaemonStates
     {
         public const string Starting = "Starting";
-        public const string Started = "Started";
+        public const string Running = "Running";
         public const string Stopping = "Stopping";
         public const string Stopped = "Stopped";
 
