@@ -25,6 +25,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lightbringer.Rest.Contract"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightbringer.WebApi", "Lightbringer.WebApi\Lightbringer.WebApi.csproj", "{8C008F01-848B-4FD6-952F-C475B5CCB244}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hosts", "Hosts", "{8BE9B280-36B3-4350-B51C-1486DED7FA70}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{58BE510D-CBFA-4CE4-B0B7-C8B5431CF94C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +74,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F643052E-2DF1-4613-B0D9-25A490DD52CD} = {58BE510D-CBFA-4CE4-B0B7-C8B5431CF94C}
+		{71742D5C-AE34-4099-9162-D1850DEE92DE} = {8BE9B280-36B3-4350-B51C-1486DED7FA70}
+		{D678AA6C-EABB-4DF0-AF67-B083252C1ABD} = {8BE9B280-36B3-4350-B51C-1486DED7FA70}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F326FD6-7CC5-419A-85CA-01814A93EF03}
