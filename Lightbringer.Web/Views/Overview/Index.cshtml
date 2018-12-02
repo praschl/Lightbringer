@@ -1,0 +1,49 @@
+﻿@model Lightbringer.Web.Controllers.OverviewViewModel
+@{
+    ViewData["Title"] = "Select Daemons";
+}
+
+<br />
+
+<div class="row">
+    <div class="col-4">
+        <h2 class="">Select Daemons</h2>
+    </div>
+    <div class="col-8">
+        <form method="post" asp-action="AddServiceHost">
+
+            <div class="input-group mb-3">
+                <input asp-for="AddServiceHost" placeholder="Add Service Host" class="form-control"/>
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-primary alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
+}
+
+<table class="table table-striped border">
+    <tr class="table-primary">
+        <th>Name</th>
+        <th>Service Name</th>
+    </tr>
+
+    @foreach (var dto in Model.AllDaemons)
+    {
+        <tr>
+            <td>@dto.DisplayName</td>
+            <td>@dto.ServiceName</td>
+        </tr>
+    }
+</table>
