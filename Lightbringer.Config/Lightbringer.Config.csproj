@@ -67,22 +67,12 @@
     <Compile Include="CoreRegistrationModule.cs" />
     <Compile Include="LightbringerServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryModule.cs" />
-    <Compile Include="WcfServiceRegistrationModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lightbringer.Wcf.Contracts\Lightbringer.Wcf.Contracts.csproj">
-      <Project>{F2CD2318-A9A6-4510-AF7C-43C3DFBFEA91}</Project>
-      <Name>Lightbringer.Wcf.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lightbringer.Wcf\Lightbringer.Wcf.csproj">
-      <Project>{3F909B7E-C04D-4D59-B165-C3D1C3D1531A}</Project>
-      <Name>Lightbringer.Wcf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MiP.Core\MiP.Core.csproj">
       <Project>{F643052E-2DF1-4613-B0D9-25A490DD52CD}</Project>
       <Name>MiP.Core</Name>

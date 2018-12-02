@@ -77,10 +77,6 @@
       <Project>{94A9F761-9AA3-4E22-BB74-1A0939519C8A}</Project>
       <Name>Lightbringer.Config</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lightbringer.Wcf.Contracts\Lightbringer.Wcf.Contracts.csproj">
-      <Project>{F2CD2318-A9A6-4510-AF7C-43C3DFBFEA91}</Project>
-      <Name>Lightbringer.Wcf.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lightbringer.WebApi\Lightbringer.WebApi.csproj">
       <Project>{8C008F01-848B-4FD6-952F-C475B5CCB244}</Project>
       <Name>Lightbringer.WebApi</Name>

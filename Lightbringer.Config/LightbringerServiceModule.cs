@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Lightbringer.Wcf.Contracts.Daemons;
 using MiP.Core.Services;
 
 namespace Lightbringer.Config

@@ -1,14 +1,12 @@
-﻿using System.ServiceModel;
-using Autofac;
+﻿using Autofac;
+using Lightbringer.Rest.Contract;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.ServiceModel.Description;
-using Autofac.Integration.Wcf;
-using Lightbringer.Wcf.Contracts.Daemons;
 using Lightbringer.Web.Store;
+using Refit;
 
 namespace Lightbringer.Web
 {
@@ -37,7 +35,8 @@ namespace Lightbringer.Web
         // called by autofac initialization
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            //RegisterWcfServiceClient<IDaemonService>(builder, "daemons");
+            var daemonApi = RestService.For<IDaemonApi>(Configuration.GetSection("WebApi.RootUrl").Value);
+            builder.Register(c => daemonApi).SingleInstance();
 
             builder.RegisterType<LiteDbStore>().AsImplementedInterfaces();
         }
@@ -65,44 +64,5 @@ namespace Lightbringer.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-        //private void RegisterWcfServiceClient<TContract>(ContainerBuilder builder, string relativeUrl, params IEndpointBehavior[] endpointBehaviors)
-        //{
-        //    string serviceBaseUrl = Configuration.GetSection("WcfServices.RootUrl").Value;
-
-        //    // auto-implementierung von WCF Services konfigurieren
-        //    builder
-        //        .Register(c =>
-        //        {
-        //            var channelFactory = new ChannelFactory<TContract>(
-        //                new BasicHttpBinding {MaxReceivedMessageSize = 250_000},
-        //                new EndpointAddress(serviceBaseUrl + relativeUrl));
-
-        //            return channelFactory;
-        //        })
-        //        .SingleInstance();
-
-        //    builder
-        //        .Register(componentContext =>
-        //        {
-        //            var contract = CreateChannel<TContract>(endpointBehaviors, componentContext);
-
-        //            return contract;
-        //        })
-        //        .As<TContract>()
-        //        .UseWcfSafeRelease();
-        //}
-
-        //private TContract CreateChannel<TContract>(IEndpointBehavior[] endpointBehaviors, IComponentContext componentContext)
-        //{
-        //    var channelFactory = componentContext.Resolve<ChannelFactory<TContract>>();
-
-        //    foreach (var behavior in endpointBehaviors)
-        //    {
-        //        channelFactory.Endpoint.EndpointBehaviors.Add(behavior);
-        //    }
-
-        //    return channelFactory.CreateChannel();
-        //}
     }
 }

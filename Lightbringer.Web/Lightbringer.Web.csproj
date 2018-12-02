@@ -7,24 +7,14 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
-    <PackageReference Include="Autofac.Wcf" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
-    <PackageReference Include="System.ServiceModel.Http" Version="4.5.3" />
-    <PackageReference Include="System.ServiceModel.Primitives" Version="4.5.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lightbringer.Rest.Contract\Lightbringer.Rest.Contract.csproj" />
-    <ProjectReference Include="..\Lightbringer.Wcf.Contracts\Lightbringer.Wcf.Contracts.csproj" />
     <ProjectReference Include="..\Lightbringer.Web.Store\Lightbringer.Web.Store.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Refit">
-      <HintPath>C:\Users\ich\.nuget\packages\refit\4.6.58\lib\netstandard2.0\Refit.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
