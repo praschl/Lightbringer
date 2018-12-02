@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Lightbringer.Wcf.Contracts.Daemons;
+using Lightbringer.Web.Store;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lightbringer.Web.Controllers
 {
     public class OverviewController : Controller
     {
+        private readonly Func<IStore> _store;
         private readonly IDaemonService _daemonService;
 
         [BindProperty]
@@ -13,9 +16,10 @@ namespace Lightbringer.Web.Controllers
 
         [TempData] public string Message { get; set; }
 
-        public OverviewController(IDaemonService daemonService)
+        public OverviewController(IDaemonService daemonService, Func<IStore> store)
         {
             _daemonService = daemonService;
+            _store = store;
         }
 
         public IActionResult Index()
@@ -32,6 +36,14 @@ namespace Lightbringer.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddServiceHost()
         {
+            if (!ModelState.IsValid)
+            {
+                Message = "Servicehost not added!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _store().AddServiceHost(OverviewViewModel.AddServiceHost);
+
             Message = "Servicehost added.";
 
             return RedirectToAction(nameof(Index));

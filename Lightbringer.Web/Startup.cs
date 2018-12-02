@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.ServiceModel.Description;
 using Autofac.Integration.Wcf;
 using Lightbringer.Wcf.Contracts.Daemons;
+using Lightbringer.Web.Store;
 
 namespace Lightbringer.Web
 {
@@ -37,6 +38,8 @@ namespace Lightbringer.Web
         public void ConfigureContainer(ContainerBuilder builder)
         {
             RegisterWcfServiceClient<IDaemonService>(builder, "daemons");
+
+            builder.RegisterType<LiteDbStore>().AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

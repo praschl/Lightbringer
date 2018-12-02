@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lightbringer.Wcf.Contracts\Lightbringer.Wcf.Contracts.csproj" />
+    <ProjectReference Include="..\Lightbringer.Web.Store\Lightbringer.Web.Store.csproj" />
   </ItemGroup>
 
 </Project>
