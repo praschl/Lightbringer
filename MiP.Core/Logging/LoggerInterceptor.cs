@@ -1,7 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using System;
 using System.Collections.Concurrent;
-using System.ServiceModel;
 using NLog;
 
 namespace MiP.Core.Logging
@@ -25,14 +24,6 @@ namespace MiP.Core.Logging
                 invocation.Proceed();
 
                 logger.Debug("END {0}", invocation.Method.Name);
-            }
-            catch (FaultException ex)
-            {
-                // FaultExceptions sollten nur noch auf Service-Ebene vorkommen, und bedeuten, dass ein User-Fehler vorlag...
-                // zB schlechte Eingabe.
-
-                logger.Info(ex, "EXCEPTION EXIT {0}", invocation.Method.Name);
-                throw;
             }
             catch (Exception ex)
             {

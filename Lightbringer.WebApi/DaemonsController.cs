@@ -12,6 +12,8 @@ namespace Lightbringer.WebApi
     {
         public Task<DaemonDto[]> GetAllDaemonsAsync()
         {
+            // TODO: code in eigenes Projekt Win32 schieben
+
             var services = ServiceController.GetServices();
 
             var dtos = services.Select(s => new DaemonDto

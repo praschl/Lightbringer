@@ -1,5 +1,3 @@
-using System;
-
 namespace Lightbringer.Web.Models
 {
     public class ErrorViewModel

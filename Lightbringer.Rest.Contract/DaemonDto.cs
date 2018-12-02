@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Lightbringer.Rest.Contract
+﻿namespace Lightbringer.Rest.Contract
 {
     public class DaemonDto
     {
