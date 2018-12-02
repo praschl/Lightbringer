@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using System.ServiceModel.Discovery;
 using Autofac;
 using Autofac.Extras.DynamicProxy2;
 using Autofac.Integration.Wcf;
@@ -34,10 +35,10 @@ namespace Lightbringer.Config
         protected override void Load(ContainerBuilder builder)
         {
             // hier alle services registrieren
-            RegisterWcfServiceHost<IDaemonService, DaemonService>(builder, "daemons");
+            RegisterWcfServiceHost<IDaemonService, DaemonService>(builder, "daemons",new[]{ new ServiceDiscoveryBehavior()},new []{ new UdpDiscoveryEndpoint() });
         }
 
-        private void RegisterWcfServiceHost<TContract, TService>(ContainerBuilder builder, string relativeUrl, params IServiceBehavior[] behaviors) where TService : TContract
+        private void RegisterWcfServiceHost<TContract, TService>(ContainerBuilder builder, string relativeUrl, IServiceBehavior[] behaviors, ServiceEndpoint[] endpoints) where TService : TContract
         {
             builder.RegisterType<TService>()
                 .As<TContract>()
@@ -47,14 +48,14 @@ namespace Lightbringer.Config
 
             var address = new Uri(_serviceBaseUrl + relativeUrl);
 
-            builder.Register(c => new WcfServiceModule(CreateServiceHost<TContract, TService>(address, behaviors)))
+            builder.Register(c => new WcfServiceModule(CreateServiceHost<TContract, TService>(address, behaviors, endpoints)))
                 .As<IServiceModule>()
                 // (1) 
                 .OnActivated(args => SetDependencyResolver<TContract>(args.Instance.ServiceHost))
                 ;
         }
 
-        private static ServiceHost CreateServiceHost<TContract, TService>(Uri address, IServiceBehavior[] behaviors) where TService : TContract
+        private static ServiceHost CreateServiceHost<TContract, TService>(Uri address, IServiceBehavior[] behaviors, ServiceEndpoint[] endpoints) where TService : TContract
         {
             // ServiceHost erstellen
             // TODO aufräumen: Erstellung des ServiceHost als delegate für autofac registrieren (ggf named auf "wcf-"+relativeurl)
@@ -73,6 +74,10 @@ namespace Lightbringer.Config
             SetDebugBehaviour(serviceHost);
 
             serviceHost.AddServiceEndpoint(typeof (TContract), new BasicHttpBinding(), string.Empty);
+            foreach (var endpoint in endpoints)
+            {
+                serviceHost.AddServiceEndpoint(endpoint);
+            }
 
             serviceHost.Description.Behaviors.Add(new ServiceMetadataBehavior
             {

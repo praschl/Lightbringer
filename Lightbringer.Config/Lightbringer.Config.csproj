@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Discovery" />
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
