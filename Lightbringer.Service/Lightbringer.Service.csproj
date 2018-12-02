@@ -81,6 +81,10 @@
       <Project>{F2CD2318-A9A6-4510-AF7C-43C3DFBFEA91}</Project>
       <Name>Lightbringer.Wcf.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lightbringer.WebApi\Lightbringer.WebApi.csproj">
+      <Project>{8C008F01-848B-4FD6-952F-C475B5CCB244}</Project>
+      <Name>Lightbringer.WebApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiP.Core\MiP.Core.csproj">
       <Project>{f643052e-2df1-4613-b0d9-25a490dd52cd}</Project>
       <Name>MiP.Core</Name>

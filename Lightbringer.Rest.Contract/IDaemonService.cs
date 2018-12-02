@@ -2,7 +2,7 @@
 
 namespace Lightbringer.Rest.Contract
 {
-    public interface IDaemonService
+    public interface IDaemonApi
     {
         Task<DaemonDto[]> GetAllDaemonsAsync();
     }

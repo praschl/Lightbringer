@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lightbringer.Web", "Lightbr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lightbringer.Web.Store", "Lightbringer.Web.Store\Lightbringer.Web.Store.csproj", "{C29900E8-8DE0-4FA8-97C4-974ACE63887D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightbringer.Rest.Contract", "Lightbringer.Rest.Contract\Lightbringer.Rest.Contract.csproj", "{701C6C93-4CB6-4990-96D3-0A805A7BC222}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lightbringer.Rest.Contract", "Lightbringer.Rest.Contract\Lightbringer.Rest.Contract.csproj", "{701C6C93-4CB6-4990-96D3-0A805A7BC222}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lightbringer.WebApi", "Lightbringer.WebApi\Lightbringer.WebApi.csproj", "{8C008F01-848B-4FD6-952F-C475B5CCB244}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{701C6C93-4CB6-4990-96D3-0A805A7BC222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{701C6C93-4CB6-4990-96D3-0A805A7BC222}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{701C6C93-4CB6-4990-96D3-0A805A7BC222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C008F01-848B-4FD6-952F-C475B5CCB244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C008F01-848B-4FD6-952F-C475B5CCB244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C008F01-848B-4FD6-952F-C475B5CCB244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C008F01-848B-4FD6-952F-C475B5CCB244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
