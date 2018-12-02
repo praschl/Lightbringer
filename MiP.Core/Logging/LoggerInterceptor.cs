@@ -9,13 +9,13 @@ namespace MiP.Core.Logging
     public class LoggerInterceptor : IInterceptor
     {
         // thread-safe dictionary für die logger unterschiedlicher klassen.
-        private static readonly ConcurrentDictionary<Type, ILogger> Loggers = new ConcurrentDictionary<Type, ILogger>();
+        private static readonly ConcurrentDictionary<Type, ILogger> _loggers = new ConcurrentDictionary<Type, ILogger>();
 
         public void Intercept(IInvocation invocation)
         {
             // wird aufgerufen, wenn eine methode einer klasse, die diesen interceptor verwendet aufgerufen wird.
 
-            var logger = Loggers.GetOrAdd(invocation.TargetType, type => LogManager.GetLogger(type.FullName));
+            var logger = _loggers.GetOrAdd(invocation.TargetType, type => LogManager.GetLogger(type.FullName));
 
             logger.Debug("BEGIN {0}", invocation.Method.Name);
 

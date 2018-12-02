@@ -16,7 +16,7 @@ namespace Lightbringer.Wcf.Daemons
             {
                 ServiceName = s.ServiceName,
                 DisplayName = s.DisplayName,
-                Description = GetDescription(s.ServiceName),
+                Description = "",// GetDescription(s.ServiceName),
                 State = GetState(s.Status)
             }).ToArray();
 
