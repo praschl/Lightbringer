@@ -1,32 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using Lightbringer.Wcf.Contracts.Daemons;
+using System.Threading.Tasks;
+using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Store;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Refit;
 
 namespace Lightbringer.Web.Controllers
 {
     public class OverviewController : Controller
     {
         private readonly Func<IStore> _store;
-        private readonly IDaemonService _daemonService;
+        private readonly IConfiguration _configuration;
 
         [BindProperty]
         public OverviewViewModel OverviewViewModel { get; set; } = new OverviewViewModel();
 
         [TempData] public string Message { get; set; }
 
-        public OverviewController(IDaemonService daemonService, Func<IStore> store)
+        public OverviewController(Func<IStore> store, IConfiguration configuration)
         {
-            _daemonService = daemonService;
             _store = store;
+            _configuration = configuration;
         }
 
-        public IActionResult Index()
+        public async Task< IActionResult> Index()
         {
-            var response = _daemonService.GetAllDaemons(new AllDaemonsRequest());
+            var daemonsApi = RestService.For<IDaemonApi>("http://localhost:8080/lightbringer/api");
 
-            OverviewViewModel.AllDaemons = response.Daemons;
+            var daemons = await daemonsApi.GetAllDaemonsAsync();
+
+            OverviewViewModel.AllDaemons = daemons;
             OverviewViewModel.Message = Message;
 
             return View(OverviewViewModel);
