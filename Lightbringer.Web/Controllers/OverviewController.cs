@@ -53,16 +53,15 @@ namespace Lightbringer.Web.Controllers
         {
             try
             {
-                string name = OverviewViewModel.ServiceHostUrl;
-                if (!OverviewViewModel.ServiceHostUrl.Contains(':') && !OverviewViewModel.ServiceHostUrl.Contains('/'))
+                string url = OverviewViewModel.ServiceHostUrl;
+                if (!url.Contains(':') && !url.Contains('/'))
                 {
-                    OverviewViewModel.ServiceHostUrl = $"http://{OverviewViewModel.ServiceHostUrl}:8080/lightbringer/api";
+                    url = $"http://{url}:8080/lightbringer/api";
                 }
 
-                var daemonApi = _daemonApiProvider.Get(OverviewViewModel.ServiceHostUrl);
+                var daemonApi = _daemonApiProvider.Get(url);
 
                 var daemons = await daemonApi.GetAllDaemonsAsync();
-                _store().AddServiceHost(name, OverviewViewModel.ServiceHostUrl);
 
                 return daemons;
             }
