@@ -14,10 +14,7 @@ namespace Lightbringer.Web.Controllers
 
         [BindProperty]
         public OverviewViewModel OverviewViewModel { get; set; } = new OverviewViewModel();
-
-        [TempData] public string Message { get; set; }
-        [TempData] public string Error { get; set; }
-
+        
         public OverviewController(IDaemonApiProvider daemonApiProvider, Func<IStore> store)
         {
             _daemonApiProvider = daemonApiProvider;
@@ -43,9 +40,6 @@ namespace Lightbringer.Web.Controllers
                 OverviewViewModel.AllDaemons = daemons;
             }
 
-            OverviewViewModel.Message = Message;
-            OverviewViewModel.Error = Error;
-
             return View(nameof(Index), OverviewViewModel);
         }
 
@@ -67,7 +61,7 @@ namespace Lightbringer.Web.Controllers
             }
             catch (Exception ex)
             {
-                Error = ex.Message;
+                OverviewViewModel.Error = ex.Message;
                 return new DaemonDto[0];
             }
         }
