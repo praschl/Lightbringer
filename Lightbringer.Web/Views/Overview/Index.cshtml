@@ -38,25 +38,49 @@
 
 @if (Model.AllDaemons != null && Model.AllDaemons.Any())
 {
-    <table class="table table-striped border">
-        <thead>
+    <form method="post" asp-action="RegisterServices">
+        <input type="hidden" asp-for="ServiceHostUrl" />
+        <input type="hidden" asp-for="Filter" />
+
+        <table class="table table-striped border">
+            <thead>
             <tr class="table-primary">
                 <th style="width: 1%;"></th>
                 <th style="width: 1%;"></th>
+                <th style="width: 32pt;">&nbsp;&nbsp;&nbsp;</th>
                 <th>Name</th>
                 <th>Service Name</th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var dto in Model.AllDaemons)
+            </thead>
+            <tbody>
+
+            @for (int i = 0; i < Model.AllDaemons.Count; i++)
             {
                 <tr>
-                    <td><i class="fas fa-cogs text-primary" title="@dto.ServiceType"></i></td>
-                    <td><partial name="_ServiceStatePartial" model="@dto.State" /></td>
-                    <td>@dto.DisplayName</td>
-                    <td>@dto.ServiceName</td>
+                    <td style="vertical-align: middle">
+                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.ServiceType" />
+                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.State" />
+                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.DisplayName" />
+                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.ServiceName" />
+
+                        <i class="fas fa-cogs text-primary" title="@Model.AllDaemons[i].Dto.ServiceType"></i>
+                    </td>
+                    <td style="vertical-align: middle">
+                        <partial name="_ServiceStatePartial" model="@Model.AllDaemons[i].Dto.State"/>
+                    </td>
+                    <td style="vertical-align: middle">
+                        <input asp-for="@Model.AllDaemons[i].Checked" type="checkbox" class="form-control"/>
+                    </td>
+                    <td style="vertical-align: middle">
+                        @Model.AllDaemons[i].Dto.DisplayName
+                    </td>
+                    <td style="vertical-align: middle">
+                        @Model.AllDaemons[i].Dto.ServiceName
+                    </td>
                 </tr>
             }
-        </tbody>
-</table>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-plus-circle"></i> Register</button>
+    </form>
 }

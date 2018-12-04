@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Models;
@@ -43,7 +44,18 @@ namespace Lightbringer.Web.Controllers
             return View(nameof(Index), OverviewViewModel);
         }
 
-        private async Task<DaemonDto[]> TryGetDaemonDtos()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterServices()
+        {
+            var checkedDaemons = OverviewViewModel.AllDaemons.Where(c => c.Checked).ToArray();
+
+            // TODO: register these services
+
+            return View(nameof(Index), OverviewViewModel);
+        }
+
+        private async Task<DaemonVm[]> TryGetDaemonDtos()
         {
             try
             {
@@ -55,15 +67,28 @@ namespace Lightbringer.Web.Controllers
 
                 var daemonApi = _daemonApiProvider.Get(url);
 
-                var daemons = await daemonApi.GetDaemonsAsync(OverviewViewModel.Filter);
-
-                return daemons;
+                var daemons = (await daemonApi.GetDaemonsAsync(OverviewViewModel.Filter))
+                    .Select(Convert);
+                    
+                return daemons.ToArray();
             }
             catch (Exception ex)
             {
                 OverviewViewModel.Error = ex.Message;
-                return new DaemonDto[0];
+                return new DaemonVm[0];
             }
         }
+
+        private DaemonVm Convert(DaemonDto dto)
+        {
+            return new DaemonVm {Dto = dto};
+        }
+    }
+
+    public class DaemonVm // Vm ... part of a view model
+    {
+        public DaemonDto Dto { get; set; }
+
+        public bool Checked { get; set; }
     }
 }

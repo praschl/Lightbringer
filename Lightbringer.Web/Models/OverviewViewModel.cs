@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Lightbringer.Rest.Contract;
+using Lightbringer.Web.Controllers;
 
 namespace Lightbringer.Web.Models
 {
@@ -8,7 +8,7 @@ namespace Lightbringer.Web.Models
         public string ServiceHostUrl { get; set; }
         public string Filter { get; set; }
 
-        public IReadOnlyCollection<DaemonDto> AllDaemons { get; set; }
+        public IReadOnlyList<DaemonVm> AllDaemons { get; set; }
 
         public string Message { get; set; }
         public string Error { get; set; }
