@@ -1,0 +1,24 @@
+﻿@using Lightbringer.Rest.Contract
+@model string
+@{
+    string faChar;
+    string color;
+    switch (Model)
+    {
+        case DaemonStates.Running:
+            faChar = "fa-play";
+            color = "text-success";
+            break;
+        case DaemonStates.Stopped:
+            faChar = "fa-stop";
+            color = "text-danger";
+            break;
+        default:
+            faChar = "fa-question";
+            color = "text-secondary";
+            break;
+    }
+}
+
+
+<i class="fas @faChar @color" title="@Model"></i>

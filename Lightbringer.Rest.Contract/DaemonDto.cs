@@ -6,6 +6,8 @@
 
         public string DisplayName { get; set; }
 
+        public string ServiceType { get; set; }
+
         public string Description { get; set; }
 
         public string State { get; set; } = DaemonStates.Unknown;

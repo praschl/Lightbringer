@@ -20,6 +20,7 @@ namespace Lightbringer.WebApi
             {
                 ServiceName = s.ServiceName,
                 DisplayName = s.DisplayName,
+                ServiceType = "Win32 Service",
                 Description = "", // GetDescription(s.ServiceName),
                 State = GetState(s.Status)
             });

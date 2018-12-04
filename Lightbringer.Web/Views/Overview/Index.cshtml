@@ -39,17 +39,24 @@
 @if (Model.AllDaemons != null && Model.AllDaemons.Any())
 {
     <table class="table table-striped border">
-        <tr class="table-primary">
-            <th>Name</th>
-            <th>Service Name</th>
-        </tr>
-
-        @foreach (var dto in Model.AllDaemons)
-        {
-            <tr>
-                <td>@dto.DisplayName</td>
-                <td>@dto.ServiceName</td>
+        <thead>
+            <tr class="table-primary">
+                <th style="width: 1%;"></th>
+                <th style="width: 1%;"></th>
+                <th>Name</th>
+                <th>Service Name</th>
             </tr>
-        }
-    </table>
+        </thead>
+        <tbody>
+            @foreach (var dto in Model.AllDaemons)
+            {
+                <tr>
+                    <td><i class="fas fa-cogs text-primary" title="@dto.ServiceType"></i></td>
+                    <td><partial name="_ServiceStatePartial" model="@dto.State" /></td>
+                    <td>@dto.DisplayName</td>
+                    <td>@dto.ServiceName</td>
+                </tr>
+            }
+        </tbody>
+</table>
 }
