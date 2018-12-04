@@ -5,7 +5,7 @@ namespace Lightbringer.Rest.Contract
 {
     public interface IDaemonApi
     {
-        [Get("/daemons")]
-        Task<DaemonDto[]> GetAllDaemonsAsync();
+        [Get("daemons")]
+        Task<DaemonDto[]> GetDaemonsAsync(string contains);
     }
 }

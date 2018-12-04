@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
+using Lightbringer.Web.Models;
 using Lightbringer.Web.Store;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,7 +61,7 @@ namespace Lightbringer.Web.Controllers
 
                 var daemonApi = _daemonApiProvider.Get(url);
 
-                var daemons = await daemonApi.GetAllDaemonsAsync();
+                var daemons = await daemonApi.GetDaemonsAsync(OverviewViewModel.Filter);
 
                 return daemons;
             }
@@ -71,16 +71,5 @@ namespace Lightbringer.Web.Controllers
                 return new DaemonDto[0];
             }
         }
-    }
-
-    public class OverviewViewModel
-    {
-        public string ServiceHostUrl { get; set; }
-        public string Filter { get; set; }
-
-        public IReadOnlyCollection<DaemonDto> AllDaemons { get; set; }
-
-        public string Message { get; set; }
-        public string Error { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Lightbringer.WebApi
 {
     public class DaemonsController : ApiController, IDaemonApi
     {
-        public Task<DaemonDto[]> GetAllDaemonsAsync()
+        public Task<DaemonDto[]> GetDaemonsAsync(string contains = null)
         {
             // TODO: code in eigenes Projekt Win32 schieben
 
@@ -22,9 +22,17 @@ namespace Lightbringer.WebApi
                 DisplayName = s.DisplayName,
                 Description = "", // GetDescription(s.ServiceName),
                 State = GetState(s.Status)
-            }).ToArray();
+            });
 
-            return Task.FromResult(dtos);
+            if (!string.IsNullOrWhiteSpace(contains))
+            {
+                dtos = dtos.Where(d =>
+                    d.ServiceName.IndexOf(contains, StringComparison.OrdinalIgnoreCase) >= 0
+                    || d.DisplayName.IndexOf(contains, StringComparison.OrdinalIgnoreCase) >= 0
+                );
+            }
+
+            return Task.FromResult(dtos.ToArray());
         }
 
         private string GetDescription(string serviceName)
