@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Refit;
+using RestEase;
 
 namespace Lightbringer.Rest.Contract
 {

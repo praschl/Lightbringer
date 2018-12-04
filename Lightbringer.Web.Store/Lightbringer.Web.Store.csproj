@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="RestEase" Version="1.4.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lightbringer.Rest.Contract\Lightbringer.Rest.Contract.csproj" />
   </ItemGroup>
 
 </Project>

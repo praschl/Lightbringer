@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Lightbringer.Web.Store;
-using Refit;
 
 namespace Lightbringer.Web
 {
@@ -35,8 +34,7 @@ namespace Lightbringer.Web
         // called by autofac initialization
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            var daemonApi = RestService.For<IDaemonApi>(Configuration.GetSection("WebApi.RootUrl").Value);
-            builder.Register(c => daemonApi).SingleInstance();
+            builder.RegisterType<DaemonApiProvider>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<LiteDbStore>().AsImplementedInterfaces();
         }

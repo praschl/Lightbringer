@@ -9,54 +9,79 @@ namespace Lightbringer.Web.Controllers
 {
     public class OverviewController : Controller
     {
-        private readonly IDaemonApi _daemonApi;
+        private readonly IDaemonApiProvider _daemonApiProvider;
         private readonly Func<IStore> _store;
 
         [BindProperty]
         public OverviewViewModel OverviewViewModel { get; set; } = new OverviewViewModel();
 
         [TempData] public string Message { get; set; }
+        [TempData] public string Error { get; set; }
 
-        public OverviewController(IDaemonApi daemonApi, Func<IStore> store)
+        public OverviewController(IDaemonApiProvider daemonApiProvider, Func<IStore> store)
         {
-            _daemonApi = daemonApi;
+            _daemonApiProvider = daemonApiProvider;
             _store = store;
         }
 
-        public async Task< IActionResult> Index()
+        [HttpGet]
+        public IActionResult Index()
         {
-            var daemons = await _daemonApi.GetAllDaemonsAsync();
-
-            OverviewViewModel.AllDaemons = daemons;
-            OverviewViewModel.Message = Message;
-
             return View(OverviewViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddServiceHost()
+        public async Task<IActionResult> ListServices()
         {
-            if (!ModelState.IsValid)
+            if (!string.IsNullOrEmpty(OverviewViewModel.ServiceHostUrl))
             {
-                Message = "Servicehost not added!";
-                return RedirectToAction(nameof(Index));
+                // local:   http://localhost:8080/lightbringer/api
+
+                var daemons = await TryGetDaemonDtos();
+
+                OverviewViewModel.AllDaemons = daemons;
             }
 
-            _store().AddServiceHost(OverviewViewModel.AddServiceHost);
+            OverviewViewModel.Message = Message;
+            OverviewViewModel.Error = Error;
 
-            Message = "Servicehost added.";
+            return View(nameof(Index), OverviewViewModel);
+        }
 
-            return RedirectToAction(nameof(Index));
+        private async Task<DaemonDto[]> TryGetDaemonDtos()
+        {
+            try
+            {
+                string name = OverviewViewModel.ServiceHostUrl;
+                if (!OverviewViewModel.ServiceHostUrl.Contains(':') && !OverviewViewModel.ServiceHostUrl.Contains('/'))
+                {
+                    OverviewViewModel.ServiceHostUrl = $"http://{OverviewViewModel.ServiceHostUrl}:8080/lightbringer/api";
+                }
+
+                var daemonApi = _daemonApiProvider.Get(OverviewViewModel.ServiceHostUrl);
+
+                var daemons = await daemonApi.GetAllDaemonsAsync();
+                _store().AddServiceHost(name, OverviewViewModel.ServiceHostUrl);
+
+                return daemons;
+            }
+            catch (Exception ex)
+            {
+                Error = ex.Message;
+                return new DaemonDto[0];
+            }
         }
     }
 
     public class OverviewViewModel
     {
+        public string ServiceHostUrl { get; set; }
+        public string Filter { get; set; }
+
         public IReadOnlyCollection<DaemonDto> AllDaemons { get; set; }
 
-        public string AddServiceHost { get; set; }
-  
         public string Message { get; set; }
+        public string Error { get; set; }
     }
 }

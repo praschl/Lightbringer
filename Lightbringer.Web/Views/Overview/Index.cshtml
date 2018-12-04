@@ -1,19 +1,22 @@
 ﻿@model Lightbringer.Web.Controllers.OverviewViewModel
 @{
     ViewData["Title"] = "Select Daemons";
+    string messageClass = string.IsNullOrEmpty(Model.Error) ? "alert-primary" : "alert-danger";
+    string message = Model.Error + Model.Message;
 }
 
-<br />
+<br/>
 
 <div class="row">
     <div class="col-4">
         <h2 class="">Select Daemons</h2>
     </div>
     <div class="col-8">
-        <form method="post" asp-action="AddServiceHost">
+        <form method="post" asp-action="ListServices">
 
             <div class="input-group mb-3">
-                <input asp-for="AddServiceHost" placeholder="Add Service Host" class="form-control"/>
+                <input asp-for="ServiceHostUrl" placeholder="host name or complete url" class="form-control"/>
+                <input asp-for="Filter" placeholder="Filter" class="form-control"/>
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">Add</button>
                 </div>
@@ -23,27 +26,30 @@
     </div>
 </div>
 
-@if (Model.Message != null)
+@if (Model.Message != null || Model.Error != null)
 {
-    <div class="alert alert-primary alert-dismissible" role="alert">
+    <div class="alert @messageClass alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="close">
             <span aria-hidden="true">&times;</span>
         </button>
-        @Model.Message
+        @message
     </div>
 }
 
-<table class="table table-striped border">
-    <tr class="table-primary">
-        <th>Name</th>
-        <th>Service Name</th>
-    </tr>
-
-    @foreach (var dto in Model.AllDaemons)
-    {
-        <tr>
-            <td>@dto.DisplayName</td>
-            <td>@dto.ServiceName</td>
+@if (Model.AllDaemons != null && Model.AllDaemons.Any())
+{
+    <table class="table table-striped border">
+        <tr class="table-primary">
+            <th>Name</th>
+            <th>Service Name</th>
         </tr>
-    }
-</table>
+
+        @foreach (var dto in Model.AllDaemons)
+        {
+            <tr>
+                <td>@dto.DisplayName</td>
+                <td>@dto.ServiceName</td>
+            </tr>
+        }
+    </table>
+}

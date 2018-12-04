@@ -6,27 +6,14 @@ using LiteDB;
 
 namespace Lightbringer.Web.Store
 {
-    public interface IStore
-    {
-        void AddServiceHost(string serviceHost);
-
-        IReadOnlyCollection<string> GetServiceHosts();
-    }
-
-    public class ServiceHost
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
     public class LiteDbStore : IStore
     {
-        public void AddServiceHost(string serviceHost)
+        public void AddServiceHost(string name, string url)
         {
             using (var db = CreateSession())
             {
                 var hosts = db.GetCollection<ServiceHost>();
-                var host = new ServiceHost {Name = serviceHost};
+                var host = new ServiceHost {Name = name, Url = url};
                 hosts.Insert(host);
             }
         }
