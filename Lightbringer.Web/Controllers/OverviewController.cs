@@ -48,7 +48,10 @@ namespace Lightbringer.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterServices()
         {
-            var checkedDaemons = OverviewViewModel.AllDaemons.Where(c => c.Checked).ToArray();
+            var checkedDaemons = OverviewViewModel.AllDaemons
+                .Where(c => c.Checked)
+                .Select(c => c.Dto.ServiceName)
+                .ToArray();
 
             // TODO: register these services
 

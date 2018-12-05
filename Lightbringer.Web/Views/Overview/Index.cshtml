@@ -1,8 +1,8 @@
 ﻿@model OverviewViewModel
 @{
     ViewData["Title"] = "Select Daemons";
-    string messageClass = string.IsNullOrEmpty(Model.Error) ? "alert-primary" : "alert-danger";
-    string message = Model.Error + Model.Message;
+    var messageClass = string.IsNullOrEmpty(Model.Error) ? "alert-primary" : "alert-danger";
+    var message = Model.Error + Model.Message;
 }
 
 <br/>
@@ -18,7 +18,9 @@
                 <input asp-for="ServiceHostUrl" placeholder="host name or complete url" class="form-control"/>
                 <input asp-for="Filter" placeholder="Filter" class="form-control"/>
                 <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
 
@@ -38,49 +40,46 @@
 
 @if (Model.AllDaemons != null && Model.AllDaemons.Any())
 {
-    <form method="post" asp-action="RegisterServices">
-        <input type="hidden" asp-for="ServiceHostUrl" />
-        <input type="hidden" asp-for="Filter" />
+    <table class="table table-striped border">
+        <thead>
+        <tr class="table-primary">
+            <th style="width: 1%;"></th>
+            <th style="width: 1%;"></th>
+            <th>Name</th>
+            <th>Service Name</th>
+            <th style="width: 1%;"></th>
+        </tr>
+        </thead>
+        <tbody>
 
-        <table class="table table-striped border">
-            <thead>
-            <tr class="table-primary">
-                <th style="width: 1%;"></th>
-                <th style="width: 1%;"></th>
-                <th style="width: 32pt;">&nbsp;&nbsp;&nbsp;</th>
-                <th>Name</th>
-                <th>Service Name</th>
+        @foreach (var item in Model.AllDaemons)
+        {
+            var addDisplay = item.Checked ? "display:none" : null;
+            var removeDisplay = item.Checked ? null: "display:none";
+
+            <tr>
+                <td style="vertical-align: middle">
+                    <i class="fas fa-cogs text-primary" title="@item.Dto.ServiceType"></i>
+                </td>
+                <td style="vertical-align: middle">
+                    <partial name="_ServiceStatePartial" model="@item.Dto.State"/>
+                </td>
+                <td style="vertical-align: middle">
+                    @item.Dto.DisplayName
+                </td>
+                <td style="vertical-align: middle">
+                    @item.Dto.ServiceName
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-success" style="@addDisplay" onclick="overview.addClick('@item.Dto.ServiceName');"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-sm btn-danger" style="@removeDisplay" onclick="overview.removeClick('@item.Dto.ServiceName');"><i class="fas fa-minus"></i></button>
+                </td>
+                
             </tr>
-            </thead>
-            <tbody>
-
-            @for (int i = 0; i < Model.AllDaemons.Count; i++)
-            {
-                <tr>
-                    <td style="vertical-align: middle">
-                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.ServiceType" />
-                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.State" />
-                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.DisplayName" />
-                        <input type="hidden" asp-for="@Model.AllDaemons[i].Dto.ServiceName" />
-
-                        <i class="fas fa-cogs text-primary" title="@Model.AllDaemons[i].Dto.ServiceType"></i>
-                    </td>
-                    <td style="vertical-align: middle">
-                        <partial name="_ServiceStatePartial" model="@Model.AllDaemons[i].Dto.State"/>
-                    </td>
-                    <td style="vertical-align: middle">
-                        <input asp-for="@Model.AllDaemons[i].Checked" type="checkbox" class="form-control"/>
-                    </td>
-                    <td style="vertical-align: middle">
-                        @Model.AllDaemons[i].Dto.DisplayName
-                    </td>
-                    <td style="vertical-align: middle">
-                        @Model.AllDaemons[i].Dto.ServiceName
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-        <button type="submit" class="btn btn-outline-primary"><i class="fas fa-plus-circle"></i> Register</button>
-    </form>
+        }
+        </tbody>
+    </table>
+}
+@section Scripts { 
+    <script type="text/javascript" src="~/js/Overview.js"></script>
 }
