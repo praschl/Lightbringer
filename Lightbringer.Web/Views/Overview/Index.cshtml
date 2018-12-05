@@ -71,8 +71,20 @@
                     @item.Dto.ServiceName
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-success" style="@addDisplay" onclick="overview.addClick('@item.Dto.ServiceName');"><i class="fas fa-plus"></i></button>
-                    <button class="btn btn-sm btn-danger" style="@removeDisplay" onclick="overview.removeClick('@item.Dto.ServiceName');"><i class="fas fa-minus"></i></button>
+                    <button id="add-@item.Dto.ServiceName"
+                            class="btn btn-sm btn-success"
+                            style="@addDisplay"
+                            onclick="overview.addClick(this, '@item.Dto.ServiceName');"
+                            >
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button id="remove-@item.Dto.ServiceName"
+                            class="btn btn-sm btn-danger"
+                            style="@removeDisplay"
+                            onclick="overview.removeClick(this, '@item.Dto.ServiceName');"
+                            lbservicename="@item.Dto.ServiceName">
+                        <i class="fas fa-minus"></i>
+                    </button>
                 </td>
                 
             </tr>

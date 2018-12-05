@@ -1,12 +1,21 @@
-﻿
+﻿class OverviewHandler {
+    addClick(addButton: HTMLButtonElement, service: string) {
+        console.log(service);
 
-class OverviewHandler {
-    addClick(addButton: HTMLButtonElement, removeButton: HTMLButtonElement, service: any) {
-        console.log(`add: ${service}`);
+        addButton.style.display = "none";
+
+        const removeButton = $(`#remove-${service}`)[0];
+        console.log(removeButton);
+        removeButton.style.display = "inline-block";
     }
 
-    removeClick(addButton: HTMLButtonElement, removeButton: HTMLButtonElement, service: string) {
-        console.log(`remove: ${service}`);
+    removeClick(removeButton: HTMLButtonElement, service: string) {
+        console.log(service);
+        
+        removeButton.style.display = "none";
+
+        const addButton = $(`#add-${service}`)[0];
+        addButton.style.display = "inline-block";
     }
 }
 
