@@ -46,7 +46,7 @@ namespace Lightbringer.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegisterServices()
+        public IActionResult RegisterServices()
         {
             var checkedDaemons = OverviewViewModel.AllDaemons
                 .Where(c => c.Checked)

@@ -54,8 +54,8 @@
 
         @foreach (var item in Model.AllDaemons)
         {
-            var addDisplay = item.Checked ? "display:none;" : null;
-            var removeDisplay = (item.Checked ? null: "display:none;") + " opacity: 0.3;";
+            var addDisplay = item.Checked ? "display:none" : null;
+            var removeDisplay = (item.Checked ? null: "display:none;") + " opacity: 0.3";
 
             <tr>
                 <td style="vertical-align: middle">
@@ -73,14 +73,14 @@
                 <td>
                     <button id="add-@item.Dto.ServiceName"
                             class="btn btn-sm btn-primary"
-                            style="@addDisplay"
+                            style="@addDisplay;"
                             onclick="overview.toggle('@item.Dto.ServiceName');"
                             >
                         <i class="fas fa-check fa-fw"></i>
                     </button>
                     <button id="remove-@item.Dto.ServiceName"
                             class="btn btn-sm btn-primary"
-                            style="@removeDisplay"
+                            style="@removeDisplay;"
                             onclick="overview.toggle('@item.Dto.ServiceName');"
                             >
                         <i class="fas fa-fw"></i>
