@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace Lightbringer.Web.Store
+﻿namespace Lightbringer.Web.Store
 {
     public interface IStore
     {
-        void AddServiceHost(string name, string url);
+        ServiceHost Get(int id);
 
-        IReadOnlyCollection<string> GetServiceHosts();
+        ServiceHost Find(string url);
+
+        void Upsert(ServiceHost serviceHost);
     }
 }

@@ -1,20 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using LiteDB;
 
 namespace Lightbringer.Web.Store
 {
     public class LiteDbStore : IStore
     {
-        public void AddServiceHost(string name, string url)
+        private static string _fullDbPath;
+
+        private static string GetFullDbPath
+        {
+            get
+            {
+                if (_fullDbPath == null)
+                {
+                    var pathToDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "lightbringer\\db\\");
+                    if (!Directory.Exists(pathToDb))
+                        Directory.CreateDirectory(pathToDb);
+
+                    var fullDbFilePath = Path.Combine(pathToDb, "lite.db");
+                    _fullDbPath = fullDbFilePath;
+                }
+
+                return _fullDbPath;
+            }
+        }
+
+        public ServiceHost Get(int id)
         {
             using (var db = CreateSession())
             {
                 var hosts = db.GetCollection<ServiceHost>();
-                var host = new ServiceHost {Name = name, Url = url};
-                hosts.Insert(host);
+
+                var serviceHost = hosts.FindById(id);
+                
+                return serviceHost;
+            }
+        }
+
+        public ServiceHost Find(string url)
+        {
+            using (var db = CreateSession())
+            {
+                var hosts = db.GetCollection<ServiceHost>();
+
+                return hosts.FindOne(sh => sh.Url == url);
+            }
+        }
+
+        public void Upsert(ServiceHost serviceHost)
+        {
+            using (var db = CreateSession())
+            {
+                var hosts = db.GetCollection<ServiceHost>();
+
+                hosts.Upsert(serviceHost);
             }
         }
 
@@ -24,36 +64,6 @@ namespace Lightbringer.Web.Store
 
             var liteDatabase = new LiteDatabase(fullDbFilePath);
             return liteDatabase;
-        }
-
-        private static string _fullDbPath;
-        private static string GetFullDbPath
-        {
-            get
-            {
-                if (_fullDbPath == null)
-                {
-                    string pathToDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "lightbringer\\db\\");
-                    if (!Directory.Exists(pathToDb))
-                        Directory.CreateDirectory(pathToDb);
-
-                    string fullDbFilePath = Path.Combine(pathToDb, "lite.db");
-                    _fullDbPath = fullDbFilePath;
-                }
-
-                return _fullDbPath;
-            }
-        }
-
-        public IReadOnlyCollection<string> GetServiceHosts()
-        {
-            using (var db = CreateSession())
-            {
-                return db.GetCollection<ServiceHost>()
-                    .FindAll()
-                    .Select(sh => sh.Name)
-                    .ToArray();
-            }
         }
     }
 }

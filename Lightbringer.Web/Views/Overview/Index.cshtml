@@ -1,22 +1,28 @@
-﻿@model OverviewViewModel
+﻿@model AddServiceHostViewModel
 @{
-    ViewData["Title"] = "Select Daemons";
-    var messageClass = string.IsNullOrEmpty(Model.Error) ? "alert-primary" : "alert-danger";
-    var message = Model.Error + Model.Message;
+    ViewData["Title"] = "Add Daemon Url";
 }
 
-<br/>
+<br />
+@if (Model.Error != null)
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="text-danger">@Model.Error</div>
+    </div>
+}
 
 <div class="row">
     <div class="col-4">
-        <h2 class="">Select Daemons</h2>
+        <h2>Add Daemon Url</h2>
     </div>
     <div class="col-8">
-        <form method="post" asp-action="ListServices">
+        <form method="post" asp-action="AddServiceHostUrl">
 
             <div class="input-group mb-3">
-                <input asp-for="ServiceHostUrl" placeholder="host name or complete url" class="form-control"/>
-                <input asp-for="Filter" placeholder="Filter" class="form-control"/>
+                <input asp-for="ServiceHostUrl" placeholder="host name or complete url" class="form-control" />
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-search"></i>
@@ -28,73 +34,4 @@
     </div>
 </div>
 
-@if (Model.Message != null || Model.Error != null)
-{
-    <div class="alert @messageClass alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        @message
-    </div>
-}
-
-@if (Model.AllDaemons != null && Model.AllDaemons.Any())
-{
-    <table class="table table-striped border">
-        <thead>
-        <tr class="table-primary">
-            <th style="width: 1%;"></th>
-            <th style="width: 1%;"></th>
-            <th>Name</th>
-            <th>Service Name</th>
-            <th style="width: 1%;"></th>
-        </tr>
-        </thead>
-        <tbody>
-
-        @foreach (var item in Model.AllDaemons)
-        {
-            var addDisplay = item.Checked ? "display:none" : null;
-            var removeDisplay = (item.Checked ? null: "display:none;") + " opacity: 0.3";
-
-            <tr>
-                <td style="vertical-align: middle">
-                    <i class="fas fa-cogs text-primary" title="@item.Dto.ServiceType"></i>
-                </td>
-                <td style="vertical-align: middle">
-                    <partial name="_ServiceStatePartial" model="@item.Dto.State"/>
-                </td>
-                <td style="vertical-align: middle">
-                    @item.Dto.DisplayName
-                </td>
-                <td style="vertical-align: middle">
-                    @item.Dto.ServiceName
-                </td>
-                <td>
-                    <button id="add-@item.Dto.ServiceName"
-                            class="btn btn-sm btn-primary"
-                            style="@addDisplay;"
-                            onclick="overview.toggle('@item.Dto.ServiceName');"
-                            >
-                        <i class="fas fa-check fa-fw"></i>
-                    </button>
-                    <button id="remove-@item.Dto.ServiceName"
-                            class="btn btn-sm btn-primary"
-                            style="@removeDisplay;"
-                            onclick="overview.toggle('@item.Dto.ServiceName');"
-                            >
-                        <i class="fas fa-fw"></i>
-                    </button>
-                </td>
-                
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-@section Scripts { 
-    <script type="text/javascript" src="~/js/Overview.js"></script>
-    <script type="text/javascript">
-        var overview = new OverviewHandler('@Model.ServiceHostUrl');
-    </script>
-}
+@* TODO List existing service hosts from db here *@

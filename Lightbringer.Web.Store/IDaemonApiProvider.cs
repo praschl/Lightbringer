@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Lightbringer.Rest.Contract;
+﻿using Lightbringer.Rest.Contract;
 
 namespace Lightbringer.Web.Store
 {
     public interface IDaemonApiProvider
     {
-        IDaemonApi Get(string url);
-
-        IReadOnlyCollection<IDaemonApi> GetAll();
+        IDaemonApi GetDaemonApi(string url);
+        IIsAliveApi GetIsAliveApi(string url);
     }
 }

@@ -10,7 +10,8 @@ namespace Lightbringer.WebApi
 {
     public class DaemonsController : ApiController, IDaemonApi
     {
-        public Task<DaemonDto[]> GetDaemonsAsync(string contains = null)
+        [HttpGet]
+        public Task<DaemonDto[]> GetDaemons(string contains = null)
         {
             // TODO: code in eigenes Projekt Win32 schieben
 

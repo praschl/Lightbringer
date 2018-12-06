@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using Lightbringer.Rest.Contract;
 using RestEase;
 
@@ -10,15 +8,16 @@ namespace Lightbringer.Web.Store
     public class DaemonApiProvider : IDaemonApiProvider
     {
         private readonly ConcurrentDictionary<string, IDaemonApi> _daemonApis = new ConcurrentDictionary<string, IDaemonApi>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, IIsAliveApi> _isAliveApis = new ConcurrentDictionary<string, IIsAliveApi>(StringComparer.OrdinalIgnoreCase);
 
-        public IDaemonApi Get(string url)
+        public IDaemonApi GetDaemonApi(string url)
         {
             return _daemonApis.GetOrAdd(url, u => RestClient.For<IDaemonApi>(url));
         }
 
-        public IReadOnlyCollection<IDaemonApi> GetAll()
+        public IIsAliveApi GetIsAliveApi(string url)
         {
-            return _daemonApis.Values.ToArray();
+            return _isAliveApis.GetOrAdd(url, u => RestClient.For<IIsAliveApi>(url));
         }
     }
 }

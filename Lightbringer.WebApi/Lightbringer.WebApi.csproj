@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DaemonsController.cs" />
+    <Compile Include="IsAliveController.cs" />
     <Compile Include="WebApiRegistrationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WebApiServiceModule.cs" />

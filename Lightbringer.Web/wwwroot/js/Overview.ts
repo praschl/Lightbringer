@@ -1,21 +1,24 @@
 ﻿class OverviewHandler {
 
-    _host: string;
+    _serviceHostId: number;
 
-    constructor(host: string) {
-        this._host = host;
+    constructor(serviceHostId: number) {
+        this._serviceHostId = serviceHostId;
     }
 
-    toggle(service: string) {
+    async toggle(service: string) {
         const addButton: HTMLButtonElement = document.querySelector(`#add-${service}`);
         const removeButton: HTMLButtonElement = document.querySelector(`#remove-${service}`);
 
-        if (addButton.style.display === "none") {
-            addButton.style.display = "inline-block";
-            removeButton.style.display = "none";
-        } else {
+        const result = await fetch(`/api/subscribe?hostId=${this._serviceHostId}&name=${service}`)
+            .then(r => r.json());
+
+        if (result) {
             addButton.style.display = "none";
             removeButton.style.display = "inline-block";
+        } else {
+            addButton.style.display = "inline-block";
+            removeButton.style.display = "none";
         }
     }
 }

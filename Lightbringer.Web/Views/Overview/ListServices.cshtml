@@ -1,0 +1,86 @@
+﻿@model ListServicesViewModel
+@{
+    ViewData["Title"] = "Subscribe services";
+}
+
+<br />
+
+<div class="row">
+    <div class="col-4">
+        <h2>Add Daemon Url</h2>
+    </div>
+    <div class="col-8">
+        <form method="get" asp-action="ListServices">
+            <input hidden asp-for="ServiceHostId"/>
+
+            <div class="input-group mb-3">
+                <input asp-for="Filter" placeholder="Filter (contains search)" class="form-control" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@if (Model.Daemons != null && Model.Daemons.Any())
+{
+    <table class="table table-striped border">
+        <thead>
+            <tr class="table-primary">
+                <th style="width: 1%;"></th>
+                <th style="width: 1%;"></th>
+                <th>Name</th>
+                <th>Service Name</th>
+                <th style="width: 1%;"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model.Daemons)
+            {
+                var addDisplay = (item.Checked ? "display:none" : null) + " opacity: 0.3";
+                var removeDisplay = item.Checked ? null : "display:none;";
+
+                <tr>
+                    <td style="vertical-align: middle">
+                        <i class="fas fa-cogs text-primary" title="@item.Dto.ServiceType"></i>
+                    </td>
+                    <td style="vertical-align: middle">
+                        <partial name="_ServiceStatePartial" model="@item.Dto.State" />
+                    </td>
+                    <td style="vertical-align: middle">
+                        @item.Dto.DisplayName
+                    </td>
+                    <td style="vertical-align: middle">
+                        @item.Dto.ServiceName
+                    </td>
+                    <td>
+                        <button id="add-@item.Dto.ServiceName"
+                                class="btn btn-sm btn-primary"
+                                style="@addDisplay;"
+                                onclick="overview.toggle('@item.Dto.ServiceName');">
+                            <i class="fas fa-fw fa-fw"></i>
+                        </button>
+                        <button id="remove-@item.Dto.ServiceName"
+                                class="btn btn-sm btn-primary"
+                                style="@removeDisplay;"
+                                onclick="overview.toggle('@item.Dto.ServiceName');">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@section Scripts {
+    <script type="text/javascript" src="~/js/Overview.js"></script>
+    <script type="text/javascript">
+        var overview = new OverviewHandler(@Model.ServiceHostId);
+    </script>
+}
