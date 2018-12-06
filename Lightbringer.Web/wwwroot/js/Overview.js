@@ -1,20 +1,19 @@
 var OverviewHandler = /** @class */ (function () {
-    function OverviewHandler() {
+    function OverviewHandler(host) {
+        this._host = host;
     }
-    OverviewHandler.prototype.addClick = function (addButton, service) {
-        console.log(service);
-        addButton.style.display = "none";
-        var removeButton = $("#remove-" + service)[0];
-        console.log(removeButton);
-        removeButton.style.display = "inline-block";
-    };
-    OverviewHandler.prototype.removeClick = function (removeButton, service) {
-        console.log(service);
-        removeButton.style.display = "none";
-        var addButton = $("#add-" + service)[0];
-        addButton.style.display = "inline-block";
+    OverviewHandler.prototype.toggle = function (service) {
+        var addButton = document.querySelector("#add-" + service);
+        var removeButton = document.querySelector("#remove-" + service);
+        if (addButton.style.display === "none") {
+            addButton.style.display = "inline-block";
+            removeButton.style.display = "none";
+        }
+        else {
+            addButton.style.display = "none";
+            removeButton.style.display = "inline-block";
+        }
     };
     return OverviewHandler;
 }());
-var overview = new OverviewHandler();
 //# sourceMappingURL=Overview.js.map

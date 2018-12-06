@@ -1,22 +1,21 @@
 ﻿class OverviewHandler {
-    addClick(addButton: HTMLButtonElement, service: string) {
-        console.log(service);
 
-        addButton.style.display = "none";
+    _host: string;
 
-        const removeButton = $(`#remove-${service}`)[0];
-        console.log(removeButton);
-        removeButton.style.display = "inline-block";
+    constructor(host: string) {
+        this._host = host;
     }
 
-    removeClick(removeButton: HTMLButtonElement, service: string) {
-        console.log(service);
-        
-        removeButton.style.display = "none";
+    toggle(service: string) {
+        const addButton: HTMLButtonElement = document.querySelector(`#add-${service}`);
+        const removeButton: HTMLButtonElement = document.querySelector(`#remove-${service}`);
 
-        const addButton = $(`#add-${service}`)[0];
-        addButton.style.display = "inline-block";
+        if (addButton.style.display === "none") {
+            addButton.style.display = "inline-block";
+            removeButton.style.display = "none";
+        } else {
+            addButton.style.display = "none";
+            removeButton.style.display = "inline-block";
+        }
     }
 }
-
-var overview = new OverviewHandler();
