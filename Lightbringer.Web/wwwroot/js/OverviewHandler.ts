@@ -10,7 +10,7 @@
         const addButton: HTMLButtonElement = document.querySelector(`#add-${service}`);
         const removeButton: HTMLButtonElement = document.querySelector(`#remove-${service}`);
 
-        const result = await fetch(`/api/subscribe?hostId=${this._serviceHostId}&name=${service}`)
+        const result = await fetch(`/api/subscribe?serviceHostId=${this._serviceHostId}&service=${service}`)
             .then(r => r.json());
 
         if (result) {

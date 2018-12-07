@@ -6,12 +6,12 @@
 <br />
 
 <div class="row">
-    <div class="col-4">
-        <h2>Add Daemon Url</h2>
-    </div>
     <div class="col-8">
+        <h2>Search and subscribe services</h2>
+    </div>
+    <div class="col-4">
         <form method="get" asp-action="ListServices">
-            <input hidden asp-for="ServiceHostId"/>
+            <input hidden asp-for="ServiceHostId" />
 
             <div class="input-group mb-3">
                 <input asp-for="Filter" placeholder="Filter (contains search)" class="form-control" />
@@ -42,8 +42,8 @@
 
             @foreach (var item in Model.Daemons)
             {
-                var addDisplay = (item.Checked ? "display:none" : null) + " opacity: 0.3";
-                var removeDisplay = item.Checked ? null : "display:none;";
+                var checkedDisplay = item.Checked ? null : "display:none;";
+                var uncheckedDisplay = (item.Checked ? "display:none;" : null) + " opacity: 0.3";
 
                 <tr>
                     <td style="vertical-align: middle">
@@ -59,17 +59,17 @@
                         @item.Dto.ServiceName
                     </td>
                     <td>
-                        <button id="add-@item.Dto.ServiceName"
-                                class="btn btn-sm btn-primary"
-                                style="@addDisplay;"
-                                onclick="overview.toggle('@item.Dto.ServiceName');">
-                            <i class="fas fa-fw fa-fw"></i>
-                        </button>
                         <button id="remove-@item.Dto.ServiceName"
                                 class="btn btn-sm btn-primary"
-                                style="@removeDisplay;"
+                                style="@checkedDisplay;"
                                 onclick="overview.toggle('@item.Dto.ServiceName');">
-                            <i class="fas fa-check"></i>
+                            <i class="fas fa-check fa-fw"></i>
+                        </button>
+                        <button id="add-@item.Dto.ServiceName"
+                                class="btn btn-sm btn-primary"
+                                style="@uncheckedDisplay;"
+                                onclick="overview.toggle('@item.Dto.ServiceName');">
+                            <i class="fas fa-fw"></i>
                         </button>
                     </td>
 
@@ -79,7 +79,7 @@
     </table>
 }
 @section Scripts {
-    <script type="text/javascript" src="~/js/Overview.js"></script>
+    <script type="text/javascript" src="~/js/OverviewHandler.js"></script>
     <script type="text/javascript">
         var overview = new OverviewHandler(@Model.ServiceHostId);
     </script>

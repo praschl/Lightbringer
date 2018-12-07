@@ -78,25 +78,31 @@ namespace Lightbringer.Web.Controllers
             
             var model = new ListServicesViewModel {ServiceHostId = serviceHostId, Filter = filter };
 
-            var daemons = await GetDaemonDtos(serviceHost.Url, model.Filter);
+            var daemons = await GetDaemonDtos(serviceHost, model.Filter);
             model.Daemons = daemons;
 
             return View(model);
         }
         
-        private async Task<DaemonVm[]> GetDaemonDtos(string url, string filter)
+        private async Task<DaemonVm[]> GetDaemonDtos(ServiceHost serviceHost, string filter)
         {
+            var url = serviceHost.Url;
+
             var daemonApi = _daemonApiProvider.GetDaemonApi(url);
 
             var daemons = (await daemonApi.GetDaemons(filter))
-                .Select(Convert);
+                .Select(d => Convert(serviceHost, d));
 
             return daemons.ToArray();
         }
 
-        private DaemonVm Convert(DaemonDto dto)
+        private DaemonVm Convert(ServiceHost serviceHost, DaemonDto dto)
         {
-            return new DaemonVm {Dto = dto};
+            return new DaemonVm
+            {
+                Dto = dto,
+                Checked = serviceHost.SubscribedServices?.Contains(dto.ServiceName) ?? false
+            };
         }
     }
 }

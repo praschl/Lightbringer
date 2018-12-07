@@ -14,9 +14,24 @@ namespace Lightbringer.Web.Controllers.api
             _store = store;
         }
 
-        public object Toggle(string host, string service)
+        [HttpGet]
+        public IActionResult Toggle([FromQuery] int serviceHostId, [FromQuery] string service)
         {
-            return true;
+            var serviceHost = _store.Get(serviceHostId);
+            if (serviceHost == null)
+                return NotFound();
+
+            var index = serviceHost.SubscribedServices.IndexOf(service);
+            if (index >= 0)
+                serviceHost.SubscribedServices.RemoveAt(index);
+            else
+                serviceHost.SubscribedServices.Add(service);
+
+            _store.Upsert(serviceHost);
+
+            var isNowSubscribed = index < 0;
+
+            return Ok(isNowSubscribed);
         }
     }
 }

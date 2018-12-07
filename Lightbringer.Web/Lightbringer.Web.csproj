@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\js\Overview.ts" />
+    <Content Remove="wwwroot\js\OverviewHandler.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\Overview.ts" />
+    <TypeScriptCompile Include="wwwroot\js\OverviewHandler.ts" />
   </ItemGroup>
 
 </Project>

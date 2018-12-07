@@ -45,7 +45,7 @@ var OverviewHandler = /** @class */ (function () {
                     case 0:
                         addButton = document.querySelector("#add-" + service);
                         removeButton = document.querySelector("#remove-" + service);
-                        return [4 /*yield*/, fetch("/api/subscribe?hostId=" + this._serviceHostId + "&name=" + service)
+                        return [4 /*yield*/, fetch("/api/subscribe?serviceHostId=" + this._serviceHostId + "&service=" + service)
                                 .then(function (r) { return r.json(); })];
                     case 1:
                         result = _a.sent();
@@ -64,4 +64,4 @@ var OverviewHandler = /** @class */ (function () {
     };
     return OverviewHandler;
 }());
-//# sourceMappingURL=Overview.js.map
+//# sourceMappingURL=OverviewHandler.js.map
