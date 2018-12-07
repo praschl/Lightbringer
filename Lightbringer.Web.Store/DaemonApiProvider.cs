@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Lightbringer.Rest.Contract;
 using RestEase;
 
 namespace Lightbringer.Web.Store
 {
     public class DaemonApiProvider : IDaemonApiProvider
     {
-        private readonly ConcurrentDictionary<string, IDaemonApi> _daemonApis = new ConcurrentDictionary<string, IDaemonApi>(StringComparer.OrdinalIgnoreCase);
-        private readonly ConcurrentDictionary<string, IIsAliveApi> _isAliveApis = new ConcurrentDictionary<string, IIsAliveApi>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, ConcurrentDictionary<Type, object>> _apisByUrl = new ConcurrentDictionary<string, ConcurrentDictionary<Type, object>>(StringComparer.OrdinalIgnoreCase);
 
-        public IDaemonApi GetDaemonApi(string url)
+        public T Get<T>(string url)
         {
-            return _daemonApis.GetOrAdd(url, u => RestClient.For<IDaemonApi>(url));
-        }
+            var apiType = typeof(T);
 
-        public IIsAliveApi GetIsAliveApi(string url)
-        {
-            return _isAliveApis.GetOrAdd(url, u => RestClient.For<IIsAliveApi>(url));
+            var apisByType = _apisByUrl.GetOrAdd(url, u => new ConcurrentDictionary<Type, object>());
+
+            var instance = apisByType.GetOrAdd(apiType, t => RestClient.For<T>(url));
+
+            return (T) instance;
         }
     }
 }

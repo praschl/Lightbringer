@@ -47,7 +47,7 @@ namespace Lightbringer.Web.Controllers
                 var serviceHost = _store().Find(url);
                 if (serviceHost == null)
                 {
-                    var isAliveApi = _daemonApiProvider.GetIsAliveApi(url);
+                    var isAliveApi = _daemonApiProvider.Get<IIsAliveApi>(url);
 
                     await isAliveApi.Get();
 
@@ -88,7 +88,7 @@ namespace Lightbringer.Web.Controllers
         {
             var url = serviceHost.Url;
 
-            var daemonApi = _daemonApiProvider.GetDaemonApi(url);
+            var daemonApi = _daemonApiProvider.Get<IDaemonApi>(url);
 
             var daemons = (await daemonApi.GetDaemons(filter))
                 .Select(d => Convert(serviceHost, d));
