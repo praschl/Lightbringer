@@ -34,4 +34,23 @@
     </div>
 </div>
 
-@* TODO List existing service hosts from db here *@
+<div class="row">
+    @foreach (var item in Model.ServiceHosts)
+    {
+        <div class="col-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">@item.Name</div>
+                        <div class="col text-right">
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="text-info">@item.Url</div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
