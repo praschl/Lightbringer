@@ -90,7 +90,15 @@ namespace Lightbringer.Web.Controllers
 
             return View(model);
         }
-        
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            _store().Delete(id);
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private async Task<DaemonVm[]> GetDaemonDtos(ServiceHost serviceHost, string filter)
         {
             var url = serviceHost.Url;

@@ -11,5 +11,7 @@ namespace Lightbringer.Web.Store
         void Upsert(ServiceHost serviceHost);
 
         IReadOnlyCollection<ServiceHost> FindAllHosts();
+
+        void Delete(int id);
     }
 }
