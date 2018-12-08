@@ -72,7 +72,7 @@ namespace Lightbringer.Web.Controllers
                     _store().Upsert(serviceHost);
                 }
 
-                return RedirectToAction("ListServices", new {serviceHostId = serviceHost.Id});
+                return RedirectToAction(nameof(ListServices), new {serviceHostId = serviceHost.Id});
             }
             catch (Exception ex)
             {
@@ -97,7 +97,7 @@ namespace Lightbringer.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             _store().Delete(id);
 
