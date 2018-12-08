@@ -53,8 +53,9 @@
                     <div class="row">
                         <div class="col text-right">
                             <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <a asp-action="ListServices" asp-route-serviceHostId="@item.Id" class="btn btn-sm btn-success" title="Select Daemons"><i class="fas fa-list-ul"></i></a>
+                                <a href="#" class="btn btn-sm btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
                     </div>
