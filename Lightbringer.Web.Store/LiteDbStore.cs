@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using LiteDB;
 
 namespace Lightbringer.Web.Store
@@ -55,6 +58,16 @@ namespace Lightbringer.Web.Store
                 var hosts = db.GetCollection<ServiceHost>();
 
                 hosts.Upsert(serviceHost);
+            }
+        }
+
+        public IReadOnlyCollection<ServiceHost> FindAllHosts()
+        {
+            using (var db = CreateSession())
+            {
+                var hosts = db.GetCollection<ServiceHost>().FindAll();
+
+                return hosts.ToArray();
             }
         }
 

@@ -24,7 +24,14 @@ namespace Lightbringer.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(new AddServiceHostViewModel());
+            var allHosts = _store().FindAllHosts();
+
+            var addServiceHostViewModel = new AddServiceHostViewModel
+            {
+                ServiceHosts = allHosts
+            };
+
+            return View(addServiceHostViewModel);
         }
 
         [HttpPost]

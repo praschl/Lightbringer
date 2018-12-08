@@ -1,4 +1,6 @@
-﻿namespace Lightbringer.Web.Store
+﻿using System.Collections.Generic;
+
+namespace Lightbringer.Web.Store
 {
     public interface IStore
     {
@@ -7,5 +9,7 @@
         ServiceHost Find(string url);
 
         void Upsert(ServiceHost serviceHost);
+
+        IReadOnlyCollection<ServiceHost> FindAllHosts();
     }
 }
