@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Lightbringer.Rest.Contract;
+using Lightbringer.Web.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,9 @@ namespace Lightbringer.Web
         // called by autofac initialization
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            var conf = Configuration["WebApi.Url.Template"];
+            builder.Register(c => new LightbringerConfiguration {WebApiUrlTemplate = conf}).SingleInstance();
+            
             builder.RegisterType<DaemonApiProvider>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<LiteDbStore>().AsImplementedInterfaces();

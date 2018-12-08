@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
+using Lightbringer.Web.Configuration;
 using Lightbringer.Web.Models;
 using Lightbringer.Web.Store;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace Lightbringer.Web.Controllers
         
         private readonly IDaemonApiProvider _daemonApiProvider;
         private readonly Func<IStore> _store;
+        private readonly LightbringerConfiguration _configuration;
 
-        public OverviewController(IDaemonApiProvider daemonApiProvider, Func<IStore> store)
+        public OverviewController(IDaemonApiProvider daemonApiProvider, Func<IStore> store, LightbringerConfiguration configuration)
         {
             _daemonApiProvider = daemonApiProvider;
             _store = store;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -46,7 +49,9 @@ namespace Lightbringer.Web.Controllers
                     return RedirectToAction(nameof(Index));
 
                 if (!url.Contains(':') && !url.Contains('/'))
-                    url = $"http://{url}:8080/lightbringer/api";
+                {
+                    url = _configuration.WebApiUrlTemplate.Replace("{hostName}", url);
+                }
 
                 var uri = new Uri(url); // try to parse url, if not valid, just fail.
                 url = uri.ToString();
@@ -60,8 +65,8 @@ namespace Lightbringer.Web.Controllers
 
                     serviceHost = new ServiceHost
                     {
-                        Name = url,
-                        Url = viewModel.ServiceHostUrl
+                        Name = viewModel.ServiceHostUrl,
+                        Url = url
                     };
 
                     _store().Upsert(serviceHost);
