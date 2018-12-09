@@ -9,5 +9,7 @@ namespace Lightbringer.Web.Models
         public string Filter { get; set; }
 
         public IReadOnlyCollection<DaemonVm> Daemons { get; set; } = new DaemonVm[0];
+
+        public string ViewType { get; set; }
     }
 }

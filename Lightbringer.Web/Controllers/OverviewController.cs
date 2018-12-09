@@ -82,13 +82,13 @@ namespace Lightbringer.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListServices(int serviceHostId, string filter = null)
+        public async Task<IActionResult> ListServices(int serviceHostId, string filter = null, string viewType = null)
         {
             var serviceHost = _store().Get(serviceHostId);
             if (serviceHost == null)
                 return NotFound();
-            
-            var model = new ListServicesViewModel {ServiceHostId = serviceHostId, Filter = filter };
+
+            var model = new ListServicesViewModel {ServiceHostId = serviceHostId, Filter = filter, ViewType = viewType ?? "cards"};
 
             var daemons = await GetDaemonDtos(serviceHost, model.Filter);
             model.Daemons = daemons;

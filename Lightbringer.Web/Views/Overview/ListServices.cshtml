@@ -1,6 +1,11 @@
 ﻿@model ListServicesViewModel
 @{
     ViewData["Title"] = "Subscribe services";
+
+    string cardsClass = Model.ViewType == "cards" ? "active disabled" : "";
+    string tableClass = Model.ViewType == "cards" ? "" : "active disabled";
+    string cardsDisabled = Model.ViewType == "cards" ? "disabled" : "";
+    string tableDisabled = Model.ViewType == "cards" ? "" : "disabled";
 }
 
 <br />
@@ -13,13 +18,26 @@
         <form method="get" asp-action="ListServices">
             <input hidden asp-for="ServiceHostId" />
 
-            <div class="input-group mb-3">
-                <input asp-for="Filter" placeholder="Filter (contains search)" class="form-control" />
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
+            <div class="btn-toolbar">
+
+                <div class="input-group mr-2">
+                    <input asp-for="Filter" placeholder="Filter (contains search)" class="form-control" />
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary @cardsClass" title="Cards View"  @cardsDisabled name="viewType" value="cards" >
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button type="submit" class="btn btn-primary @tableClass" title="Table View" @tableDisabled name="viewType" value="table" >
+                        <i class="fas fa-th-list"></i>
                     </button>
                 </div>
+
             </div>
 
         </form>
@@ -28,9 +46,14 @@
 
 @if (Model.Daemons != null && Model.Daemons.Any())
 {
-   <partial name="_SelectDaemonsAsCards" model="@Model.Daemons"/>
-
-   @*<partial name="_SelectDaemonsAsTable" model="@Model.Daemons"/>*@
+    if (Model.ViewType == "cards")
+    {
+        <partial name="_SelectDaemonsAsCards" model="@Model.Daemons" />
+    }
+    else
+    {
+        <partial name="_SelectDaemonsAsTable" model="@Model.Daemons" />
+    }
 }
 
 @section Scripts {
