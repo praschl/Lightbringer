@@ -28,6 +28,9 @@
                 </td>
                 <td style="vertical-align: middle">
                     <a data-toggle="collapse" href="#@(descriptionId)" role="button" aria-expanded="false" aria-controls="@(descriptionId)">@item.Dto.DisplayName</a>
+                    <div class="collapse pl-3 pr-3" id="@(descriptionId)">
+                        @item.Dto.Description
+                    </div>
                 </td>
                 <td style="vertical-align: middle">
                     @item.Dto.ServiceName
@@ -47,17 +50,6 @@
                     </button>
                 </td>
 
-            </tr>
-            <tr>
-                <td class="p-0"></td>
-                <td class="p-0"></td>
-                <td colspan="2" class="p-0">
-                    <div class="collapse pl-3 pr-3" id="@(descriptionId)">
-                        @item.Dto.Description
-                    </div>
-                </td>
-                <td class="p-0"></td>
-                <td class="p-0"></td>
             </tr>
 
             id++;
