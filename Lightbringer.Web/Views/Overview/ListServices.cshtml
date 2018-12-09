@@ -28,7 +28,56 @@
 
 @if (Model.Daemons != null && Model.Daemons.Any())
 {
-    <table class="table table-striped table-borderless">
+    <div class="row">
+        @{ var id = 1;}
+        @foreach (var item in Model.Daemons)
+        {
+            var checkedDisplay = item.Checked ? null : "display:none;";
+            var uncheckedDisplay = (item.Checked ? "display:none;" : null) + " opacity: 0.3";
+            var descriptionId = "description-" + id;
+
+            <div class="col-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-2 lead">
+                                <i class="fas fa-cogs text-primary" title="@item.Dto.ServiceType"></i>
+                                <partial name="_ServiceStatePartial" model="@item.Dto.State" />
+                            </div>
+                            <div class="col-8">
+                                @item.Dto.DisplayName
+                            </div>
+                            <div class="col-2 text-right">
+                                <button id="remove-@item.Dto.ServiceName"
+                                        class="btn btn-sm btn-primary"
+                                        style="@checkedDisplay;"
+                                        onclick="overview.toggle('@item.Dto.ServiceName');">
+                                    <i class="fas fa-check fa-fw"></i>
+                                </button>
+                                <button id="add-@item.Dto.ServiceName"
+                                        class="btn btn-sm btn-primary"
+                                        style="@uncheckedDisplay;"
+                                        onclick="overview.toggle('@item.Dto.ServiceName');">
+                                    <i class="fas fa-fw"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body" title="@item.Dto.ServiceName">
+                        <a data-toggle="collapse" href="#@(descriptionId)" role="button" aria-expanded="false" aria-controls="@(descriptionId)">@item.Dto.DisplayName</a>
+                        <div class="collapse" id="@(descriptionId)">
+                            @item.Dto.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            id++;
+        }
+    </div>
+
+
+    @*<table class="table table-striped table-borderless">
         <thead>
             <tr class="table-primary">
                 <th style="width: 1%;"></th>
@@ -76,7 +125,7 @@
                 </tr>
             }
         </tbody>
-    </table>
+    </table>*@
 }
 @section Scripts {
     <script type="text/javascript" src="~/js/OverviewHandler.js"></script>
