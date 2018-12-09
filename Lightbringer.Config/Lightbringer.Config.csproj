@@ -72,6 +72,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lightbringer.WebApi\Lightbringer.WebApi.csproj">
+      <Project>{8C008F01-848B-4FD6-952F-C475B5CCB244}</Project>
+      <Name>Lightbringer.WebApi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MiP.Core\MiP.Core.csproj">
       <Project>{F643052E-2DF1-4613-B0D9-25A490DD52CD}</Project>
       <Name>MiP.Core</Name>
