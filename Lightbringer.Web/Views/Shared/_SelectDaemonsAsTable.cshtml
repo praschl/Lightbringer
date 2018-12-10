@@ -1,6 +1,6 @@
 ﻿@model IReadOnlyCollection<DaemonVm>
 
-<table class="table table-striped table-borderless">
+<table class="table table-striped table-borderless table-sm">
     <thead>
         <tr class="table-primary">
             <th style="width: 1%;"></th>
@@ -20,19 +20,19 @@
             var descriptionId = "description-" + id;
 
             <tr>
-                <td style="vertical-align: middle">
+                <td>
                     <i class="fas fa-cogs text-primary" title="@item.Dto.ServiceType"></i>
                 </td>
-                <td style="vertical-align: middle">
+                <td>
                     <partial name="_ServiceStatePartial" model="@item.Dto.State" />
                 </td>
-                <td style="vertical-align: middle">
+                <td>
                     <a data-toggle="collapse" href="#@descriptionId" role="button" aria-expanded="false" aria-controls="@descriptionId">@item.Dto.DisplayName</a>
                     <div class="collapse pl-3 pr-3" id="@descriptionId">
                         @item.Dto.Description
                     </div>
                 </td>
-                <td style="vertical-align: middle">
+                <td>
                     @item.Dto.ServiceName
                 </td>
                 <td>

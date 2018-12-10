@@ -7,18 +7,19 @@
     {
         case DaemonStates.Running:
             faChar = "fa-play";
-            color = "text-success";
+            color = "badge-success";
             break;
         case DaemonStates.Stopped:
             faChar = "fa-stop";
-            color = "text-danger";
+            color = "badge-danger";
             break;
         default:
             faChar = "fa-question";
-            color = "text-secondary";
+            color = "badge-secondary";
             break;
     }
 }
 
-
-<i class="fas @faChar @color" title="@Model"></i>
+<span class="badge @color">
+    <i class="fas @faChar" title="@Model"></i>
+</span>
