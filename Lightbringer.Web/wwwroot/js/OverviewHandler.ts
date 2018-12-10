@@ -1,24 +1,26 @@
 ﻿class OverviewHandler {
-
+    
     _serviceHostId: number;
 
     constructor(serviceHostId: number) {
         this._serviceHostId = serviceHostId;
     }
+    
+    async toggle(event: MouseEvent, service: string) {
 
-    async toggle(service: string) {
-        const addButton: HTMLButtonElement = document.querySelector(`#add-${service}`);
-        const removeButton: HTMLButtonElement = document.querySelector(`#remove-${service}`);
+        const button = (event.currentTarget) as HTMLButtonElement;
+        if (!button)
+            throw "could not get expected button from event.currentTarget";
 
         const result = await fetch(`/api/subscribe?serviceHostId=${this._serviceHostId}&service=${service}`)
             .then(r => r.json());
 
+        button.getElementsByTagName("i")[0].classList.toggle("fa-check");
+
         if (result) {
-            addButton.style.display = "none";
-            removeButton.style.display = "inline-block";
+            button.style.opacity = "1";
         } else {
-            addButton.style.display = "inline-block";
-            removeButton.style.display = "none";
+            button.style.opacity = "0.5";
         }
     }
 }

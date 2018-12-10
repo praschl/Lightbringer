@@ -37,25 +37,25 @@ var OverviewHandler = /** @class */ (function () {
     function OverviewHandler(serviceHostId) {
         this._serviceHostId = serviceHostId;
     }
-    OverviewHandler.prototype.toggle = function (service) {
+    OverviewHandler.prototype.toggle = function (event, service) {
         return __awaiter(this, void 0, void 0, function () {
-            var addButton, removeButton, result;
+            var button, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        addButton = document.querySelector("#add-" + service);
-                        removeButton = document.querySelector("#remove-" + service);
+                        button = (event.currentTarget);
+                        if (!button)
+                            throw "could not get expected button from event.currentTarget";
                         return [4 /*yield*/, fetch("/api/subscribe?serviceHostId=" + this._serviceHostId + "&service=" + service)
                                 .then(function (r) { return r.json(); })];
                     case 1:
                         result = _a.sent();
+                        button.getElementsByTagName("i")[0].classList.toggle("fa-check");
                         if (result) {
-                            addButton.style.display = "none";
-                            removeButton.style.display = "inline-block";
+                            button.style.opacity = "1";
                         }
                         else {
-                            addButton.style.display = "inline-block";
-                            removeButton.style.display = "none";
+                            button.style.opacity = "0.5";
                         }
                         return [2 /*return*/];
                 }

@@ -5,9 +5,9 @@
     @{ var id = 1;}
     @foreach (var item in Model)
     {
-        var checkedDisplay = item.Checked ? null : "display:none;";
-        var uncheckedDisplay = (item.Checked ? "display:none;" : null) + " opacity: 0.3";
-        var descriptionId = "description-" + id;
+        var descriptionId = "toggle-" + id;
+        var display = item.Checked ? null : "opacity: 0.3";
+        var check = item.Checked ? "fa-check" : null;
 
         <div class="col-3 mb-4" style="min-width: 15rem;">
             <div class="card">
@@ -18,18 +18,11 @@
                             <partial name="_ServiceStatePartial" model="@item.Dto.State"/>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <button id="remove-@item.Dto.ServiceName"
-                                    class="btn btn-sm btn-primary"
-                                    style="@checkedDisplay;"
-                                    onclick="overview.toggle('@item.Dto.ServiceName');">
-                                <i class="fas fa-check fa-fw"></i>
-                            </button>
-                            <button id="add-@item.Dto.ServiceName"
-                                    class="btn btn-sm btn-primary"
-                                    style="@uncheckedDisplay;"
-                                    onclick="overview.toggle('@item.Dto.ServiceName');">
-                                <i class="fas fa-fw"></i>
-                            </button>
+                            <button class="btn btn-sm btn-primary"
+                                    style="@display;"
+                                    onclick="overview.toggle(event, '@item.Dto.ServiceName');">
+                                <i class="fas @check fa-fw"></i>
+                            </button>                           
                         </div>
                     </div>
                 </div>
