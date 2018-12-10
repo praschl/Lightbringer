@@ -25,7 +25,7 @@
                 <input asp-for="ServiceHostUrl" placeholder="host name or complete url" class="form-control" />
                 <div class="input-group-append">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
+                        <i class="fas fa-plus"></i>
                     </button>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col">
-                            <h3 class="text-secondary">@item.Name (@(item.SubscribedServices?.Count ?? 0))</h3>
+                            <h3 class="text-secondary">@item.Name <span class="badge badge-secondary badge-pill">@(item.SubscribedServices?.Count ?? 0)</span></h3>
                         </div>
                     </div>
                 </div>
@@ -53,9 +53,9 @@
                     <div class="row">
                         <div class="col text-right">
                             <div class="btn-group">
-                                <a asp-action="ListServices" asp-route-serviceHostId="@item.Id" class="btn btn-sm btn-success" title="Select Daemons"><i class="fas fa-list-ul"></i></a>
-                                <a href="#" class="btn btn-sm btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
-                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
+                                <a asp-action="ListServices" asp-route-serviceHostId="@item.Id" class="btn btn-success" title="Select Daemons"><i class="fas fa-list-ul"></i></a>
+                                <a href="#" class="btn btn-primary" title="Edit"><i class="fas fa-edit"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
                             </div>
                         </div>
                     </div>
