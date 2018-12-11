@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
@@ -11,11 +12,11 @@ namespace Lightbringer.Web.Controllers
 {
     public class OverviewController : Controller
     {
+        private readonly LightbringerConfiguration _configuration;
         // local:   http://localhost:8080/lightbringer/api
-        
+
         private readonly IDaemonApiProvider _daemonApiProvider;
         private readonly Func<IStore> _store;
-        private readonly LightbringerConfiguration _configuration;
 
         public OverviewController(IDaemonApiProvider daemonApiProvider, Func<IStore> store, LightbringerConfiguration configuration)
         {
@@ -48,10 +49,7 @@ namespace Lightbringer.Web.Controllers
                 if (string.IsNullOrEmpty(url))
                     return RedirectToAction(nameof(Index));
 
-                if (!url.Contains(':') && !url.Contains('/'))
-                {
-                    url = _configuration.WebApiUrlTemplate.Replace("{hostName}", url);
-                }
+                if (!url.Contains(':') && !url.Contains('/')) url = _configuration.WebApiUrlTemplate.Replace("{hostName}", url);
 
                 var uri = new Uri(url); // try to parse url, if not valid, just fail.
                 url = uri.ToString();
@@ -91,7 +89,10 @@ namespace Lightbringer.Web.Controllers
             var model = new ListServicesViewModel {ServiceHostId = serviceHostId, Filter = filter, ViewType = viewType ?? "cards"};
 
             var daemons = await GetDaemonDtos(serviceHost, model.Filter);
-            model.Daemons = daemons;
+            model.Daemons = daemons
+                .OrderBy(d => d.Dto.DisplayName)
+                .ThenBy(d => d.Dto.ServiceName)
+                .ToArray();
 
             return View(model);
         }
@@ -104,7 +105,7 @@ namespace Lightbringer.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<DaemonVm[]> GetDaemonDtos(ServiceHost serviceHost, string filter)
+        private async Task<IEnumerable<DaemonVm>> GetDaemonDtos(ServiceHost serviceHost, string filter)
         {
             var url = serviceHost.Url;
 
@@ -113,7 +114,7 @@ namespace Lightbringer.Web.Controllers
             var daemons = (await daemonApi.GetDaemons(filter))
                 .Select(d => Convert(serviceHost, d));
 
-            return daemons.ToArray();
+            return daemons;
         }
 
         private DaemonVm Convert(ServiceHost serviceHost, DaemonDto dto)
