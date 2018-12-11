@@ -4,7 +4,7 @@ using RestEase;
 
 namespace Lightbringer.Web.Store
 {
-    public class DaemonApiProvider : IDaemonApiProvider
+    public class RestApiProvider : IRestApiProvider
     {
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<Type, object>> _apisByUrl = new ConcurrentDictionary<string, ConcurrentDictionary<Type, object>>(StringComparer.OrdinalIgnoreCase);
 

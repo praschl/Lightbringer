@@ -1,6 +1,6 @@
 ﻿namespace Lightbringer.Web.Store
 {
-    public interface IDaemonApiProvider
+    public interface IRestApiProvider
     {
         T Get<T>(string url);
     }

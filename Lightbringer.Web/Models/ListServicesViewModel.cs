@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Lightbringer.Web.Store;
 
 namespace Lightbringer.Web.Models
 {

@@ -14,7 +14,7 @@ namespace Lightbringer.Web.Controllers.api
             _store = store;
         }
 
-        [HttpGet]
+        [HttpGet] // TODO: that should be a Post
         public IActionResult Toggle([FromQuery] int serviceHostId, [FromQuery] string service)
         {
             var serviceHost = _store.Get(serviceHostId);

@@ -34,6 +34,8 @@ namespace Lightbringer.WebApi
                 State = GetState(s.Status)
             });
 
+            // TODO: return DependentServices and ServiceDependsOn, too, these will be required for stopping and starting.
+
             if (!string.IsNullOrWhiteSpace(contains))
                 dtos = dtos.Where(d =>
                     d.ServiceName.IndexOf(contains, StringComparison.OrdinalIgnoreCase) >= 0

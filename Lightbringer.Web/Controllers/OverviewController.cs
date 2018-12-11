@@ -12,16 +12,21 @@ namespace Lightbringer.Web.Controllers
 {
     public class OverviewController : Controller
     {
-        private readonly LightbringerConfiguration _configuration;
         // local:   http://localhost:8080/lightbringer/api
 
-        private readonly IDaemonApiProvider _daemonApiProvider;
+        private readonly LightbringerConfiguration _configuration;
+        private readonly IRestApiProvider _restApiProvider;
         private readonly Func<IStore> _store;
+        private readonly IDaemonDtoConverter _daemonDtoConverter;
 
-        public OverviewController(IDaemonApiProvider daemonApiProvider, Func<IStore> store, LightbringerConfiguration configuration)
+        public OverviewController(IRestApiProvider restApiProvider, 
+            Func<IStore> store,
+            IDaemonDtoConverter daemonDtoConverter,
+            LightbringerConfiguration configuration)
         {
-            _daemonApiProvider = daemonApiProvider;
+            _restApiProvider = restApiProvider;
             _store = store;
+            _daemonDtoConverter = daemonDtoConverter;
             _configuration = configuration;
         }
 
@@ -57,7 +62,7 @@ namespace Lightbringer.Web.Controllers
                 var serviceHost = _store().Find(url);
                 if (serviceHost == null)
                 {
-                    var isAliveApi = _daemonApiProvider.Get<IIsAliveApi>(url);
+                    var isAliveApi = _restApiProvider.Get<IIsAliveApi>(url);
 
                     await isAliveApi.Get();
 
@@ -109,21 +114,13 @@ namespace Lightbringer.Web.Controllers
         {
             var url = serviceHost.Url;
 
-            var daemonApi = _daemonApiProvider.Get<IDaemonApi>(url);
+            var daemonApi = _restApiProvider.Get<IDaemonApi>(url);
 
             var daemons = (await daemonApi.GetDaemons(filter))
-                .Select(d => Convert(serviceHost, d));
+                .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost));
 
             return daemons;
         }
 
-        private DaemonVm Convert(ServiceHost serviceHost, DaemonDto dto)
-        {
-            return new DaemonVm
-            {
-                Dto = dto,
-                Checked = serviceHost.SubscribedServices?.Contains(dto.ServiceName) ?? false
-            };
-        }
     }
 }

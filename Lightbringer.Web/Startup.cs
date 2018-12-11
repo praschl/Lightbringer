@@ -38,9 +38,11 @@ namespace Lightbringer.Web
             var conf = Configuration["WebApi.Url.Template"];
             builder.Register(c => new LightbringerConfiguration {WebApiUrlTemplate = conf}).SingleInstance();
             
-            builder.RegisterType<DaemonApiProvider>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<RestApiProvider>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<LiteDbStore>().AsImplementedInterfaces();
+
+            builder.RegisterType<DaemonDtoConverter>().AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
