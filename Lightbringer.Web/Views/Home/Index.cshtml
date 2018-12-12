@@ -1,9 +1,61 @@
-﻿
+﻿@model IReadOnlyCollection<ServiceHostViewModel>
 @{
     ViewData["Title"] = "View running services";
 }
 
 <br/>
 
-<h2>View running services</h2>
+@if (Model != null)
+{
+    foreach (var daemonHost in Model)
+    {
+        <div class="row">
+            <h3 class="text-dark">@daemonHost.ServiceHost.Name</h3>
+        </div>
 
+        if (daemonHost.Error != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <span class="text-danger">@daemonHost.Error</span>
+            </div>
+        }
+
+        if (daemonHost.Daemons != null)
+        {
+            <table class="table table-striped table-borderless table-sm">
+                <thead>
+                <tr class="table-primary">
+                    <th style="width: 1%;"></th>
+                    <th style="width: 1%;"></th>
+                    <th>Name</th>
+                    <th>Service Name</th>
+                    <th style="width: 1%;"></th>
+                </tr>
+                </thead>
+                <tbody>
+                
+                    @foreach (var daemon in daemonHost.Daemons)
+                    {
+                        <tr>
+                            <td>
+                                <i class="fas fa-cogs text-primary lead" title="@daemon.Dto.ServiceType"></i>
+                            </td>
+                            <td>
+                                <partial name="_ServiceStatePartial" model="@daemon.Dto.State" />
+                            </td>
+                            
+                            <td>
+                                <span title="">@daemon.Dto.DisplayName</span>
+                            </td>
+                            <td>
+                                @daemon.Dto.ServiceName
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+    }
+}

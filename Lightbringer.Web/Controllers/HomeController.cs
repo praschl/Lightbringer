@@ -11,8 +11,8 @@ namespace Lightbringer.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IRestApiProvider _restApiProvider;
         private readonly IDaemonDtoConverter _daemonDtoConverter;
+        private readonly IRestApiProvider _restApiProvider;
         private readonly Func<IStore> _store;
 
         public HomeController(Func<IStore> store, IRestApiProvider restApiProvider, IDaemonDtoConverter daemonDtoConverter)
@@ -49,11 +49,11 @@ namespace Lightbringer.Web.Controllers
                     .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost.SubscribedServices))
                     .ToArray();
 
-                return new ServiceHostViewModel { ServiceHost = serviceHost, Daemons = daemonVms};
+                return new ServiceHostViewModel {ServiceHost = serviceHost, Daemons = daemonVms};
             }
             catch (Exception ex)
             {
-                return new ServiceHostViewModel { ServiceHost = serviceHost, Error = ex.Message};
+                return new ServiceHostViewModel {ServiceHost = serviceHost, Error = ex.Message};
             }
         }
 
