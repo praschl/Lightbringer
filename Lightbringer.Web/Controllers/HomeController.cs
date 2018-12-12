@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,29 +26,35 @@ namespace Lightbringer.Web.Controllers
         {
             var hosts = _store().FindAllHosts();
 
-            var daemons = (await Task.WhenAll(hosts.Select(GetDaemons)).ContinueWith(r => r.Result))
-                .SelectMany(m => m)
+            var daemonHosts = (await Task.WhenAll(hosts.Select(GetDaemons)).ContinueWith(r => r.Result))
                 .ToArray();
 
-            return View(daemons);
+            return View(daemonHosts);
         }
 
-        private async Task<IReadOnlyCollection<DaemonVm>> GetDaemons(ServiceHost serviceHost)
+        private async Task<ServiceHostViewModel> GetDaemons(ServiceHost serviceHost)
         {
-            var api = _restApiProvider.Get<IDaemonApi>(serviceHost.Url);
+            try
+            {
+                var api = _restApiProvider.Get<IDaemonApi>(serviceHost.Url);
 
-            // TODO: replace api.GetDaemons() with a HttpPost to api.SubscribeToDaemons()
-            // - serviceHost.SubscribedServices
-            // - RestUrl where ChangeNotifications should be posted.
-            // this call should then return the services, and also notify (via rest) when a service state changed
-            var daemons = await api.GetDaemons("");
+                // TODO: replace api.GetDaemons() with a HttpPost to api.SubscribeToDaemons()
+                // - serviceHost.SubscribedServices
+                // - RestUrl where ChangeNotifications should be posted.
+                // this call should then return the services, and also notify (via rest) when a service state changed
+                var daemons = await api.GetDaemons("");
 
-            var daemonVms = daemons
-                .Join(serviceHost.SubscribedServices, d => d.ServiceName, sh => sh, (d, sh) => d)
-                .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost))
-                .ToArray();
+                var daemonVms = daemons
+                    .Join(serviceHost.SubscribedServices, d => d.ServiceName, sh => sh, (d, sh) => d)
+                    .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost.SubscribedServices))
+                    .ToArray();
 
-            return daemonVms;
+                return new ServiceHostViewModel { ServiceHost = serviceHost, Daemons = daemonVms};
+            }
+            catch (Exception ex)
+            {
+                return new ServiceHostViewModel { ServiceHost = serviceHost, Error = ex.Message};
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

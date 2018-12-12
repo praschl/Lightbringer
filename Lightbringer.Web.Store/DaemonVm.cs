@@ -7,7 +7,5 @@ namespace Lightbringer.Web.Store
         public DaemonDto Dto { get; set; }
 
         public bool Checked { get; set; }
-
-        public ServiceHost ServiceHost { get; set; }
     }
 }

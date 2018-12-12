@@ -10,42 +10,49 @@
 
 <br />
 
-<div class="row">
-    <div class="col-8">
-        <h2>Search and subscribe services</h2>
+@if (Model.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <span class="text-danger">@Model.Error</span>
     </div>
-    <div class="col-4">
-        <form method="get" asp-action="ListServices">
-            <input hidden asp-for="ServiceHostId" />
-
-            <div class="btn-toolbar justify-content-between">
-
-                <div class="input-group mr-2">
-                    <input asp-for="Filter" placeholder="Filter (contains search)" class="form-control" />
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary" name="viewType" value="@Model.ViewType">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary @cardsClass" title="Cards View"  @cardsDisabled name="viewType" value="cards" >
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button type="submit" class="btn btn-primary @tableClass" title="Table View" @tableDisabled name="viewType" value="table" >
-                        <i class="fas fa-th-list"></i>
-                    </button>
-                </div>
-
-            </div>
-
-        </form>
-    </div>
-</div>
+}
 
 @if (Model.Daemons != null && Model.Daemons.Any())
 {
+    <div class="row">
+        <div class="col-8">
+            <h2>Search and subscribe services</h2>
+        </div>
+        <div class="col-4">
+            <form method="get" asp-action="ListServices">
+                <input hidden asp-for="ServiceHostId" />
+
+                <div class="btn-toolbar justify-content-between">
+
+                    <div class="input-group mr-2">
+                        <input asp-for="Filter" placeholder="Filter (contains search)" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary" name="viewType" value="@Model.ViewType">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary @cardsClass" title="Cards View" @cardsDisabled name="viewType" value="cards">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button type="submit" class="btn btn-primary @tableClass" title="Table View" @tableDisabled name="viewType" value="table">
+                            <i class="fas fa-th-list"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
     if (Model.ViewType == "cards")
     {
         <partial name="_SelectDaemonsAsCards" model="@Model.Daemons" />

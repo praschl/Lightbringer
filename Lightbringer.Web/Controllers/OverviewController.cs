@@ -87,19 +87,27 @@ namespace Lightbringer.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ListServices(int serviceHostId, string filter = null, string viewType = null)
         {
-            var serviceHost = _store().Get(serviceHostId);
-            if (serviceHost == null)
-                return NotFound();
+            try
+            {
+                var serviceHost = _store().Get(serviceHostId);
 
-            var model = new ListServicesViewModel {ServiceHostId = serviceHostId, Filter = filter, ViewType = viewType ?? "cards"};
+                if (serviceHost == null)
+                    return NotFound();
 
-            var daemons = await GetDaemonDtos(serviceHost, model.Filter);
-            model.Daemons = daemons
-                .OrderBy(d => d.Dto.DisplayName)
-                .ThenBy(d => d.Dto.ServiceName)
-                .ToArray();
+                var model = new ListServicesViewModel { ServiceHostId = serviceHostId, Filter = filter, ViewType = viewType ?? "cards" };
 
-            return View(model);
+                var daemons = await GetDaemonDtos(serviceHost, model.Filter);
+                model.Daemons = daemons
+                    .OrderBy(d => d.Dto.DisplayName)
+                    .ThenBy(d => d.Dto.ServiceName)
+                    .ToArray();
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View(new ListServicesViewModel {Error = ex.Message});
+            }
         }
 
         [HttpGet]
@@ -117,7 +125,7 @@ namespace Lightbringer.Web.Controllers
             var daemonApi = _restApiProvider.Get<IDaemonApi>(url);
 
             var daemons = (await daemonApi.GetDaemons(filter))
-                .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost));
+                .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost.SubscribedServices));
 
             return daemons;
         }
