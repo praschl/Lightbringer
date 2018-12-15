@@ -2,9 +2,9 @@
 {
     public static class DaemonStates
     {
-        public const string Starting = "Starting";
+        public const string StartPending = "StartPending";
         public const string Running = "Running";
-        public const string Stopping = "Stopping";
+        public const string StopPending = "StopPending";
         public const string Stopped = "Stopped";
 
         public const string NotFound = "NotFound";

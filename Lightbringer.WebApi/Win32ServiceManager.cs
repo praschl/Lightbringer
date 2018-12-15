@@ -11,18 +11,34 @@ namespace Lightbringer.WebApi
     public class Win32ServiceManager
     {
         // we make this static, because all those service controllers should be disposed when no longer needed
-        // since we subscribe to the changed event, we will require them for the whole lifetime of this process.
+        // since we subscribe to the changed event (Event Query), we will require them for the whole lifetime of this process.
         // by staying static, we will just have one instance per service, which is sufficient for us.
         private static readonly ServiceController[] _services = ServiceController.GetServices();
 
         private static readonly List<DaemonDto> _daemonDtos = new List<DaemonDto>();
 
-        public Win32ServiceManager()
+        private static readonly Dictionary<string, string> _stateStrings = new Dictionary<string, string>
         {
-            InitializeDtos();
-        }
+            {"Running", DaemonStates.Running},
+            {"Start Pending", DaemonStates.StartPending},
+            {"Stopped", DaemonStates.Stopped},
+            {"Stop Pending", DaemonStates.StopPending}
+        };
 
-        private void InitializeDtos()
+        private static readonly Dictionary<ServiceControllerStatus, string> _stateEnums = new Dictionary<ServiceControllerStatus, string>
+        {
+            {ServiceControllerStatus.Running, DaemonStates.Running},
+            {ServiceControllerStatus.StartPending, DaemonStates.StartPending},
+            {ServiceControllerStatus.Stopped, DaemonStates.Stopped},
+            {ServiceControllerStatus.StopPending, DaemonStates.StopPending}
+
+            // left these here for future support
+            //{ ServiceControllerStatus.ContinuePending, DaemonStates.ContinuePending},
+            //{ ServiceControllerStatus.Paused, DaemonStates.Paused},
+            //{ ServiceControllerStatus.PausePending, DaemonStates.PausePending},
+        };
+
+        public static void InitializeDtos()
         {
             if (_daemonDtos.Count > 0)
                 return;
@@ -51,21 +67,53 @@ namespace Lightbringer.WebApi
                     _daemonDtos.Add(daemonController.DaemonDto);
                     LoadDescriptionAsync(daemonController.ServiceController, daemonController.DaemonDto);
                 }
+
+                // Source: https://dotnetcodr.com/2014/12/02/getting-notified-by-a-windows-service-status-change-in-c-net/
+                var servicesQuery = new EventQuery();
+                // The following would work (with different properties) for Processes
+                // WHERE targetinstance isa Win32_Process
+                servicesQuery.QueryString = "SELECT * FROM __InstanceModificationEvent within 1 WHERE targetinstance isa 'Win32_Service'";
+                var servicesWatcher = new ManagementEventWatcher(servicesQuery);
+                servicesWatcher.EventArrived += DemoWatcher_EventArrived;
+                servicesWatcher.Start();
             }
         }
 
-        private void LoadDescriptionAsync(ServiceController serviceController, DaemonDto daemonDto)
+        private static void DemoWatcher_EventArrived(object sender, EventArrivedEventArgs eventArgs)
+        {
+            var serviceObject = (ManagementBaseObject) eventArgs.NewEvent.Properties["TargetInstance"].Value;
+
+            // left this here for future investigation of other properties
+            //
+            //PropertyDataCollection props = serviceObject.Properties;
+            //foreach (PropertyData prop in props)
+            //{
+            //    Console.WriteLine("{0}: {1}", prop.Name, prop.Value);
+            //}
+
+            var serviceName = (string) serviceObject.Properties["Name"].Value;
+            var state = (string) serviceObject.Properties["State"].Value;
+
+            var service = _daemonDtos.FirstOrDefault(s => s.ServiceName == serviceName);
+            if (service != null) service.State = GetState(state);
+        }
+
+        private static void LoadDescriptionAsync(ServiceController serviceController, DaemonDto daemonDto)
         {
             Task.Run(() =>
             {
                 try
                 {
-                    var description = GetDescription(serviceController);
-                    daemonDto.Description = description;
+                    var serviceName = serviceController.ServiceName;
+                    using (var managementService = new ManagementObject(new ManagementPath($"Win32_Service.Name='{serviceName}'")))
+                    {
+                        var description = managementService["Description"]?.ToString() ?? string.Empty;
+                        daemonDto.Description = description;
+                    }
                 }
                 catch (Exception ex)
                 {
-                    daemonDto.Description = "ERROR: " + ex.Message;
+                    daemonDto.Description = "ERROR reading service Description: " + ex.Message;
                 }
             });
         }
@@ -83,48 +131,18 @@ namespace Lightbringer.WebApi
             return Task.FromResult(dtos.ToArray());
         }
 
-
-        private static string GetDescription(ServiceController service)
+        private static string GetState(string status)
         {
-            try
-            {
-                var serviceName = service.ServiceName;
-                using (var managementService = new ManagementObject(new ManagementPath($"Win32_Service.Name='{serviceName}'")))
-                {
-                    return managementService["Description"]?.ToString() ?? string.Empty;
-                }
-            }
-            catch (Exception ex)
-            {
-                return "ERROR reading service Description: " + ex;
-            }
+            if (_stateStrings.ContainsKey(status))
+                return _stateStrings[status];
+
+            return DaemonStates.Unknown;
         }
 
         private static string GetState(ServiceControllerStatus status)
         {
-            switch (status)
-            {
-                // may support these later
-
-                //case ServiceControllerStatus.ContinuePending:
-                //    break;
-                //case ServiceControllerStatus.Paused:
-                //    break;
-                //case ServiceControllerStatus.PausePending:
-                //    break;
-
-                case ServiceControllerStatus.Running:
-                    return DaemonStates.Running;
-
-                case ServiceControllerStatus.StartPending:
-                    return DaemonStates.Starting;
-
-                case ServiceControllerStatus.Stopped:
-                    return DaemonStates.Stopped;
-
-                case ServiceControllerStatus.StopPending:
-                    return DaemonStates.Stopping;
-            }
+            if (_stateEnums.ContainsKey(status))
+                return _stateEnums[status];
 
             return DaemonStates.Unknown;
         }

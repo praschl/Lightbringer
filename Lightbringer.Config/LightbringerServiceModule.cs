@@ -14,6 +14,7 @@ namespace Lightbringer.Config
                 .OnActivating(c => c.Instance.ServiceName = "LightbringerServiceHost");
 
             builder.RegisterType<Win32ServiceManager>().AsSelf().SingleInstance();
+            Win32ServiceManager.InitializeDtos();
         }
     }
 }
