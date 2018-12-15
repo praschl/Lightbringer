@@ -13,7 +13,7 @@ namespace Lightbringer.Config
             builder.RegisterType<CoreService>()
                 .OnActivating(c => c.Instance.ServiceName = "LightbringerServiceHost");
 
-            Win32ServiceManager.InitializeAsync(); // we will let this work in the background.
+            builder.RegisterType<Win32ServiceManager>().AsSelf().SingleInstance();
         }
     }
 }

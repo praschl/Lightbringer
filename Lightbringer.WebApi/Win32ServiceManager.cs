@@ -8,33 +8,71 @@ using Lightbringer.Rest.Contract;
 
 namespace Lightbringer.WebApi
 {
-    public static class Win32ServiceManager
+    public class Win32ServiceManager
     {
         // we make this static, because all those service controllers should be disposed when no longer needed
         // since we subscribe to the changed event, we will require them for the whole lifetime of this process.
         // by staying static, we will just have one instance per service, which is sufficient for us.
         private static readonly ServiceController[] _services = ServiceController.GetServices();
-        private static readonly Dictionary<string,string> _serviceDescriptions = new Dictionary<string, string>();
 
-        public static async Task InitializeAsync()
+        private static readonly List<DaemonDto> _daemonDtos = new List<DaemonDto>();
+
+        public Win32ServiceManager()
         {
-            await Task.WhenAll(
-                _services.Select(LoadDescriptionAsync).ToArray()
-            );
+            InitializeDtos();
         }
 
-        public static Task<DaemonDto[]> GetDaemons(string contains)
+        private void InitializeDtos()
         {
-            var dtos = _services.Select(s => new DaemonDto
-            {
-                ServiceName = s.ServiceName,
-                DisplayName = s.DisplayName,
-                ServiceType = "Win32 Service",
-                Description = _serviceDescriptions.ContainsKey(s.ServiceName) ? _serviceDescriptions[s.ServiceName] : null,
-                State = GetState(s.Status)
-            });
+            if (_daemonDtos.Count > 0)
+                return;
 
-            // TODO: return DependentServices and ServiceDependsOn, too, these will be required for stopping and starting.
+            lock (_daemonDtos)
+            {
+                if (_daemonDtos.Count > 0)
+                    return;
+
+                var daemonControllers = _services.Select(serviceController => new
+                {
+                    // TODO: return DependentServices and ServiceDependsOn, too, these will be required for stopping and starting.
+                    DaemonDto = new DaemonDto
+                    {
+                        ServiceName = serviceController.ServiceName,
+                        DisplayName = serviceController.DisplayName,
+                        ServiceType = "Win32 Service",
+                        Description = null,
+                        State = GetState(serviceController.Status)
+                    },
+                    ServiceController = serviceController
+                });
+
+                foreach (var daemonController in daemonControllers)
+                {
+                    _daemonDtos.Add(daemonController.DaemonDto);
+                    LoadDescriptionAsync(daemonController.ServiceController, daemonController.DaemonDto);
+                }
+            }
+        }
+
+        private void LoadDescriptionAsync(ServiceController serviceController, DaemonDto daemonDto)
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    var description = GetDescription(serviceController);
+                    daemonDto.Description = description;
+                }
+                catch (Exception ex)
+                {
+                    daemonDto.Description = "ERROR: " + ex.Message;
+                }
+            });
+        }
+
+        public Task<DaemonDto[]> GetDaemonsAsync(string contains)
+        {
+            IEnumerable<DaemonDto> dtos = _daemonDtos;
 
             if (!string.IsNullOrWhiteSpace(contains))
                 dtos = dtos.Where(d =>
@@ -45,14 +83,6 @@ namespace Lightbringer.WebApi
             return Task.FromResult(dtos.ToArray());
         }
 
-        private static Task LoadDescriptionAsync(ServiceController service)
-        {
-            return Task.Run(() =>
-            {
-                var description = GetDescription(service);
-                _serviceDescriptions[service.ServiceName] = description;
-            });
-        }
 
         private static string GetDescription(ServiceController service)
         {
