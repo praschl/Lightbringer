@@ -39,15 +39,27 @@ var OverviewHandler = /** @class */ (function () {
     }
     OverviewHandler.prototype.toggle = function (event, service) {
         return __awaiter(this, void 0, void 0, function () {
-            var button, result;
+            var button, subscribeData, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         button = (event.currentTarget);
                         if (!button)
                             throw "could not get expected button from event.currentTarget";
-                        return [4 /*yield*/, fetch("/api/subscribe?serviceHostId=" + this._serviceHostId + "&service=" + service)
-                                .then(function (r) { return r.json(); })];
+                        subscribeData = JSON.stringify({
+                            serviceHostId: this._serviceHostId,
+                            serviceName: service
+                        });
+                        return [4 /*yield*/, fetch('/api/subscribe', {
+                                method: "POST",
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: subscribeData
+                            })
+                                .then(function (r) { return r.json(); })
+                                .catch(function (r) { return console.log(r); })];
                     case 1:
                         result = _a.sent();
                         button.getElementsByTagName("i")[0].classList.toggle("fa-check");

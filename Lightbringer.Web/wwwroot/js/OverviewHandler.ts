@@ -12,8 +12,23 @@
         if (!button)
             throw "could not get expected button from event.currentTarget";
 
-        const result = await fetch(`/api/subscribe?serviceHostId=${this._serviceHostId}&service=${service}`)
-            .then(r => r.json());
+        const subscribeData = JSON.stringify(
+            {
+                serviceHostId: this._serviceHostId,
+                serviceName: service
+            });
+
+        const result = await fetch('/api/subscribe',
+                {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: subscribeData
+                })
+            .then(r => r.json())
+            .catch(r => console.log(r));
 
         button.getElementsByTagName("i")[0].classList.toggle("fa-check");
 

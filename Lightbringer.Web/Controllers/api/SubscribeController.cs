@@ -14,18 +14,18 @@ namespace Lightbringer.Web.Controllers.api
             _store = store;
         }
 
-        [HttpGet] // TODO: that should be a Post
-        public IActionResult Toggle([FromQuery] int serviceHostId, [FromQuery] string service)
+        [HttpPost]
+        public IActionResult Toggle(ToggleParameter parameter)
         {
-            var serviceHost = _store.Get(serviceHostId);
+            var serviceHost = _store.Get(parameter.ServiceHostId);
             if (serviceHost == null)
                 return NotFound();
 
-            var index = serviceHost.SubscribedServices.IndexOf(service);
+            var index = serviceHost.SubscribedServices.IndexOf(parameter.ServiceName);
             if (index >= 0)
                 serviceHost.SubscribedServices.RemoveAt(index);
             else
-                serviceHost.SubscribedServices.Add(service);
+                serviceHost.SubscribedServices.Add(parameter.ServiceName);
 
             _store.Upsert(serviceHost);
 
