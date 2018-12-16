@@ -45,8 +45,10 @@ namespace Lightbringer.WebApi
         [Route("notify")]
         public async Task<IHttpActionResult> Notify(string url)
         {
-            var handler = new HttpClientHandler {UseDefaultCredentials = true};
+            // this is just demo code on how to call notify the webserver
+            // TODO: make a singleton class which stores the urls (distinct), when a service changes, that singleton should call the url
 
+            var handler = new HttpClientHandler {UseDefaultCredentials = true};
             using (HttpClient client = new HttpClient(handler))
             {
                 var result = await client.GetAsync(url);

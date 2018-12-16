@@ -42,6 +42,8 @@ namespace Lightbringer.Web.Controllers
 
                 // we pass this url to the Lightbringer.Service.
                 // when one of its daemons changes, it will notify us by calling this url.
+
+                // TODO: also add the service name and the new state to the url parameters
                 string url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/api/notify/changed?id={serviceHost.Id}";
                 await api.Notify(url);
 
