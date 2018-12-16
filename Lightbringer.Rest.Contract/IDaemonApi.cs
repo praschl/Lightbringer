@@ -7,5 +7,8 @@ namespace Lightbringer.Rest.Contract
     {
         [Get("daemons")]
         Task<DaemonDto[]> GetDaemons(string contains);
+
+        [Post("daemons")]
+        Task<DaemonDto[]> GetDaemons(string[] daemonNames);
     }
 }

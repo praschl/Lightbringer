@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using Lightbringer.Rest.Contract;
 
@@ -14,9 +16,21 @@ namespace Lightbringer.WebApi
         }
 
         [HttpGet]
-        public Task<DaemonDto[]> GetDaemons(string contains = null)
+        public async Task<DaemonDto[]> GetDaemons(string contains = null)
         {
-            return _win32ServiceManager.GetDaemonsAsync(contains);
+            var result = await _win32ServiceManager.FindDaemonsAsync(contains);
+
+            return result.ToArray();
+        }
+
+        // TODO: rework wording of "daemon" and "service" in whole solution
+
+        [HttpPost]
+        public async Task<DaemonDto[]> GetDaemons(string[] daemonNames)
+        {
+            var result = await _win32ServiceManager.GetDaemonsAsync(daemonNames);
+
+            return result.ToArray();
         }
     }
 }

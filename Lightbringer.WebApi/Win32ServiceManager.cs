@@ -98,6 +98,22 @@ namespace Lightbringer.WebApi
             if (service != null) service.State = GetState(state);
         }
 
+        private static string GetState(string status)
+        {
+            if (_stateStrings.ContainsKey(status))
+                return _stateStrings[status];
+
+            return DaemonStates.Unknown;
+        }
+
+        private static string GetState(ServiceControllerStatus status)
+        {
+            if (_stateEnums.ContainsKey(status))
+                return _stateEnums[status];
+
+            return DaemonStates.Unknown;
+        }
+
         private static void LoadDescriptionAsync(ServiceController serviceController, DaemonDto daemonDto)
         {
             Task.Run(() =>
@@ -118,7 +134,7 @@ namespace Lightbringer.WebApi
             });
         }
 
-        public Task<DaemonDto[]> GetDaemonsAsync(string contains)
+        public Task<IEnumerable<DaemonDto>> FindDaemonsAsync(string contains)
         {
             IEnumerable<DaemonDto> dtos = _daemonDtos;
 
@@ -128,23 +144,14 @@ namespace Lightbringer.WebApi
                     || d.DisplayName.IndexOf(contains, StringComparison.OrdinalIgnoreCase) >= 0
                 );
 
-            return Task.FromResult(dtos.ToArray());
+            return Task.FromResult(dtos);
         }
 
-        private static string GetState(string status)
+        public Task<IEnumerable<DaemonDto>> GetDaemonsAsync(string[] serviceNames)
         {
-            if (_stateStrings.ContainsKey(status))
-                return _stateStrings[status];
+            var result = _daemonDtos.Where(d => serviceNames.Contains(d.ServiceName));
 
-            return DaemonStates.Unknown;
-        }
-
-        private static string GetState(ServiceControllerStatus status)
-        {
-            if (_stateEnums.ContainsKey(status))
-                return _stateEnums[status];
-
-            return DaemonStates.Unknown;
+            return Task.FromResult(result);
         }
     }
 }
