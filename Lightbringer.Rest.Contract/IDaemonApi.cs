@@ -3,6 +3,10 @@ using RestEase;
 
 namespace Lightbringer.Rest.Contract
 {
+    // TODO: remove the interfaces and dependency on RestEase from this project.
+    
+    // TODO: integrate IsAlive into this IDaemonApi + Controller
+
     public interface IDaemonApi
     {
         [Get("daemons/find")]
