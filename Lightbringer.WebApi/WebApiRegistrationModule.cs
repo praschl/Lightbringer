@@ -48,6 +48,8 @@ namespace Lightbringer.WebApi
         {
             var webapiConfig = new HttpSelfHostConfiguration(_webapiUrl);
             webapiConfig.Routes.MapHttpRoute("API Default", "api/{controller}");
+            webapiConfig.MapHttpAttributeRoutes();
+
             webapiConfig.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new StringEnumConverter());
 
             webapiConfig.EnableSwagger(c => c.SingleApiVersion("v1", "Library API"))

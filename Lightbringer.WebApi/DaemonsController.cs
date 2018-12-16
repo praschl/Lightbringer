@@ -6,6 +6,7 @@ using Lightbringer.Rest.Contract;
 
 namespace Lightbringer.WebApi
 {
+    [RoutePrefix("api/daemons")]
     public class DaemonsController : ApiController, IDaemonApi
     {
         private readonly Win32ServiceManager _win32ServiceManager;
@@ -16,16 +17,18 @@ namespace Lightbringer.WebApi
         }
 
         [HttpGet]
+        [Route("find")]
         public async Task<DaemonDto[]> FindDaemons(string contains = null)
         {
             var result = await _win32ServiceManager.FindDaemonsAsync(contains);
             return result.ToArray();
         }
 
-        [HttpPost]
-        public async Task<DaemonDto[]> GetDaemons([FromBody] string[] daemonNames)
+        [HttpGet]
+        [Route("details")]
+        public async Task<DaemonDto[]> GetDaemons([FromUri] string[] names)
         {
-            var result = await _win32ServiceManager.GetDaemonsAsync(daemonNames);
+            var result = await _win32ServiceManager.GetDaemonsAsync(names);
             return result.ToArray();
         }
 
