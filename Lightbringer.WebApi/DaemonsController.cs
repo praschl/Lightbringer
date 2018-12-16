@@ -1,13 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Lightbringer.Rest.Contract;
 
 namespace Lightbringer.WebApi
 {
+    // TODO: rework wording of "daemon" and "service" in whole solution
+
+    // not implementing the IDaemonApi interface enables us to return IHttpActionResult and provide better error handling.
+
     [RoutePrefix("api/daemons")]
-    public class DaemonsController : ApiController, IDaemonApi
+    public class DaemonsController : ApiController
     {
         private readonly Win32ServiceManager _win32ServiceManager;
 
@@ -18,20 +20,23 @@ namespace Lightbringer.WebApi
 
         [HttpGet]
         [Route("find")]
-        public async Task<DaemonDto[]> FindDaemons(string contains = null)
+        public async Task<IHttpActionResult> FindDaemons(string contains = null)
         {
             var result = await _win32ServiceManager.FindDaemonsAsync(contains);
-            return result.ToArray();
+
+            return Json(result.ToArray());
         }
 
         [HttpGet]
         [Route("details")]
-        public async Task<DaemonDto[]> GetDaemons([FromUri] string[] names)
+        public async Task<IHttpActionResult> GetDaemons([FromUri] string[] names)
         {
+            if (names == null)
+                return BadRequest();
+
             var result = await _win32ServiceManager.GetDaemonsAsync(names);
-            return result.ToArray();
+            return Json(result.ToArray());
         }
 
-        // TODO: rework wording of "daemon" and "service" in whole solution
     }
 }
