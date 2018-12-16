@@ -39,10 +39,11 @@ namespace Lightbringer.Web.Controllers
                 var api = _restApiProvider.Get<IDaemonApi>(serviceHost.Url);
 
                 var daemons = await api.GetDaemons(serviceHost.SubscribedServices.ToArray());
-                
-                // how to get url to internal api ( where to notify about changes )
-                // string url = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/api/notify";
-                // TODO: await api.Subscribe(url);
+
+                // we pass this url to the Lightbringer.Service.
+                // when one of its daemons changes, it will notify us by calling this url.
+                string url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/api/notify/changed?id={serviceHost.Id}";
+                await api.Notify(url);
 
                 var daemonVms = daemons
                     .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost.SubscribedServices))

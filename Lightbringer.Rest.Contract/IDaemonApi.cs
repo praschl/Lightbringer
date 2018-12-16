@@ -10,5 +10,8 @@ namespace Lightbringer.Rest.Contract
 
         [Get("daemons/details")]
         Task<DaemonDto[]> GetDaemons(string[] names);
+
+        [Get("daemons/notify")]
+        Task Notify(string url);
     }
 }

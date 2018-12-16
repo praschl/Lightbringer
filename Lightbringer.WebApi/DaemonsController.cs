@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -40,5 +41,18 @@ namespace Lightbringer.WebApi
             return Json(result.ToArray());
         }
 
+        [HttpGet]
+        [Route("notify")]
+        public async Task<IHttpActionResult> Notify(string url)
+        {
+            var handler = new HttpClientHandler {UseDefaultCredentials = true};
+
+            using (HttpClient client = new HttpClient(handler))
+            {
+                var result = await client.GetAsync(url);
+            }
+
+            return Ok();
+        }
     }
 }
