@@ -124,7 +124,7 @@ namespace Lightbringer.Web.Controllers
 
             var daemonApi = _restApiProvider.Get<IDaemonApi>(url);
 
-            var daemons = (await daemonApi.GetDaemons(filter))
+            var daemons = (await daemonApi.FindDaemons(filter))
                 .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost.SubscribedServices));
 
             return daemons;

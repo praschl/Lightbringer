@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -16,21 +16,19 @@ namespace Lightbringer.WebApi
         }
 
         [HttpGet]
-        public async Task<DaemonDto[]> GetDaemons(string contains = null)
+        public async Task<DaemonDto[]> FindDaemons(string contains = null)
         {
             var result = await _win32ServiceManager.FindDaemonsAsync(contains);
+            return result.ToArray();
+        }
 
+        [HttpPost]
+        public async Task<DaemonDto[]> GetDaemons([FromBody] string[] daemonNames)
+        {
+            var result = await _win32ServiceManager.GetDaemonsAsync(daemonNames);
             return result.ToArray();
         }
 
         // TODO: rework wording of "daemon" and "service" in whole solution
-
-        [HttpPost]
-        public async Task<DaemonDto[]> GetDaemons(string[] daemonNames)
-        {
-            var result = await _win32ServiceManager.GetDaemonsAsync(daemonNames);
-
-            return result.ToArray();
-        }
     }
 }
