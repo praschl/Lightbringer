@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Lightbringer.WebApi;
+using Lightbringer.WebApi.ChangeNotification;
 using MiP.Core.Services;
 
 namespace Lightbringer.Config
@@ -12,9 +13,14 @@ namespace Lightbringer.Config
 
             builder.RegisterType<CoreService>()
                 .OnActivating(c => c.Instance.ServiceName = "LightbringerServiceHost");
+            
+            builder.RegisterType<Win32ServiceManager>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
 
-            builder.RegisterType<Win32ServiceManager>().AsSelf().SingleInstance();
-            Win32ServiceManager.InitializeDtos();
+            builder.RegisterType<DaemonChangeNotifier>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿using System.Linq;
-using System.Net.Http;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Lightbringer.WebApi.ChangeNotification;
 
 namespace Lightbringer.WebApi
 {
@@ -14,18 +15,20 @@ namespace Lightbringer.WebApi
     [RoutePrefix("api/daemons")]
     public class DaemonsController : ApiController
     {
-        private readonly Win32ServiceManager _win32ServiceManager;
+        private readonly IDaemonProvider _daemonProvider;
+        private readonly IDaemonChangeCallbackRegistry _daemonChangeCallbackRegistry;
 
-        public DaemonsController(Win32ServiceManager win32ServiceManager)
+        public DaemonsController(IDaemonProvider daemonProvider, IDaemonChangeCallbackRegistry daemonChangeCallbackRegistry)
         {
-            _win32ServiceManager = win32ServiceManager;
+            _daemonProvider = daemonProvider;
+            _daemonChangeCallbackRegistry = daemonChangeCallbackRegistry;
         }
 
         [HttpGet]
         [Route("find")]
         public async Task<IHttpActionResult> FindDaemons(string contains = null)
         {
-            var result = await _win32ServiceManager.FindDaemonsAsync(contains);
+            var result = await _daemonProvider.FindDaemonsAsync(contains);
 
             return Json(result.ToArray());
         }
@@ -37,22 +40,15 @@ namespace Lightbringer.WebApi
             if (names == null)
                 return BadRequest();
 
-            var result = await _win32ServiceManager.GetDaemonsAsync(names);
+            var result = await _daemonProvider.GetDaemonsAsync(names);
             return Json(result.ToArray());
         }
 
         [HttpGet]
         [Route("notify")]
-        public async Task<IHttpActionResult> Notify(string url)
+        public IHttpActionResult Notify(string url)
         {
-            // this is just demo code on how to call notify the webserver
-            // TODO: make a singleton class which stores the urls (distinct), when a service changes, that singleton should call the url
-
-            var handler = new HttpClientHandler {UseDefaultCredentials = true};
-            using (HttpClient client = new HttpClient(handler))
-            {
-                var result = await client.GetAsync(url);
-            }
+            _daemonChangeCallbackRegistry.RegisterCallbackUrl(url);
 
             return Ok();
         }

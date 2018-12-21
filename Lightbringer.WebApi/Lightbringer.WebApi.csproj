@@ -77,7 +77,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeNotification\DaemonChangeNotifier.cs" />
     <Compile Include="DaemonsController.cs" />
+    <Compile Include="ChangeNotification\IDaemonChangeCallbackRegistry.cs" />
+    <Compile Include="ChangeNotification\IDaemonChangeDistributor.cs" />
+    <Compile Include="IDaemonProvider.cs" />
     <Compile Include="IsAliveController.cs" />
     <Compile Include="WebApiRegistrationModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

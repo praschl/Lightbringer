@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using Lightbringer.Config;
 using Lightbringer.WebApi;
 
@@ -23,6 +24,9 @@ namespace Lightbringer.Service.IoC
 
             var container = builder.Build();
 
+            // NOTE: may pre initialize everything the providers may do to improve performance for the first request with the following line
+            // container.Resolve<IEnumerable<IDaemonProvider>>();
+            
             return container;
         }
     }

@@ -8,7 +8,7 @@ namespace Lightbringer.Web.Controllers.api
     {
         [HttpGet]
         [Route("changed")]
-        public IActionResult Notify(int id)
+        public IActionResult Notify(int id, string daemon, string state)
         {
             return Ok();
         }
