@@ -3,7 +3,7 @@
     ViewData["Title"] = "View running services";
 }
 
-<br/>
+<br />
 
 @if (Model != null)
 {
@@ -24,16 +24,16 @@
         {
             <table class="table table-striped table-borderless table-sm">
                 <thead>
-                <tr class="table-primary">
-                    <th style="width: 1%;"></th>
-                    <th style="width: 1%;"></th>
-                    <th>Name</th>
-                    <th>Service Name</th>
-                    <th style="width: 1%;"></th>
-                </tr>
+                    <tr class="table-primary">
+                        <th style="width: 1%;"></th>
+                        <th style="width: 1%;"></th>
+                        <th>Name</th>
+                        <th>Service Name</th>
+                        <th style="width: 1%;"></th>
+                    </tr>
                 </thead>
                 <tbody>
-                
+
                     @foreach (var daemon in daemonHost.Daemons)
                     {
                         <tr>
@@ -43,7 +43,7 @@
                             <td>
                                 <partial name="_ServiceStatePartial" model="@daemon.Dto.State" />
                             </td>
-                            
+
                             <td>
                                 <span title="">@daemon.Dto.DisplayName</span>
                             </td>
@@ -58,4 +58,24 @@
             </table>
         }
     }
+}
+
+@section Scripts
+{
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script language="javascript">
+        "use strict";
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/daemonHub").build();
+
+        connection.on("StateChanged", function (hostId, daemon, state) {
+            console.log(hostId, daemon, state);
+        });
+
+        connection.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+
+
+    </script>
 }

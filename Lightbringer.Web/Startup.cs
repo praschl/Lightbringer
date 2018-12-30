@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Configuration;
+using Lightbringer.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,8 @@ namespace Lightbringer.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSignalR();
         }
 
         // called by autofac initialization
@@ -60,6 +63,11 @@ namespace Lightbringer.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<DaemonHub>("/daemonHub"); 
+            });
 
             app.UseMvc(routes =>
             {
