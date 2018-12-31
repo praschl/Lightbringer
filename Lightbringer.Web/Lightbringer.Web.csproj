@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Lightbringer.Rest.Contract\Lightbringer.Rest.Contract.csproj" />
-    <ProjectReference Include="..\Lightbringer.Web.Store\Lightbringer.Web.Store.csproj" />
+    <ProjectReference Include="..\Lightbringer.Web.Core\Lightbringer.Web.Core.csproj" />
     <ProjectReference Include="..\Lightbringer.WebApi\Lightbringer.WebApi.csproj" />
   </ItemGroup>
 
