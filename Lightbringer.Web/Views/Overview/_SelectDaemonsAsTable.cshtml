@@ -1,4 +1,4 @@
-﻿@model IReadOnlyCollection<Lightbringer.Web.Store.DaemonVm>
+﻿@model IReadOnlyCollection<Lightbringer.Web.Store.ViewModels.DaemonVm>
 
 <table class="table table-striped table-borderless table-sm">
     <thead>
@@ -21,24 +21,24 @@
 
             <tr>
                 <td>
-                    <i class="fas fa-cogs text-primary" title="@item.Dto.ServiceType"></i>
+                    <i class="fas fa-cogs text-primary" title="@item.ServiceType"></i>
                 </td>
                 <td>
-                    <partial name="_ServiceStatePartial" model="@item.Dto.State" />
+                    <partial name="_ServiceStatePartial" model="@item.State" />
                 </td>
                 <td>
-                    <a data-toggle="collapse" href="#@descriptionId" role="button" aria-expanded="false" aria-controls="@descriptionId">@item.Dto.DisplayName</a>
+                    <a data-toggle="collapse" href="#@descriptionId" role="button" aria-expanded="false" aria-controls="@descriptionId">@item.DisplayName</a>
                     <div class="collapse pl-3 pr-3" id="@descriptionId">
-                        @item.Dto.Description
+                        @item.Description
                     </div>
                 </td>
                 <td>
-                    @item.Dto.ServiceName
+                    @item.ServiceName
                 </td>
                 <td>
                     <button class="btn btn-sm btn-primary"
                             style="@display;"
-                            onclick="overview.toggle(event, '@item.Dto.ServiceName');">
+                            onclick="overview.toggle(event, '@item.ServiceName');">
                         <i class="fas @check fa-fw"></i>
                     </button>   
                 </td>

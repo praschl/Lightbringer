@@ -1,4 +1,4 @@
-﻿@model IReadOnlyCollection<Lightbringer.Web.Store.DaemonVm>
+﻿@model IReadOnlyCollection<Lightbringer.Web.Store.ViewModels.DaemonVm>
 
 <div class="row">
 
@@ -14,22 +14,22 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6 lead">
-                            <i class="fas fa-cogs text-primary" title="@item.Dto.ServiceType"></i>
-                            <partial name="_ServiceStatePartial" model="@item.Dto.State"/>
+                            <i class="fas fa-cogs text-primary" title="@item.ServiceType"></i>
+                            <partial name="_ServiceStatePartial" model="@item.State"/>
                         </div>
                         <div class="col-sm-6 text-right">
                             <button class="btn btn-sm btn-primary"
                                     style="@display;"
-                                    onclick="overview.toggle(event, '@item.Dto.ServiceName');">
+                                    onclick="overview.toggle(event, '@item.ServiceName');">
                                 <i class="fas @check fa-fw"></i>
                             </button>                           
                         </div>
                     </div>
                 </div>
-                <div class="card-body" title="@item.Dto.ServiceName">
-                    <a data-toggle="collapse" href="#@descriptionId" role="button" aria-expanded="false" aria-controls="@descriptionId">@item.Dto.DisplayName</a>
+                <div class="card-body" title="@item.ServiceName">
+                    <a data-toggle="collapse" href="#@descriptionId" role="button" aria-expanded="false" aria-controls="@descriptionId">@item.DisplayName</a>
                     <div class="collapse" id="@descriptionId">
-                        @item.Dto.Description
+                        @item.Description
                     </div>
                 </div>
             </div>

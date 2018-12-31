@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Lightbringer.Web.Store;
+using Lightbringer.Web.Store.Store;
 
 namespace Lightbringer.Web
 {

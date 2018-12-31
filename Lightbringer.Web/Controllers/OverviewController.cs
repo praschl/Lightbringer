@@ -6,6 +6,8 @@ using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Configuration;
 using Lightbringer.Web.Models;
 using Lightbringer.Web.Store;
+using Lightbringer.Web.Store.Store;
+using Lightbringer.Web.Store.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lightbringer.Web.Controllers
@@ -98,8 +100,8 @@ namespace Lightbringer.Web.Controllers
 
                 var daemons = await GetDaemonDtos(serviceHost, model.Filter);
                 model.Daemons = daemons
-                    .OrderBy(d => d.Dto.DisplayName)
-                    .ThenBy(d => d.Dto.ServiceName)
+                    .OrderBy(d => d.DisplayName)
+                    .ThenBy(d => d.ServiceName)
                     .ToArray();
 
                 return View(model);
@@ -125,7 +127,7 @@ namespace Lightbringer.Web.Controllers
             var daemonApi = _restApiProvider.Get<IDaemonApi>(url);
 
             var daemons = (await daemonApi.FindDaemons(filter))
-                .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost.SubscribedServices));
+                .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost));
 
             return daemons;
         }

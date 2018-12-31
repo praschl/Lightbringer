@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lightbringer.Web.Store
+namespace Lightbringer.Web.Store.Store
 {
     public class ServiceHost
     {

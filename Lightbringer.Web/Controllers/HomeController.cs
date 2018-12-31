@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Models;
 using Lightbringer.Web.Store;
+using Lightbringer.Web.Store.Store;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lightbringer.Web.Controllers
@@ -46,7 +47,7 @@ namespace Lightbringer.Web.Controllers
                 await api.Notify(url);
 
                 var daemonVms = daemons
-                    .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost.SubscribedServices))
+                    .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost))
                     .ToArray();
 
                 return new ServiceHostViewModel {ServiceHost = serviceHost, Daemons = daemonVms};

@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lightbringer.Rest.Contract;
+﻿using Lightbringer.Rest.Contract;
+using Lightbringer.Web.Store.Store;
+using Lightbringer.Web.Store.ViewModels;
 
 namespace Lightbringer.Web.Store
 {
     public class DaemonDtoConverter : IDaemonDtoConverter
     {
-        public DaemonVm ToDaemonVm(DaemonDto dto, IReadOnlyCollection<string> subscribedServices)
+        public DaemonVm ToDaemonVm(DaemonDto dto, ServiceHost serviceHost)
         {
-            return new DaemonVm
-            {
-                Dto = dto,
-                Checked = subscribedServices?.Contains(dto.ServiceName) ?? false
-            };
+            var isChecked = serviceHost.SubscribedServices?.Contains(dto.ServiceName) ?? false;
+
+            return new DaemonVm(
+                serviceHost.Id, serviceHost.Name,
+                dto.ServiceType, dto.ServiceName, dto.DisplayName, dto.Description, dto.State,
+                isChecked
+            );
         }
     }
 }
