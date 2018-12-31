@@ -41,7 +41,7 @@
                                 <i class="fas fa-cogs text-primary lead" title="@daemon.ServiceType"></i>
                             </td>
                             <td>
-                                <partial name="_ServiceStatePartial" model="@daemon.State" />
+                                <partial name="_ServiceStatePartial" model="@daemon" />
                             </td>
 
                             <td>
@@ -62,20 +62,22 @@
 
 @section Scripts
 {
+    <script src="~/js/ChangeStateHandler.js"></script>
     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
     <script language="javascript">
         "use strict";
 
         var connection = new signalR.HubConnectionBuilder().withUrl("/daemonHub").build();
 
-        connection.on("StateChanged", function (hostId, daemon, state) {
-            console.log(hostId, daemon, state);
+        var changeStateHandler = new ChangeStateHandler();
+
+        connection.on("StateChanged", function (hostId, type, daemon, state) {
+            changeStateHandler.changeState(hostId, type, daemon, state);
         });
 
         connection.start().catch(function (err) {
             return console.error(err.toString());
         });
-
 
     </script>
 }

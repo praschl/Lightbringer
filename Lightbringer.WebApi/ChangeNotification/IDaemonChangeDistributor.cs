@@ -4,6 +4,6 @@ namespace Lightbringer.WebApi.ChangeNotification
 {
     public interface IDaemonChangeDistributor
     {
-        Task Distribute(string daemonName, string newState);
+        Task Distribute(string type, string daemonName, string newState);
     }
 }

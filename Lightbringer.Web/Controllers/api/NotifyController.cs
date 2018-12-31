@@ -18,9 +18,9 @@ namespace Lightbringer.Web.Controllers.api
 
         [HttpGet]
         [Route("changed")]
-        public async Task<IActionResult> Notify(int id, string daemon, string state)
+        public async Task<IActionResult> Notify(int id, string type, string daemon, string state)
         {
-            await _context.Clients.All.StateChanged(id, daemon, state);
+            await _context.Clients.All.StateChanged(id, type, daemon, state);
 
             return Ok();
         }

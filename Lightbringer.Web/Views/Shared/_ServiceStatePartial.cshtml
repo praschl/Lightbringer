@@ -1,9 +1,9 @@
 ﻿@using Lightbringer.Rest.Contract
-@model string
+@model Lightbringer.Web.Store.ViewModels.DaemonVm
 @{
     string faChar;
     string color;
-    switch (Model)
+    switch (Model.State)
     {
         case DaemonStates.Running:
             faChar = "fa-play";
@@ -18,8 +18,10 @@
             color = "badge-secondary";
             break;
     }
+
+    string id = $"{Model.HostId}-{Model.ServiceType}-{Model.ServiceName}";
 }
 
-<span class="badge @color badge-pill">
-    <i class="fas @faChar" title="@Model"></i>
+<span id="@id" class="badge @color badge-pill">
+    <i class="fas @faChar" title="@Model.State"></i>
 </span>

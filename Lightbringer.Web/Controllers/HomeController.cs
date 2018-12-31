@@ -43,7 +43,7 @@ namespace Lightbringer.Web.Controllers
 
                 // we pass this url to the Lightbringer.Service.
                 // when one of its daemons changes, it will notify us by calling this url.
-                var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/api/notify/changed?id={serviceHost.Id}&daemon={NotifyParameter.DaemonName}&state={NotifyParameter.State}";
+                var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/api/notify/changed?id={serviceHost.Id}&type={NotifyParameter.DaemonType}&daemon={NotifyParameter.DaemonName}&state={NotifyParameter.State}";
                 await api.Notify(url);
 
                 var daemonVms = daemons

@@ -16,11 +16,14 @@ namespace Lightbringer.WebApi.ChangeNotification
             _registeredUrls.Add(url);
         }
 
-        public async Task Distribute(string daemonName, string newState)
+        public async Task Distribute(string type, string daemonName, string newState)
         {
             foreach (var url in _registeredUrls)
             {
-                var formatted = url.Replace(NotifyParameter.DaemonName, daemonName).Replace(NotifyParameter.State, newState);
+                var formatted = url
+                    .Replace(NotifyParameter.DaemonType, type)
+                    .Replace(NotifyParameter.DaemonName, daemonName)
+                    .Replace(NotifyParameter.State, newState);
                 var result = await _client.GetAsync(formatted);
 
                 // TODO: check result... if not successful, remove url from notification / log

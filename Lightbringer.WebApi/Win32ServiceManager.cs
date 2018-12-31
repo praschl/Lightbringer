@@ -11,6 +11,8 @@ namespace Lightbringer.WebApi
 {
     public class Win32ServiceManager : IDaemonProvider
     {
+        private const string Win32ServiceType = "Win32Service";
+
         private readonly IDaemonChangeDistributor _daemonChangeDistributor;
         private readonly List<DaemonDto> _daemonDtos = new List<DaemonDto>();
 
@@ -64,7 +66,7 @@ namespace Lightbringer.WebApi
                     {
                         ServiceName = serviceController.ServiceName,
                         DisplayName = serviceController.DisplayName,
-                        ServiceType = "Win32 Service",
+                        ServiceType = Win32ServiceType,
                         Description = null,
                         State = GetState(serviceController.Status)
                     },
@@ -127,7 +129,7 @@ namespace Lightbringer.WebApi
             if (service != null)
                 service.State = GetState(state);
 
-            _daemonChangeDistributor.Distribute(serviceName, state);
+            _daemonChangeDistributor.Distribute(Win32ServiceType, serviceName, state);
         }
 
         private string GetState(string status)
