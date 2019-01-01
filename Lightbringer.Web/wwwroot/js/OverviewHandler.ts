@@ -1,6 +1,6 @@
 ﻿class OverviewHandler {
     
-    _serviceHostId: number;
+    private _serviceHostId: number;
 
     constructor(serviceHostId: number) {
         this._serviceHostId = serviceHostId;
