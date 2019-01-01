@@ -5,9 +5,9 @@ using Lightbringer.Web.Store.ViewModels;
 
 namespace Lightbringer.Web.Models
 {
-    public class ServiceHostViewModel
+    public class DaemonHostViewModel
     {
-        public ServiceHost ServiceHost { get; set; }
+        public DaemonHost DaemonHost { get; set; }
 
         public IReadOnlyCollection<DaemonVm> Daemons { get; set; }
 

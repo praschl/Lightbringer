@@ -1,6 +1,6 @@
-﻿@model IReadOnlyCollection<ServiceHostViewModel>
+﻿@model IReadOnlyCollection<DaemonHostViewModel>
 @{
-    ViewData["Title"] = "View running services";
+    ViewData["Title"] = "View running daemons";
 }
 
 <br />
@@ -10,7 +10,7 @@
     foreach (var daemonHost in Model)
     {
         <div class="row">
-            <h3 class="text-dark">@daemonHost.ServiceHost.Name</h3>
+            <h3 class="text-dark">@daemonHost.DaemonHost.Name</h3>
         </div>
 
         if (daemonHost.Error != null)
@@ -28,7 +28,7 @@
                         <th style="width: 1%;"></th>
                         <th style="width: 1%;"></th>
                         <th>Name</th>
-                        <th>Service Name</th>
+                        <th>Daemon Name</th>
                         <th style="width: 1%;"></th>
                     </tr>
                 </thead>
@@ -38,17 +38,17 @@
                     {
                         <tr>
                             <td>
-                                <i class="fas fa-cogs text-primary lead" title="@daemon.ServiceType"></i>
+                                <i class="fas fa-cogs text-primary lead" title="@daemon.DaemonType"></i>
                             </td>
                             <td>
-                                <partial name="_ServiceStatePartial" model="@daemon" />
+                                <partial name="_DaemonStatePartial" model="@daemon" />
                             </td>
 
                             <td>
                                 <span title="">@daemon.DisplayName</span>
                             </td>
                             <td>
-                                @daemon.ServiceName
+                                @daemon.DaemonName
                             </td>
                             <td></td>
                         </tr>

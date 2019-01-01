@@ -34,10 +34,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var OverviewHandler = /** @class */ (function () {
-    function OverviewHandler(serviceHostId) {
-        this._serviceHostId = serviceHostId;
+    function OverviewHandler(hostId) {
+        this._hostId = hostId;
     }
-    OverviewHandler.prototype.toggle = function (event, service) {
+    OverviewHandler.prototype.toggle = function (event, daemon) {
         return __awaiter(this, void 0, void 0, function () {
             var button, subscribeData, result;
             return __generator(this, function (_a) {
@@ -47,8 +47,8 @@ var OverviewHandler = /** @class */ (function () {
                         if (!button)
                             throw "could not get expected button from event.currentTarget";
                         subscribeData = JSON.stringify({
-                            serviceHostId: this._serviceHostId,
-                            serviceName: service
+                            hostId: this._hostId,
+                            name: daemon
                         });
                         return [4 /*yield*/, fetch('/api/subscribe', {
                                 method: "POST",

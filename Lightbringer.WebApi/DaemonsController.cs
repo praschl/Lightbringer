@@ -5,7 +5,6 @@ using Lightbringer.WebApi.ChangeNotification;
 
 namespace Lightbringer.WebApi
 {
-    // TODO: rework wording of "daemon" and "service" in whole solution
     // "Daemon" is anything displayed to the client. It can be a Win32 Service, Application Pool or a Process
     // "Service" should only be used for Win32 services
 

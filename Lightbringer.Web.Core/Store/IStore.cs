@@ -4,13 +4,13 @@ namespace Lightbringer.Web.Store.Store
 {
     public interface IStore
     {
-        ServiceHost Get(int id);
+        DaemonHost Get(int id);
 
-        ServiceHost Find(string url);
+        DaemonHost Find(string url);
 
-        void Upsert(ServiceHost serviceHost);
+        void Upsert(DaemonHost daemonHost);
 
-        IReadOnlyCollection<ServiceHost> FindAllHosts();
+        IReadOnlyCollection<DaemonHost> FindAllHosts();
 
         void Delete(int id);
     }

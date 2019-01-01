@@ -33,28 +33,28 @@ namespace Lightbringer.Web.Controllers
             return View(daemonHosts);
         }
 
-        private async Task<ServiceHostViewModel> GetDaemons(ServiceHost serviceHost)
+        private async Task<DaemonHostViewModel> GetDaemons(DaemonHost daemonHost)
         {
             try
             {
-                var api = _restApiProvider.Get<IDaemonApi>(serviceHost.Url);
+                var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
 
-                var daemons = await api.GetDaemons(serviceHost.SubscribedServices.ToArray());
+                var daemons = await api.GetDaemons(daemonHost.SubscribedDaemons.ToArray());
 
                 // we pass this url to the Lightbringer.Service.
                 // when one of its daemons changes, it will notify us by calling this url.
-                var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/api/notify/changed?id={serviceHost.Id}&type={NotifyParameter.DaemonType}&daemon={NotifyParameter.DaemonName}&state={NotifyParameter.State}";
+                var url = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/api/notify/changed?id={daemonHost.Id}&type={NotifyParameter.DaemonType}&daemon={NotifyParameter.DaemonName}&state={NotifyParameter.State}";
                 await api.Notify(url);
 
                 var daemonVms = daemons
-                    .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost))
+                    .Select(d => _daemonDtoConverter.ToDaemonVm(d, daemonHost))
                     .ToArray();
 
-                return new ServiceHostViewModel {ServiceHost = serviceHost, Daemons = daemonVms};
+                return new DaemonHostViewModel {DaemonHost = daemonHost, Daemons = daemonVms};
             }
             catch (Exception ex)
             {
-                return new ServiceHostViewModel {ServiceHost = serviceHost, Error = ex.Message};
+                return new DaemonHostViewModel {DaemonHost = daemonHost, Error = ex.Message};
             }
         }
 

@@ -2,12 +2,12 @@
 {
     public class DaemonVm // Vm ... part of a view model
     {
-        public DaemonVm(int hostId, string hostName, string serviceType, string serviceName, string displayName, string description, string state, bool @checked)
+        public DaemonVm(int hostId, string hostName, string daemonType, string daemonName, string displayName, string description, string state, bool @checked)
         {
             HostId = hostId;
             HostName = hostName;
-            ServiceType = serviceType;
-            ServiceName = serviceName;
+            DaemonType = daemonType;
+            DaemonName = daemonName;
             DisplayName = displayName;
             Description = description;
             State = state;
@@ -17,8 +17,8 @@
         public int HostId { get; set; }
         public string HostName { get; set; }
 
-        public string ServiceType { get; set; }
-        public string ServiceName { get; set; }
+        public string DaemonType { get; set; }
+        public string DaemonName { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public string State { get; set; }

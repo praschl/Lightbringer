@@ -14,19 +14,19 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-6 lead">
-                            <i class="fas fa-cogs text-primary" title="@item.ServiceType"></i>
-                            <partial name="_ServiceStatePartial" model="@item"/>
+                            <i class="fas fa-cogs text-primary" title="@item.DaemonType"></i>
+                            <partial name="_DaemonStatePartial" model="@item"/>
                         </div>
                         <div class="col-sm-6 text-right">
                             <button class="btn btn-sm btn-primary"
                                     style="@display;"
-                                    onclick="overview.toggle(event, '@item.ServiceName');">
+                                    onclick="overview.toggle(event, '@item.DaemonName');">
                                 <i class="fas @check fa-fw"></i>
                             </button>                           
                         </div>
                     </div>
                 </div>
-                <div class="card-body" title="@item.ServiceName">
+                <div class="card-body" title="@item.DaemonName">
                     <a data-toggle="collapse" href="#@descriptionId" role="button" aria-expanded="false" aria-controls="@descriptionId">@item.DisplayName</a>
                     <div class="collapse" id="@descriptionId">
                         @item.Description

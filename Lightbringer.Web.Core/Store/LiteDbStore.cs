@@ -28,43 +28,43 @@ namespace Lightbringer.Web.Store.Store
             }
         }
 
-        public ServiceHost Get(int id)
+        public DaemonHost Get(int id)
         {
             using (var db = CreateSession())
             {
-                var hosts = db.GetCollection<ServiceHost>();
+                var hosts = db.GetCollection<DaemonHost>();
 
-                var serviceHost = hosts.FindById(id);
+                var daemonHost = hosts.FindById(id);
                 
-                return serviceHost;
+                return daemonHost;
             }
         }
 
-        public ServiceHost Find(string url)
+        public DaemonHost Find(string url)
         {
             using (var db = CreateSession())
             {
-                var hosts = db.GetCollection<ServiceHost>();
+                var hosts = db.GetCollection<DaemonHost>();
 
                 return hosts.FindOne(sh => sh.Url == url);
             }
         }
 
-        public void Upsert(ServiceHost serviceHost)
+        public void Upsert(DaemonHost daemonHost)
         {
             using (var db = CreateSession())
             {
-                var hosts = db.GetCollection<ServiceHost>();
+                var hosts = db.GetCollection<DaemonHost>();
 
-                hosts.Upsert(serviceHost);
+                hosts.Upsert(daemonHost);
             }
         }
 
-        public IReadOnlyCollection<ServiceHost> FindAllHosts()
+        public IReadOnlyCollection<DaemonHost> FindAllHosts()
         {
             using (var db = CreateSession())
             {
-                var hosts = db.GetCollection<ServiceHost>().FindAll();
+                var hosts = db.GetCollection<DaemonHost>().FindAll();
 
                 return hosts.ToArray();
             }
@@ -74,7 +74,7 @@ namespace Lightbringer.Web.Store.Store
         {
             using (var db = CreateSession())
             {
-                var hosts = db.GetCollection<ServiceHost>();
+                var hosts = db.GetCollection<DaemonHost>();
 
                 hosts.Delete(id);
             }

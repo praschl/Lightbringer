@@ -37,21 +37,21 @@ namespace Lightbringer.Web.Controllers
         {
             var allHosts = _store().FindAllHosts();
 
-            var addServiceHostViewModel = new AddServiceHostViewModel
+            var addDaemonHostViewModel = new AddDaemonHostViewModel
             {
-                ServiceHosts = allHosts
+                Hosts = allHosts
             };
 
-            return View(addServiceHostViewModel);
+            return View(addDaemonHostViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddServiceHostUrl(AddServiceHostViewModel viewModel)
+        public async Task<IActionResult> AddDaemonHostUrl(AddDaemonHostViewModel viewModel)
         {
             try
             {
-                var url = viewModel.ServiceHostUrl;
+                var url = viewModel.DaemonHostUrl;
 
                 if (string.IsNullOrEmpty(url))
                     return RedirectToAction(nameof(Index));
@@ -61,23 +61,23 @@ namespace Lightbringer.Web.Controllers
                 var uri = new Uri(url); // try to parse url, if not valid, just fail.
                 url = uri.ToString();
 
-                var serviceHost = _store().Find(url);
-                if (serviceHost == null)
+                var daemonHost = _store().Find(url);
+                if (daemonHost == null)
                 {
                     var isAliveApi = _restApiProvider.Get<IIsAliveApi>(url);
 
                     await isAliveApi.Get();
 
-                    serviceHost = new ServiceHost
+                    daemonHost = new DaemonHost
                     {
-                        Name = viewModel.ServiceHostUrl,
+                        Name = viewModel.DaemonHostUrl,
                         Url = url
                     };
 
-                    _store().Upsert(serviceHost);
+                    _store().Upsert(daemonHost);
                 }
 
-                return RedirectToAction(nameof(ListServices), new {serviceHostId = serviceHost.Id});
+                return RedirectToAction(nameof(ListDaemons), new {hostId = daemonHost.Id});
             }
             catch (Exception ex)
             {
@@ -87,28 +87,28 @@ namespace Lightbringer.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListServices(int serviceHostId, string filter = null, string viewType = null)
+        public async Task<IActionResult> ListDaemons(int hostId, string filter = null, string viewType = null)
         {
             try
             {
-                var serviceHost = _store().Get(serviceHostId);
+                var daemonHost = _store().Get(hostId);
 
-                if (serviceHost == null)
+                if (daemonHost == null)
                     return NotFound();
 
-                var model = new ListServicesViewModel { ServiceHostId = serviceHostId, Filter = filter, ViewType = viewType ?? "cards" };
+                var model = new ListDaemonsViewModel { HostId = hostId, Filter = filter, ViewType = viewType ?? "cards" };
 
-                var daemons = await GetDaemonDtos(serviceHost, model.Filter);
+                var daemons = await GetDaemonDtos(daemonHost, model.Filter);
                 model.Daemons = daemons
                     .OrderBy(d => d.DisplayName)
-                    .ThenBy(d => d.ServiceName)
+                    .ThenBy(d => d.DaemonName)
                     .ToArray();
 
                 return View(model);
             }
             catch (Exception ex)
             {
-                return View(new ListServicesViewModel {Error = ex.Message});
+                return View(new ListDaemonsViewModel {Error = ex.Message});
             }
         }
 
@@ -120,14 +120,14 @@ namespace Lightbringer.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private async Task<IEnumerable<DaemonVm>> GetDaemonDtos(ServiceHost serviceHost, string filter)
+        private async Task<IEnumerable<DaemonVm>> GetDaemonDtos(DaemonHost daemonHost, string filter)
         {
-            var url = serviceHost.Url;
+            var url = daemonHost.Url;
 
             var daemonApi = _restApiProvider.Get<IDaemonApi>(url);
 
             var daemons = (await daemonApi.FindDaemons(filter))
-                .Select(d => _daemonDtoConverter.ToDaemonVm(d, serviceHost));
+                .Select(d => _daemonDtoConverter.ToDaemonVm(d, daemonHost));
 
             return daemons;
         }

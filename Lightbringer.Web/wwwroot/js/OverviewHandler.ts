@@ -1,12 +1,12 @@
 ﻿class OverviewHandler {
     
-    private _serviceHostId: number;
+    private _hostId: number;
 
-    constructor(serviceHostId: number) {
-        this._serviceHostId = serviceHostId;
+    constructor(hostId: number) {
+        this._hostId = hostId;
     }
     
-    async toggle(event: MouseEvent, service: string) {
+    async toggle(event: MouseEvent, daemon: string) {
 
         const button = (event.currentTarget) as HTMLButtonElement;
         if (!button)
@@ -14,8 +14,8 @@
 
         const subscribeData = JSON.stringify(
             {
-                serviceHostId: this._serviceHostId,
-                serviceName: service
+                hostId: this._hostId,
+                name: daemon
             });
 
         const result = await fetch('/api/subscribe',

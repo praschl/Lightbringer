@@ -16,19 +16,19 @@ namespace Lightbringer.Web.Controllers.api
         }
 
         [HttpPost]
-        public IActionResult Toggle(ToggleParameter parameter)
+        public IActionResult Toggle(ToggleDaemonParameter toggleDaemon)
         {
-            var serviceHost = _store.Get(parameter.ServiceHostId);
-            if (serviceHost == null)
+            var host = _store.Get(toggleDaemon.HostId);
+            if (host == null)
                 return NotFound();
 
-            var index = serviceHost.SubscribedServices.IndexOf(parameter.ServiceName);
+            var index = host.SubscribedDaemons.IndexOf(toggleDaemon.Name);
             if (index >= 0)
-                serviceHost.SubscribedServices.RemoveAt(index);
+                host.SubscribedDaemons.RemoveAt(index);
             else
-                serviceHost.SubscribedServices.Add(parameter.ServiceName);
+                host.SubscribedDaemons.Add(toggleDaemon.Name);
 
-            _store.Upsert(serviceHost);
+            _store.Upsert(host);
 
             var isNowSubscribed = index < 0;
 

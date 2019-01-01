@@ -2,12 +2,12 @@
 
 namespace Lightbringer.Web.Store.Store
 {
-    public class ServiceHost
+    public class DaemonHost
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
 
-        public List<string> SubscribedServices { get; set; }= new List<string>();
+        public List<string> SubscribedDaemons { get; set; }= new List<string>();
     }
 }

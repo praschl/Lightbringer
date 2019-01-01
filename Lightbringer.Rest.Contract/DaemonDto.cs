@@ -2,11 +2,11 @@
 {
     public class DaemonDto
     {
-        public string ServiceName { get; set; }
+        public string DaemonName { get; set; }
 
         public string DisplayName { get; set; }
 
-        public string ServiceType { get; set; }
+        public string DaemonType { get; set; }
 
         public string Description { get; set; }
 

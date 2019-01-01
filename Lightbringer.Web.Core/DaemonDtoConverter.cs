@@ -6,13 +6,13 @@ namespace Lightbringer.Web.Store
 {
     public class DaemonDtoConverter : IDaemonDtoConverter
     {
-        public DaemonVm ToDaemonVm(DaemonDto dto, ServiceHost serviceHost)
+        public DaemonVm ToDaemonVm(DaemonDto dto, DaemonHost daemonHost)
         {
-            var isChecked = serviceHost.SubscribedServices?.Contains(dto.ServiceName) ?? false;
+            var isChecked = daemonHost.SubscribedDaemons?.Contains(dto.DaemonName) ?? false;
 
             return new DaemonVm(
-                serviceHost.Id, serviceHost.Name,
-                dto.ServiceType, dto.ServiceName, dto.DisplayName, dto.Description, dto.State,
+                daemonHost.Id, daemonHost.Name,
+                dto.DaemonType, dto.DaemonName, dto.DisplayName, dto.Description, dto.State,
                 isChecked
             );
         }

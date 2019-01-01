@@ -6,6 +6,6 @@ namespace Lightbringer.Web.Store
 {
     public interface IDaemonDtoConverter
     {
-        DaemonVm ToDaemonVm(DaemonDto dto, ServiceHost serviceHost);
+        DaemonVm ToDaemonVm(DaemonDto dto, DaemonHost daemonHost);
     }
 }

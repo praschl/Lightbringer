@@ -7,6 +7,6 @@ namespace Lightbringer.WebApi
     public interface IDaemonProvider
     {
         Task<IEnumerable<DaemonDto>> FindDaemonsAsync(string contains);
-        Task<IEnumerable<DaemonDto>> GetDaemonsAsync(string[] serviceNames);
+        Task<IEnumerable<DaemonDto>> GetDaemonsAsync(string[] daemonNames);
     }
 }

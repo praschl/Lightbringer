@@ -64,9 +64,9 @@ namespace Lightbringer.WebApi
                     // TODO: return DependentServices and ServiceDependsOn, too, these will be required for stopping and starting.
                     DaemonDto = new DaemonDto
                     {
-                        ServiceName = serviceController.ServiceName,
+                        DaemonName = serviceController.ServiceName,
                         DisplayName = serviceController.DisplayName,
-                        ServiceType = Win32ServiceType,
+                        DaemonType = Win32ServiceType,
                         Description = null,
                         State = GetState(serviceController.Status)
                     },
@@ -96,16 +96,16 @@ namespace Lightbringer.WebApi
 
             if (!string.IsNullOrWhiteSpace(contains))
                 dtos = dtos.Where(d =>
-                    d.ServiceName.IndexOf(contains, StringComparison.OrdinalIgnoreCase) >= 0
+                    d.DaemonName.IndexOf(contains, StringComparison.OrdinalIgnoreCase) >= 0
                     || d.DisplayName.IndexOf(contains, StringComparison.OrdinalIgnoreCase) >= 0
                 );
 
             return Task.FromResult(dtos);
         }
 
-        public Task<IEnumerable<DaemonDto>> GetDaemonsAsync(string[] serviceNames)
+        public Task<IEnumerable<DaemonDto>> GetDaemonsAsync(string[] daemonNames)
         {
-            var result = _daemonDtos.Where(d => serviceNames.Contains(d.ServiceName));
+            var result = _daemonDtos.Where(d => daemonNames.Contains(d.DaemonName));
 
             return Task.FromResult(result);
         }
@@ -125,7 +125,7 @@ namespace Lightbringer.WebApi
             var serviceName = (string) serviceObject.Properties["Name"].Value;
             var state = (string) serviceObject.Properties["State"].Value;
 
-            var service = _daemonDtos.FirstOrDefault(s => s.ServiceName == serviceName);
+            var service = _daemonDtos.FirstOrDefault(s => s.DaemonName == serviceName);
             if (service != null)
                 service.State = GetState(state);
 
