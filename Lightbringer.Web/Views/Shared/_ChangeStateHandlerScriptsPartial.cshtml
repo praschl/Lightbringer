@@ -1,0 +1,25 @@
+﻿<environment include="Development">
+    <script src="~/lib/signalr/dist/browser/signalr.js" asp-append-version="true"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+</environment>
+
+<script src="~/js/ChangeStateHandler.js" asp-append-version="true"></script>
+<script language="javascript">
+    "use strict";
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/daemonHub").build();
+
+    var changeStateHandler = new ChangeStateHandler();
+
+    connection.on("StateChanged",
+        function (hostId, type, daemon, state) {
+            changeStateHandler.changeState(hostId, type, daemon, state);
+        });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+
+</script>

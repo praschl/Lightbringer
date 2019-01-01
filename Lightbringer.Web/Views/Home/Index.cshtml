@@ -62,22 +62,5 @@
 
 @section Scripts
 {
-    <script src="~/js/ChangeStateHandler.js"></script>
-    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
-    <script language="javascript">
-        "use strict";
-
-        var connection = new signalR.HubConnectionBuilder().withUrl("/daemonHub").build();
-
-        var changeStateHandler = new ChangeStateHandler();
-
-        connection.on("StateChanged", function (hostId, type, daemon, state) {
-            changeStateHandler.changeState(hostId, type, daemon, state);
-        });
-
-        connection.start().catch(function (err) {
-            return console.error(err.toString());
-        });
-
-    </script>
+    <partial name="_ChangeStateHandlerScriptsPartial" />
 }
