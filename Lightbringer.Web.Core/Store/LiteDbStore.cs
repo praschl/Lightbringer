@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using LiteDB;
 
-namespace Lightbringer.Web.Store.Store
+namespace Lightbringer.Web.Core.Store
 {
     public class LiteDbStore : IStore
     {

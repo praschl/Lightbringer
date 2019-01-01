@@ -1,8 +1,8 @@
 ﻿using Lightbringer.Rest.Contract;
-using Lightbringer.Web.Store.Store;
-using Lightbringer.Web.Store.ViewModels;
+using Lightbringer.Web.Core.Store;
+using Lightbringer.Web.Core.ViewModels;
 
-namespace Lightbringer.Web.Store
+namespace Lightbringer.Web.Core
 {
     public class DaemonDtoConverter : IDaemonDtoConverter
     {

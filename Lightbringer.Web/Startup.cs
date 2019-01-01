@@ -1,14 +1,14 @@
 ﻿using Autofac;
 using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Configuration;
+using Lightbringer.Web.Core;
+using Lightbringer.Web.Core.Store;
 using Lightbringer.Web.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Lightbringer.Web.Store;
-using Lightbringer.Web.Store.Store;
 
 namespace Lightbringer.Web
 {

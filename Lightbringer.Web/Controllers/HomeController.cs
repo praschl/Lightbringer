@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
+using Lightbringer.Web.Core;
+using Lightbringer.Web.Core.Store;
 using Lightbringer.Web.Models;
-using Lightbringer.Web.Store;
-using Lightbringer.Web.Store.Store;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lightbringer.Web.Controllers

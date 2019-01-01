@@ -1,5 +1,4 @@
-﻿using Lightbringer.Web.Store;
-using Lightbringer.Web.Store.Store;
+﻿using Lightbringer.Web.Core.Store;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lightbringer.Web.Controllers.api

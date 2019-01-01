@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using RestEase;
 
-namespace Lightbringer.Web.Store
+namespace Lightbringer.Web.Core
 {
     public class RestApiProvider : IRestApiProvider
     {

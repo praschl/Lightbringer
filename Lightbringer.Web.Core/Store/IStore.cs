@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lightbringer.Web.Store.Store
+namespace Lightbringer.Web.Core.Store
 {
     public interface IStore
     {

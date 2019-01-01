@@ -1,4 +1,4 @@
-﻿namespace Lightbringer.Web.Store
+﻿namespace Lightbringer.Web.Core
 {
     public interface IRestApiProvider
     {

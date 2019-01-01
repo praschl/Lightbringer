@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Lightbringer.Web.Store;
-using Lightbringer.Web.Store.Store;
-using Lightbringer.Web.Store.ViewModels;
+using Lightbringer.Web.Core.Store;
+using Lightbringer.Web.Core.ViewModels;
 
 namespace Lightbringer.Web.Models
 {

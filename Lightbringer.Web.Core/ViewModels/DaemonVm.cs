@@ -1,4 +1,4 @@
-﻿namespace Lightbringer.Web.Store.ViewModels
+﻿namespace Lightbringer.Web.Core.ViewModels
 {
     public class DaemonVm // Vm ... part of a view model
     {

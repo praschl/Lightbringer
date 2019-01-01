@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Configuration;
+using Lightbringer.Web.Core;
+using Lightbringer.Web.Core.Store;
+using Lightbringer.Web.Core.ViewModels;
 using Lightbringer.Web.Models;
-using Lightbringer.Web.Store;
-using Lightbringer.Web.Store.Store;
-using Lightbringer.Web.Store.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lightbringer.Web.Controllers
