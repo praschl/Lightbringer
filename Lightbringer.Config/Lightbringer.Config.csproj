@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="AutofacServiceProviderAdapter.cs" />
     <Compile Include="CoreRegistrationModule.cs" />
+    <Compile Include="InterceptionExtensions.cs" />
     <Compile Include="LightbringerServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

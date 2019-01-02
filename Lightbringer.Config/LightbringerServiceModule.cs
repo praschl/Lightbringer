@@ -15,10 +15,12 @@ namespace Lightbringer.Config
                 .OnActivating(c => c.Instance.ServiceName = "LightbringerServiceHost");
             
             builder.RegisterType<Win32ServiceManager>()
+                .InterceptInterfaces()
                 .AsImplementedInterfaces()
                 .SingleInstance();
 
             builder.RegisterType<DaemonChangeNotifier>()
+                .InterceptInterfaces()
                 .AsImplementedInterfaces()
                 .SingleInstance();
         }
