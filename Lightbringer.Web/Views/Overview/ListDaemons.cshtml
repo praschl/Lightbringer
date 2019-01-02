@@ -17,7 +17,7 @@
     </div>
 }
 
-@if (Model.Daemons != null && Model.Daemons.Any())
+@if (Model.Daemons != null)
 {
     <div class="row">
         <div class="col-8">
@@ -53,13 +53,16 @@
         </div>
     </div>
 
-    if (Model.ViewType == "cards")
+    if (Model.Daemons.Any())
     {
-        <partial name="_SelectDaemonsAsCards" model="@Model.Daemons" />
-    }
-    else
-    {
-        <partial name="_SelectDaemonsAsTable" model="@Model.Daemons" />
+        if (Model.ViewType == "cards")
+        {
+            <partial name="_SelectDaemonsAsCards" model="@Model.Daemons"/>
+        }
+        else
+        {
+            <partial name="_SelectDaemonsAsTable" model="@Model.Daemons"/>
+        }
     }
 }
 

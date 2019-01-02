@@ -1,0 +1,12 @@
+﻿Install
+- IIS
+-- Basic authentication (Standardauthentfizierung)
+- IIS Management Console (Webverwaltungstools / IIS-Verwaltungskonsole)
+
+Debugging:
+In
+	<aspNetCore ... >
+add the following or change the value to from Production to Development
+	<environmentVariables>
+		<environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Development" />
+	</environmentVariables>
