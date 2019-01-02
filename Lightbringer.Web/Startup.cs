@@ -36,12 +36,21 @@ namespace Lightbringer.Web
             services.AddSignalR();
         }
 
+        public class Test
+        {
+            public string Name { get; set; }
+            public int Valu { get; set; }
+        }
+
         // called by autofac initialization
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            var conf = Configuration["WebApi.Url.Template"];
-            builder.Register(c => new LightbringerConfiguration {WebApiUrlTemplate = conf}).SingleInstance();
-            
+            var webApiUrlTemplate = Configuration["WebApi.Url.Template"];
+            builder.Register(c => new LightbringerConfiguration {WebApiUrlTemplate = webApiUrlTemplate}).SingleInstance();
+
+            var liteDbConfig = Configuration.GetSection("liteDb").Get<LiteDbStoreConfiguration>() ?? new LiteDbStoreConfiguration();
+            builder.Register(c => liteDbConfig).SingleInstance();
+
             builder.RegisterType<RestApiProvider>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<LiteDbStore>().AsImplementedInterfaces();

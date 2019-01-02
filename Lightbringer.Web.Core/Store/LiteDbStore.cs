@@ -8,14 +8,24 @@ namespace Lightbringer.Web.Core.Store
 {
     public class LiteDbStore : IStore
     {
-        private static string _fullDbPath;
+        private readonly LiteDbStoreConfiguration _config;
 
-        private static string GetFullDbPath
+        public LiteDbStore(LiteDbStoreConfiguration config)
+        {
+            _config = config;
+        }
+
+        private string _fullDbPath;
+
+        private string GetFullDbPath
         {
             get
             {
                 if (_fullDbPath == null)
                 {
+                    if (!string.IsNullOrEmpty(_config.DbPath))
+                        return _config.DbPath;
+
                     var pathToDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "lightbringer\\db\\");
                     if (!Directory.Exists(pathToDb))
                         Directory.CreateDirectory(pathToDb);
