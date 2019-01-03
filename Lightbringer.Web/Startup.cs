@@ -1,8 +1,4 @@
-﻿using System.Linq;
-using Autofac;
-using Autofac.Core;
-using Autofac.Extras.DynamicProxy2;
-using Lightbringer.Rest.Contract;
+﻿using Autofac;
 using Lightbringer.Web.Configuration;
 using Lightbringer.Web.Core;
 using Lightbringer.Web.Core.Store;
