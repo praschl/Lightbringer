@@ -1,9 +1,9 @@
-﻿using Castle.DynamicProxy;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
+using Castle.DynamicProxy;
 using NLog;
 
-namespace MiP.Core.Logging
+namespace Lightbringer.Web.Core
 {
     public class LoggerInterceptor : IInterceptor
     {

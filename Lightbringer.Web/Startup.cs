@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System.Linq;
+using Autofac;
+using Autofac.Core;
+using Autofac.Extras.DynamicProxy2;
 using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Configuration;
 using Lightbringer.Web.Core;
@@ -36,15 +39,11 @@ namespace Lightbringer.Web
             services.AddSignalR();
         }
 
-        public class Test
-        {
-            public string Name { get; set; }
-            public int Valu { get; set; }
-        }
-
         // called by autofac initialization
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            builder.RegisterType<LoggerInterceptor>().AsSelf();
+
             var webApiUrlTemplate = Configuration["WebApi.Url.Template"];
             builder.Register(c => new LightbringerConfiguration {WebApiUrlTemplate = webApiUrlTemplate}).SingleInstance();
 
@@ -53,9 +52,13 @@ namespace Lightbringer.Web
 
             builder.RegisterType<RestApiProvider>().AsImplementedInterfaces().SingleInstance();
 
-            builder.RegisterType<LiteDbStore>().AsImplementedInterfaces();
+            builder.RegisterType<LiteDbStore>()
+                .InterceptInterfaces()
+                .AsImplementedInterfaces();
 
-            builder.RegisterType<DaemonDtoConverter>().AsImplementedInterfaces();
+            builder.RegisterType<DaemonDtoConverter>()
+                .InterceptInterfaces()
+                .AsImplementedInterfaces();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,20 +7,23 @@ using Lightbringer.Web.Core;
 using Lightbringer.Web.Core.Store;
 using Lightbringer.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Lightbringer.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IDaemonDtoConverter _daemonDtoConverter;
+        private readonly ILogger<HomeController> _logger;
         private readonly IRestApiProvider _restApiProvider;
         private readonly Func<IStore> _store;
 
-        public HomeController(Func<IStore> store, IRestApiProvider restApiProvider, IDaemonDtoConverter daemonDtoConverter)
+        public HomeController(Func<IStore> store, IRestApiProvider restApiProvider, IDaemonDtoConverter daemonDtoConverter, ILogger<HomeController> logger)
         {
             _store = store;
             _restApiProvider = restApiProvider;
             _daemonDtoConverter = daemonDtoConverter;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()

@@ -5,12 +5,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Castle.Core" Version="4.3.1" />
+    <PackageReference Include="Common.Logging" Version="3.4.1" />
     <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="NLog" Version="4.5.11" />
     <PackageReference Include="RestEase" Version="1.4.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lightbringer.Rest.Contract\Lightbringer.Rest.Contract.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>C:\Users\ich\.nuget\packages\autofac\4.6.1\lib\netstandard1.1\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extras.DynamicProxy2">
+      <HintPath>..\packages\Autofac.Extras.DynamicProxy2.3.0.7\lib\net40\Autofac.Extras.DynamicProxy2.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
