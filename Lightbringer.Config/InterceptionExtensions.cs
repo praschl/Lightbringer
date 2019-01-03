@@ -1,5 +1,5 @@
 ﻿using Autofac.Builder;
-using Autofac.Extras.DynamicProxy2;
+using Autofac.Extras.DynamicProxy;
 using MiP.Core.Logging;
 
 namespace Lightbringer.Config
