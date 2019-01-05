@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Core;
 using Lightbringer.Web.Core.Store;
@@ -12,9 +11,9 @@ namespace Lightbringer.Web.Controllers.api
     [ApiController]
     public class ManageDaemonController : ControllerBase
     {
+        private readonly ILogger<ManageDaemonController> _log;
         private readonly IRestApiProvider _restApiProvider;
         private readonly IStore _store;
-        private readonly ILogger<ManageDaemonController> _log;
 
         public ManageDaemonController(IRestApiProvider restApiProvider, IStore store, ILogger<ManageDaemonController> log)
         {
@@ -38,16 +37,11 @@ namespace Lightbringer.Web.Controllers.api
 
                 var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
 
-                try
-                {
-                    _log.LogInformation("Sending Start to {0}-{1}...", type, daemon);
-                    await api.Start(type, daemon);
-                }
-                catch (Exception ex)
-                {
-                    _log.LogError(ex, "Sending Start to {0}-{1} failed.", type, daemon);
-                    throw;
-                }
+
+                _log.LogInformation("Sending Start to {0}-{1}...", type, daemon);
+                await api.Start(type, daemon)
+                    .ContinueWith(t => _log.LogWarning(t.Exception, "Sending start to {0}-{1} failed.", type, daemon),
+                        TaskContinuationOptions.OnlyOnFaulted);
             }
 
             return Ok();
@@ -68,16 +62,10 @@ namespace Lightbringer.Web.Controllers.api
 
                 var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
 
-                try
-                {
-                    _log.LogInformation("Sending Stop to {0}-{1}...", type, daemon);
-                    await api.Stop(type, daemon);
-                }
-                catch (Exception ex)
-                {
-                    _log.LogError(ex, "Sending Stop to {0}-{1} failed.", type, daemon);
-                    throw;
-                }
+                _log.LogInformation("Sending Stop to {0}-{1}...", type, daemon);
+                await api.Stop(type, daemon)
+                    .ContinueWith(t => _log.LogWarning(t.Exception, "Sending stop to {0}-{1} failed.", type, daemon),
+                        TaskContinuationOptions.OnlyOnFaulted);
             }
 
             return Ok();
