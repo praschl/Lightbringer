@@ -26,23 +26,18 @@ namespace Lightbringer.Web.Controllers.api
         [Route("start")]
         public async Task<IActionResult> Start(int id, string type, string daemon)
         {
-            var hosts = _store.FindAllHosts();
+            var daemonHost = _store.Get(id);
 
-            // TODO: use Parallel.Foreach here?
-            foreach (var daemonHost in hosts)
-            {
-                // TODO: OK as long as we only have Win32 services
-                if (!daemonHost.SubscribedDaemons.Contains(daemon))
-                    continue;
+            // TODO: OK as long as we only have Win32 services
+            if (!daemonHost.SubscribedDaemons.Contains(daemon))
+                return BadRequest();
 
-                var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
-
-
-                _log.LogInformation("Sending Start to {0}-{1}...", type, daemon);
-                await api.Start(type, daemon)
-                    .ContinueWith(t => _log.LogWarning(t.Exception, "Sending start to {0}-{1} failed.", type, daemon),
-                        TaskContinuationOptions.OnlyOnFaulted);
-            }
+            var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
+            
+            _log.LogInformation("Sending Start to {0}-{1}...", type, daemon);
+            await api.Start(type, daemon)
+                .ContinueWith(t => _log.LogWarning(t.Exception, "Sending start to {0}-{1} failed.", type, daemon),
+                    TaskContinuationOptions.OnlyOnFaulted);
 
             return Ok();
         }
@@ -51,22 +46,18 @@ namespace Lightbringer.Web.Controllers.api
         [Route("stop")]
         public async Task<IActionResult> Stop(int id, string type, string daemon)
         {
-            var hosts = _store.FindAllHosts();
+            var daemonHost = _store.Get(id);
 
-            // TODO: use Parallel.Foreach here?
-            foreach (var daemonHost in hosts)
-            {
-                // TODO: OK as long as we only have Win32 services
-                if (!daemonHost.SubscribedDaemons.Contains(daemon))
-                    continue;
+            // TODO: OK as long as we only have Win32 services
+            if (!daemonHost.SubscribedDaemons.Contains(daemon))
+                return BadRequest();
 
-                var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
+            var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
 
-                _log.LogInformation("Sending Stop to {0}-{1}...", type, daemon);
-                await api.Stop(type, daemon)
-                    .ContinueWith(t => _log.LogWarning(t.Exception, "Sending stop to {0}-{1} failed.", type, daemon),
-                        TaskContinuationOptions.OnlyOnFaulted);
-            }
+            _log.LogInformation("Sending Stop to {0}-{1}...", type, daemon);
+            await api.Stop(type, daemon)
+                .ContinueWith(t => _log.LogWarning(t.Exception, "Sending stop to {0}-{1} failed.", type, daemon),
+                    TaskContinuationOptions.OnlyOnFaulted);
 
             return Ok();
         }
