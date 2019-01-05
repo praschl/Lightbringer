@@ -72,7 +72,7 @@ namespace Lightbringer.WebApi
                     },
                     ServiceController = serviceController
                 });
-
+                
                 foreach (var daemonController in daemonControllers)
                 {
                     _daemonDtos.Add(daemonController.DaemonDto);

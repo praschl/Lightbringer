@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Common.Logging;
 using Lightbringer.Rest.Contract;
 
 namespace Lightbringer.WebApi.ChangeNotification
 {
     public class DaemonChangeNotifier : IDaemonChangeDistributor, IDaemonChangeCallbackRegistry
     {
+        private static readonly ILog _log = LogManager.GetLogger<DaemonChangeNotifier>();
+
         private readonly HttpClient _client = new HttpClient(new HttpClientHandler { UseDefaultCredentials = true });
 
         private readonly HashSet<string> _registeredUrls = new HashSet<string>();
@@ -24,9 +27,16 @@ namespace Lightbringer.WebApi.ChangeNotification
                     .Replace(NotifyParameter.DaemonType, type)
                     .Replace(NotifyParameter.DaemonName, daemonName)
                     .Replace(NotifyParameter.State, newState);
-                var result = await _client.GetAsync(formatted);
 
-                // TODO: check result... if not successful, remove url from notification / log
+                _log.DebugFormat("notifying url {0}", formatted);
+                var result = await _client.GetAsync(formatted);
+                _log.DebugFormat("notify done");
+
+                if (!result.IsSuccessStatusCode)
+                {
+                    _log.WarnFormat("Could not notify {0}, reason: {1}", formatted, result.ReasonPhrase);
+                    // TODO: maybe remove this url, when it returns too many errors?
+                }
             }
         }
     }
