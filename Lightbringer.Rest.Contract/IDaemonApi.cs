@@ -3,7 +3,8 @@ using RestEase;
 
 namespace Lightbringer.Rest.Contract
 {
-    // TODO: remove the interfaces and dependency on RestEase from this project.
+    // TODO: 1 move interfaces to .Web
+    // TODO: 2 remove dependency on RestEase from this project.
     
     // TODO: integrate IsAlive into this IDaemonApi + Controller
 
@@ -17,5 +18,11 @@ namespace Lightbringer.Rest.Contract
 
         [Get("daemons/notify")]
         Task Notify(string url);
+
+        [Get("daemons/start")]
+        Task Start(string type, string name);
+
+        [Get("daemons/stop")]
+        Task Stop(string type, string name);
     }
 }
