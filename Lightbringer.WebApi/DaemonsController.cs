@@ -50,5 +50,27 @@ namespace Lightbringer.WebApi
 
             return Ok();
         }
+
+        [HttpGet]
+        [Route("start")]
+        public async Task<IHttpActionResult> Start(string type, string name)
+        {
+            // ignoring type for now since we currently only have Win32 services
+
+            await _daemonProvider.StartAsync(name);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("stop")]
+        public async Task<IHttpActionResult> Stop(string type, string name)
+        {
+            // ignoring type for now since we currently only have Win32 services
+
+            await _daemonProvider.StopAsync(name);
+
+            return Ok();
+        }
     }
 }

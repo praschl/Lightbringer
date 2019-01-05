@@ -8,5 +8,8 @@ namespace Lightbringer.WebApi
     {
         Task<IEnumerable<DaemonDto>> FindDaemonsAsync(string contains);
         Task<IEnumerable<DaemonDto>> GetDaemonsAsync(string[] daemonNames);
+
+        Task StartAsync(string daemonName);
+        Task StopAsync(string daemonName);
     }
 }
