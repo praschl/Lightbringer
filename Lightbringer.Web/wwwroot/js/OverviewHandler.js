@@ -37,6 +37,7 @@ var OverviewHandler = /** @class */ (function () {
     function OverviewHandler(hostId) {
         this._hostId = hostId;
     }
+    // TODO: get daemon from button custom attribute "daemon-name"
     OverviewHandler.prototype.toggle = function (event, daemon) {
         return __awaiter(this, void 0, void 0, function () {
             var button, subscribeData, result;
@@ -50,11 +51,11 @@ var OverviewHandler = /** @class */ (function () {
                             hostId: this._hostId,
                             name: daemon
                         });
-                        return [4 /*yield*/, fetch('/api/subscribe', {
+                        return [4 /*yield*/, fetch("/api/subscribe", {
                                 method: "POST",
                                 headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
+                                    "Accept": "application/json",
+                                    "Content-Type": "application/json"
                                 },
                                 body: subscribeData
                             })

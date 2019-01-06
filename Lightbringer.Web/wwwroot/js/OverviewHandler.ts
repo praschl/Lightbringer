@@ -5,7 +5,8 @@
     constructor(hostId: number) {
         this._hostId = hostId;
     }
-    
+
+    // TODO: get daemon from button custom attribute "daemon-name"
     async toggle(event: MouseEvent, daemon: string) {
 
         const button = (event.currentTarget) as HTMLButtonElement;
@@ -18,12 +19,12 @@
                 name: daemon
             });
 
-        const result = await fetch('/api/subscribe',
+        const result = await fetch("/api/subscribe",
                 {
                     method: "POST",
                     headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
                     },
                     body: subscribeData
                 })

@@ -6,13 +6,23 @@ var StartStopHandler = /** @class */ (function () {
         var id = button.getAttribute("daemon-id");
         return id;
     };
+    StartStopHandler.prototype.parse = function (id) {
+        return id.split("-");
+    };
+    StartStopHandler.prototype.send = function (command, host, type, daemon) {
+        fetch("api/managedaemon/" + command + "?id=" + host + "&type=" + type + "&daemon=" + daemon)
+            .then(function (r) { return r.json(); })
+            .catch(function (r) { return console.log(r); });
+    };
     StartStopHandler.prototype.start = function (event) {
         var fullId = this.getDaemonId(event);
-        console.log("start click " + fullId);
+        var parsed = this.parse(fullId);
+        this.send("start", parsed[0], parsed[1], parsed[2]);
     };
     StartStopHandler.prototype.stop = function (event) {
         var fullId = this.getDaemonId(event);
-        console.log("stop click " + fullId);
+        var parsed = this.parse(fullId);
+        this.send("stop", parsed[0], parsed[1], parsed[2]);
     };
     StartStopHandler.prototype.initialize = function () {
         var _this = this;
