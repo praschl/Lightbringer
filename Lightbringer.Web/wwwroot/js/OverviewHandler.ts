@@ -18,12 +18,12 @@
                 name: daemon
             });
 
-        const result = await fetch('/api/subscribe',
+        const result = await fetch("/api/subscribe",
                 {
                     method: "POST",
                     headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        "Accept": "application/json",
+                        "Content-Type": "application/json"
                     },
                     body: subscribeData
                 })
