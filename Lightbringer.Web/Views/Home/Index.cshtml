@@ -37,17 +37,6 @@
 
                 @foreach (var daemon in daemonHost.Daemons)
                 {
-                    var daemonId = $"{daemon.HostId}-{daemon.DaemonType}-{daemon.DaemonName}";
-                    var color = "btn-danger";
-                    var sign = "fa-stop";
-                    var nextAction = "stop";
-                    if (daemon.State == "Stopped")
-                    {
-                        color = "btn-success";
-                        sign = "fa-play";
-                        nextAction = "start";
-                    }
-
                     <tr>
                         <td>
                             <i class="fas fa-cogs text-primary lead" title="@daemon.DaemonType"></i>
@@ -56,11 +45,7 @@
                             <partial name="_DaemonStatePartial" model="@daemon"/>
                         </td>
                         <td>
-                            <div class="btn-group-xs">
-                                <button id="start_stop-@daemonId" class="btn btn-sm @color" name="start-stop-btn" daemon-id="@daemonId" next-action="@nextAction">
-                                    <i class="fas @sign"></i>
-                                </button>
-                            </div>
+                            <partial name="_DaemonButtonsPartial" model="@daemon" />
                         </td>
                         <td>
                             <span title="">@daemon.DisplayName</span>
@@ -80,12 +65,8 @@
 
 @section Scripts
 {
+    <partial name="_SignalR" />
     <partial name="_ChangeStateHandlerScriptsPartial"/>
-
-    <script src="js/StartStopHandler.js"></script>
-    <script language="javascript">
-        var startStop = new StartStopHandler();
-        startStop.initialize();
-    </script>
+    <partial name="_DaemonButtonHandlerPartial"/>
 }
 

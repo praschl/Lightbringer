@@ -67,9 +67,12 @@
 }
 
 @section Scripts {
+    <partial name="_SignalR"/>
+
     <script type="text/javascript" src="~/js/OverviewHandler.js"></script>
     <script type="text/javascript">
         var overview = new OverviewHandler(@Model.HostId);
     </script>
+    
     <partial name="_ChangeStateHandlerScriptsPartial" />
 }

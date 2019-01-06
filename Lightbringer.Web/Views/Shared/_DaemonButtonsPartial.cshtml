@@ -1,0 +1,20 @@
+﻿@model Lightbringer.Web.Core.ViewModels.DaemonVm
+
+@{
+    var daemonId = $"{Model.HostId}-{Model.DaemonType}-{Model.DaemonName}";
+    var color = "btn-danger";
+    var sign = "fa-stop";
+    var nextAction = "stop";
+    if (Model.State == "Stopped")
+    {
+        color = "btn-success";
+        sign = "fa-play";
+        nextAction = "start";
+    }
+}
+
+<div class="btn-group-xs">
+    <button id="start_stop-@daemonId" class="btn btn-sm @color" name="start-stop-btn" daemon-id="@daemonId" next-action="@nextAction">
+        <i class="fas @sign"></i>
+    </button>
+</div>
