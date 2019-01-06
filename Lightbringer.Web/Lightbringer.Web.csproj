@@ -8,6 +8,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\ChangeStateHandler.ts" />
     <Content Remove="wwwroot\js\OverviewHandler.ts" />
+    <Content Remove="wwwroot\js\StartStopHandler.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\js\ChangeStateHandler.ts" />
     <TypeScriptCompile Include="wwwroot\js\OverviewHandler.ts" />
+    <TypeScriptCompile Include="wwwroot\js\StartStopHandler.ts" />
   </ItemGroup>
 
   <ItemGroup>

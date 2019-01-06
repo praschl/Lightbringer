@@ -27,6 +27,7 @@
                     <tr class="table-primary">
                         <th style="width: 1%;"></th>
                         <th style="width: 1%;"></th>
+                        <th style="width: 5rem;"></th>
                         <th>Name</th>
                         <th>Daemon Name</th>
                         <th style="width: 1%;"></th>
@@ -36,6 +37,8 @@
 
                     @foreach (var daemon in daemonHost.Daemons)
                     {
+                        var daemonId = $"{daemon.HostId}-{daemon.DaemonType}-{daemon.DaemonName}";
+
                         <tr>
                             <td>
                                 <i class="fas fa-cogs text-primary lead" title="@daemon.DaemonType"></i>
@@ -43,7 +46,12 @@
                             <td>
                                 <partial name="_DaemonStatePartial" model="@daemon" />
                             </td>
-
+                            <td>
+                                <div class="btn-group-xs">
+                                    <button class="btn btn-sm btn-danger" name="stopButton" daemon-id="@(daemonId)"><i class="fas fa-stop"></i></button>
+                                    <button class="btn btn-sm btn-success" name="startButton" daemon-id="@(daemonId)"><i class="fas fa-play"></i></button>
+                                </div>
+                            </td>
                             <td>
                                 <span title="">@daemon.DisplayName</span>
                             </td>
@@ -63,4 +71,10 @@
 @section Scripts
 {
     <partial name="_ChangeStateHandlerScriptsPartial" />
+    
+    <script src="js/StartStopHandler.js"></script>
+    <script language="javascript">
+        var startStop = new StartStopHandler();
+        startStop.initialize();
+    </script>
 }

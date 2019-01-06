@@ -2,7 +2,13 @@
     changeState(hostId: number, type: string, daemon: string, state: string): void {
 
         const id = `${hostId}-${type}-${daemon}`;
+
         const spanElement: HTMLSpanElement = document.getElementById(id);
+        if (spanElement == null) {
+            console.log(`span not found: ${id}`);
+            return;
+        }
+
         const fasIElement = spanElement.getElementsByTagName("i")[0];
 
         let faChar: string;

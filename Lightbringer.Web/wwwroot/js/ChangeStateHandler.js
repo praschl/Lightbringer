@@ -4,6 +4,10 @@ var ChangeStateHandler = /** @class */ (function () {
     ChangeStateHandler.prototype.changeState = function (hostId, type, daemon, state) {
         var id = hostId + "-" + type + "-" + daemon;
         var spanElement = document.getElementById(id);
+        if (spanElement == null) {
+            console.log("span not found: " + id);
+            return;
+        }
         var fasIElement = spanElement.getElementsByTagName("i")[0];
         var faChar;
         var color;
