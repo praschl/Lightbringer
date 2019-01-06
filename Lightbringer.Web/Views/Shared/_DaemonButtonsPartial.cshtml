@@ -1,6 +1,8 @@
 ﻿@model Lightbringer.Web.Core.ViewModels.DaemonVm
 
 @{
+    // part of this code is also in ChangeStateHandler.ts
+
     var daemonId = $"{Model.HostId}-{Model.DaemonType}-{Model.DaemonName}";
     var color = "btn-danger";
     var sign = "fa-stop";

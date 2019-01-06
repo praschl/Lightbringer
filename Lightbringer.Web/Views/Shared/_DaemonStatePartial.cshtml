@@ -1,6 +1,8 @@
 ﻿@using Lightbringer.Rest.Contract
 @model Lightbringer.Web.Core.ViewModels.DaemonVm
 @{
+    // part of this code is also in ChangeStateHandler.ts
+
     string faChar;
     string color;
     switch (Model.State)
@@ -12,6 +14,14 @@
         case DaemonStates.Stopped:
             faChar = "fa-stop";
             color = "badge-danger";
+            break;
+        case DaemonStates.StartPending:
+            faChar = "fa-forward";
+            color = "badge-primary";
+            break;
+        case DaemonStates.StopPending:
+            faChar = "fa-eject";
+            color = "badge-primary";
             break;
         default:
             faChar = "fa-question";

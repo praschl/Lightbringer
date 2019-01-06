@@ -5,12 +5,13 @@
 
         const spanElement: HTMLSpanElement = document.getElementById(id);
         if (spanElement == null) {
-            console.log(`span not found: ${id}`);
+            // if we happen up here, a service which we do not display was changed
             return;
         }
 
         const fasIElement = spanElement.getElementsByTagName("i")[0];
 
+        // BEGIN DaemonState display
         let faChar: string;
         let color: string;
 
@@ -23,20 +24,28 @@
             faChar = "fa-stop";
             color = "badge-danger";
             break;
+        case "StartPending":
+            faChar = "fa-forward";
+            color = "badge-primary";
+            break;
+        case "StopPending":
+            faChar = "fa-eject";
+            color = "badge-primary";
+            break;
         default:
             faChar = "fa-question";
             color = "badge-secondary";
             break;
         }
-        
-        spanElement.classList.remove("badge-success", "badge-danger", "badge-secondary");
+
+        spanElement.classList.remove("badge-success", "badge-danger", "badge-secondary", "badge-primary");
         spanElement.classList.add(color);
         spanElement.title = state;
 
-        fasIElement.classList.remove("fa-play", "fa-stop", "fa-question");
+        fasIElement.classList.remove("fa-play", "fa-stop", "fa-question", "fa-forward", "fa-eject");
         fasIElement.classList.add(faChar);
 
-        // now change the start-stop button
+        // BEGIN DaemonButtons
         const startStopId = `start_stop-${id}`;
         const button = document.getElementById(startStopId) as HTMLButtonElement;
         if (button == null)
