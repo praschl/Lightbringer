@@ -35,5 +35,28 @@
 
         fasIElement.classList.remove("fa-play", "fa-stop", "fa-question");
         fasIElement.classList.add(faChar);
+
+        // now change the start-stop button
+        const startStopId = `start_stop-${id}`;
+        const button = document.getElementById(startStopId) as HTMLButtonElement;
+        if (button == null)
+            return;
+
+        let startStopColor = "btn-danger";
+        let sign = "fa-stop";
+        let nextAction = "stop";
+        if (state === "Stopped") {
+            startStopColor = "btn-success";
+            sign = "fa-play";
+            nextAction = "start";
+        }
+
+        button.setAttribute("next-action", nextAction);
+        button.classList.remove("btn-danger", "btn-success");
+        button.classList.add(startStopColor);
+
+        const fasi = button.getElementsByTagName("i")[0];
+        fasi.classList.remove("fa-play", "fa-stop");
+        fasi.classList.add(sign);
     }
 }

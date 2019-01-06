@@ -30,6 +30,25 @@ var ChangeStateHandler = /** @class */ (function () {
         spanElement.title = state;
         fasIElement.classList.remove("fa-play", "fa-stop", "fa-question");
         fasIElement.classList.add(faChar);
+        // now change the start-stop button
+        var startStopId = "start_stop-" + id;
+        var button = document.getElementById(startStopId);
+        if (button == null)
+            return;
+        var startStopColor = "btn-danger";
+        var sign = "fa-stop";
+        var nextAction = "stop";
+        if (state === "Stopped") {
+            startStopColor = "btn-success";
+            sign = "fa-play";
+            nextAction = "start";
+        }
+        button.setAttribute("next-action", nextAction);
+        button.classList.remove("btn-danger", "btn-success");
+        button.classList.add(startStopColor);
+        var fasi = button.getElementsByTagName("i")[0];
+        fasi.classList.remove("fa-play", "fa-stop");
+        fasi.classList.add(sign);
     };
     return ChangeStateHandler;
 }());

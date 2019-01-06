@@ -35,9 +35,7 @@ namespace Lightbringer.Web.Controllers.api
             var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
             
             _log.LogInformation("Sending Start to {0}-{1}...", type, daemon);
-            await api.Start(type, daemon)
-                .ContinueWith(t => _log.LogWarning(t.Exception, "Sending start to {0}-{1} failed.", type, daemon),
-                    TaskContinuationOptions.OnlyOnFaulted);
+            await api.Start(type, daemon);
 
             return Ok();
         }
@@ -55,9 +53,7 @@ namespace Lightbringer.Web.Controllers.api
             var api = _restApiProvider.Get<IDaemonApi>(daemonHost.Url);
 
             _log.LogInformation("Sending Stop to {0}-{1}...", type, daemon);
-            await api.Stop(type, daemon)
-                .ContinueWith(t => _log.LogWarning(t.Exception, "Sending stop to {0}-{1} failed.", type, daemon),
-                    TaskContinuationOptions.OnlyOnFaulted);
+            await api.Stop(type, daemon);
 
             return Ok();
         }

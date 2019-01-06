@@ -3,7 +3,7 @@
     ViewData["Title"] = "View running daemons";
 }
 
-<br />
+<br/>
 
 @if (Model != null)
 {
@@ -24,43 +24,53 @@
         {
             <table class="table table-striped table-borderless table-sm">
                 <thead>
-                    <tr class="table-primary">
-                        <th style="width: 1%;"></th>
-                        <th style="width: 1%;"></th>
-                        <th style="width: 5rem;"></th>
-                        <th>Name</th>
-                        <th>Daemon Name</th>
-                        <th style="width: 1%;"></th>
-                    </tr>
+                <tr class="table-primary">
+                    <th style="width: 1%;"></th>
+                    <th style="width: 1%;"></th>
+                    <th style="width: 1%;"></th>
+                    <th>Name</th>
+                    <th>Daemon Name</th>
+                    <th style="width: 1%;"></th>
+                </tr>
                 </thead>
                 <tbody>
 
-                    @foreach (var daemon in daemonHost.Daemons)
+                @foreach (var daemon in daemonHost.Daemons)
+                {
+                    var daemonId = $"{daemon.HostId}-{daemon.DaemonType}-{daemon.DaemonName}";
+                    var color = "btn-danger";
+                    var sign = "fa-stop";
+                    var nextAction = "stop";
+                    if (daemon.State == "Stopped")
                     {
-                        var daemonId = $"{daemon.HostId}-{daemon.DaemonType}-{daemon.DaemonName}";
-
-                        <tr>
-                            <td>
-                                <i class="fas fa-cogs text-primary lead" title="@daemon.DaemonType"></i>
-                            </td>
-                            <td>
-                                <partial name="_DaemonStatePartial" model="@daemon" />
-                            </td>
-                            <td>
-                                <div class="btn-group-xs">
-                                    <button class="btn btn-sm btn-danger" name="stopButton" daemon-id="@(daemonId)"><i class="fas fa-stop"></i></button>
-                                    <button class="btn btn-sm btn-success" name="startButton" daemon-id="@(daemonId)"><i class="fas fa-play"></i></button>
-                                </div>
-                            </td>
-                            <td>
-                                <span title="">@daemon.DisplayName</span>
-                            </td>
-                            <td>
-                                @daemon.DaemonName
-                            </td>
-                            <td></td>
-                        </tr>
+                        color = "btn-success";
+                        sign = "fa-play";
+                        nextAction = "start";
                     }
+
+                    <tr>
+                        <td>
+                            <i class="fas fa-cogs text-primary lead" title="@daemon.DaemonType"></i>
+                        </td>
+                        <td>
+                            <partial name="_DaemonStatePartial" model="@daemon"/>
+                        </td>
+                        <td>
+                            <div class="btn-group-xs">
+                                <button id="start_stop-@daemonId" class="btn btn-sm @color" name="start-stop-btn" daemon-id="@daemonId" next-action="@nextAction">
+                                    <i class="fas @sign"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <span title="">@daemon.DisplayName</span>
+                        </td>
+                        <td>
+                            @daemon.DaemonName
+                        </td>
+                        <td></td>
+                    </tr>
+                }
 
                 </tbody>
             </table>
@@ -70,11 +80,12 @@
 
 @section Scripts
 {
-    <partial name="_ChangeStateHandlerScriptsPartial" />
-    
+    <partial name="_ChangeStateHandlerScriptsPartial"/>
+
     <script src="js/StartStopHandler.js"></script>
     <script language="javascript">
         var startStop = new StartStopHandler();
         startStop.initialize();
     </script>
 }
+

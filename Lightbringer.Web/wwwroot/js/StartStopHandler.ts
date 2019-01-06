@@ -12,33 +12,24 @@
 
     private send(command: string, host: string, type: string, daemon: string) {
         fetch(`api/managedaemon/${command}?id=${host}&type=${type}&daemon=${daemon}`)
-            .then(r => r.json())
             .catch(r => console.log(r));
     }
     
-    start(event: MouseEvent) {
+    startStop(event: MouseEvent) {
         const fullId = this.getDaemonId(event);
         const parsed = this.parse(fullId);
 
-        this.send("start", parsed[0], parsed[1], parsed[2]);
-    }
+        const button = event.currentTarget as HTMLButtonElement;
+        const action = button.getAttribute("next-action");
 
-    stop(event: MouseEvent) {
-        const fullId = this.getDaemonId(event);
-        const parsed = this.parse(fullId);
-
-        this.send("stop", parsed[0], parsed[1], parsed[2]);
+        this.send(action, parsed[0], parsed[1], parsed[2]);
     }
 
     initialize() {
-        const startButtons = document.getElementsByName("startButton");
-        const stopButtons = document.getElementsByName("stopButton");
+        const buttons = document.getElementsByName("start-stop-btn");
 
-        startButtons.forEach(b => {
-            b.addEventListener("click", e => this.start(e));
-        });
-        stopButtons.forEach(b => {
-            b.addEventListener("click", e => this.stop(e));
+        buttons.forEach(b => {
+            b.addEventListener("click", e => this.startStop(e));
         });
     }
 }

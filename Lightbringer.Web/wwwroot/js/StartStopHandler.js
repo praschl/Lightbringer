@@ -11,28 +11,20 @@ var StartStopHandler = /** @class */ (function () {
     };
     StartStopHandler.prototype.send = function (command, host, type, daemon) {
         fetch("api/managedaemon/" + command + "?id=" + host + "&type=" + type + "&daemon=" + daemon)
-            .then(function (r) { return r.json(); })
             .catch(function (r) { return console.log(r); });
     };
-    StartStopHandler.prototype.start = function (event) {
+    StartStopHandler.prototype.startStop = function (event) {
         var fullId = this.getDaemonId(event);
         var parsed = this.parse(fullId);
-        this.send("start", parsed[0], parsed[1], parsed[2]);
-    };
-    StartStopHandler.prototype.stop = function (event) {
-        var fullId = this.getDaemonId(event);
-        var parsed = this.parse(fullId);
-        this.send("stop", parsed[0], parsed[1], parsed[2]);
+        var button = event.currentTarget;
+        var action = button.getAttribute("next-action");
+        this.send(action, parsed[0], parsed[1], parsed[2]);
     };
     StartStopHandler.prototype.initialize = function () {
         var _this = this;
-        var startButtons = document.getElementsByName("startButton");
-        var stopButtons = document.getElementsByName("stopButton");
-        startButtons.forEach(function (b) {
-            b.addEventListener("click", function (e) { return _this.start(e); });
-        });
-        stopButtons.forEach(function (b) {
-            b.addEventListener("click", function (e) { return _this.stop(e); });
+        var buttons = document.getElementsByName("start-stop-btn");
+        buttons.forEach(function (b) {
+            b.addEventListener("click", function (e) { return _this.startStop(e); });
         });
     };
     return StartStopHandler;
