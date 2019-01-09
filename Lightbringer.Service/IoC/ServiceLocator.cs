@@ -8,7 +8,7 @@ namespace Lightbringer.Service.IoC
     public class ServiceLocator
     {
         public static IContainer Instance { get; private set; }
-
+            
         public void InitializeDefault()
         {
             Instance = InitContainer();
