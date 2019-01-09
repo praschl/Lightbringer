@@ -12,6 +12,7 @@ var ChangeStateHandler = /** @class */ (function () {
         // BEGIN DaemonState display
         var faChar;
         var color;
+        var animation = false;
         switch (state) {
             case "Running":
                 faChar = "fa-play";
@@ -24,10 +25,12 @@ var ChangeStateHandler = /** @class */ (function () {
             case "StartPending":
                 faChar = "fa-forward";
                 color = "badge-primary";
+                animation = true;
                 break;
             case "StopPending":
                 faChar = "fa-eject";
                 color = "badge-primary";
+                animation = true;
                 break;
             default:
                 faChar = "fa-question";
@@ -37,8 +40,10 @@ var ChangeStateHandler = /** @class */ (function () {
         spanElement.classList.remove("badge-success", "badge-danger", "badge-secondary", "badge-primary");
         spanElement.classList.add(color);
         spanElement.title = state;
-        fasIElement.classList.remove("fa-play", "fa-stop", "fa-question", "fa-forward", "fa-eject");
+        fasIElement.classList.remove("fa-play", "fa-stop", "fa-question", "fa-forward", "fa-eject", "faa-flash", "animated");
         fasIElement.classList.add(faChar);
+        if (animation)
+            fasIElement.classList.add("faa-flash", "animated");
         // BEGIN DaemonButtons
         var startStopId = "start_stop-" + id;
         var button = document.getElementById(startStopId);
