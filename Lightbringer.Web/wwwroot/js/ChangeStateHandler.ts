@@ -14,6 +14,7 @@
         // BEGIN DaemonState display
         let faChar: string;
         let color: string;
+        let animation = false;
 
         switch (state) {
         case "Running":
@@ -27,10 +28,12 @@
         case "StartPending":
             faChar = "fa-forward";
             color = "badge-primary";
+            animation = true;
             break;
         case "StopPending":
             faChar = "fa-eject";
             color = "badge-primary";
+            animation = true;
             break;
         default:
             faChar = "fa-question";
@@ -42,8 +45,10 @@
         spanElement.classList.add(color);
         spanElement.title = state;
 
-        fasIElement.classList.remove("fa-play", "fa-stop", "fa-question", "fa-forward", "fa-eject");
+        fasIElement.classList.remove("fa-play", "fa-stop", "fa-question", "fa-forward", "fa-eject", "faa-flash", "animated");
         fasIElement.classList.add(faChar);
+        if (animation)
+            fasIElement.classList.add("faa-flash", "animated");
 
         // BEGIN DaemonButtons
         const startStopId = `start_stop-${id}`;
