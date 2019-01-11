@@ -19,7 +19,7 @@
                 name: daemon
             });
 
-        const result = await fetch("/api/subscribe",
+        const result = await fetch("../api/subscribe",
                 {
                     method: "POST",
                     headers: {

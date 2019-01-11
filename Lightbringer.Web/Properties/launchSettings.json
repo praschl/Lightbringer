@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": true,
     "anonymousAuthentication": false,
+    "iis": {
+      "applicationUrl": "http://ws-pc-mpr-02/Lightbringer.Web",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:54721",
       "sslPort": 44309
@@ -9,7 +13,7 @@
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "IISExpress",
+      "commandName": "IIS",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

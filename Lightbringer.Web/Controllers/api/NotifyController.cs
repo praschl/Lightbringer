@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Lightbringer.Rest.Contract;
 using Lightbringer.Web.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;

@@ -1,8 +1,8 @@
 ﻿<script src="~/js/ChangeStateHandler.js" asp-append-version="true"></script>
 <script language="javascript">
     "use strict";
-
-    var connection = new signalR.HubConnectionBuilder().withUrl("/daemonHub").build();
+    
+    var connection = new signalR.HubConnectionBuilder().withUrl(@Context.Request.PathBase+"/daemonHub").build();
 
     var changeStateHandler = new ChangeStateHandler();
 

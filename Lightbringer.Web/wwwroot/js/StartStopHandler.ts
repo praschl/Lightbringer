@@ -11,7 +11,7 @@
     }
 
     private send(command: string, host: string, type: string, daemon: string) {
-        fetch(`api/managedaemon/${command}?id=${host}&type=${type}&daemon=${daemon}`)
+        fetch(`../api/managedaemon/${command}?id=${host}&type=${type}&daemon=${daemon}`)
             .catch(r => console.log(r));
     }
     

@@ -51,7 +51,7 @@ var OverviewHandler = /** @class */ (function () {
                             hostId: this._hostId,
                             name: daemon
                         });
-                        return [4 /*yield*/, fetch("/api/subscribe", {
+                        return [4 /*yield*/, fetch("../api/subscribe", {
                                 method: "POST",
                                 headers: {
                                     "Accept": "application/json",

@@ -43,6 +43,7 @@ namespace Lightbringer.Web
             var webApiUrlTemplate = Configuration["WebApi.Url.Template"];
             builder.Register(c => new LightbringerConfiguration {WebApiUrlTemplate = webApiUrlTemplate}).SingleInstance();
 
+            // TODO: need to find a directory that works with default application pool
             var liteDbConfig = Configuration.GetSection("liteDb").Get<LiteDbStoreConfiguration>() ?? new LiteDbStoreConfiguration();
             builder.Register(c => liteDbConfig).SingleInstance();
 
