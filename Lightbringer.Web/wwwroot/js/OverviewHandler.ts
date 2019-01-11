@@ -19,7 +19,7 @@
                 name: daemon
             });
 
-        const result = await fetch("../api/subscribe",
+        const result = await fetch(`${Site.root}/api/subscribe`,
                 {
                     method: "POST",
                     headers: {
@@ -39,4 +39,8 @@
             button.style.opacity = "0.5";
         }
     }
+}
+
+class Site {
+    static root: string;
 }

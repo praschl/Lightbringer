@@ -10,7 +10,7 @@ var StartStopHandler = /** @class */ (function () {
         return id.split("-");
     };
     StartStopHandler.prototype.send = function (command, host, type, daemon) {
-        fetch("../api/managedaemon/" + command + "?id=" + host + "&type=" + type + "&daemon=" + daemon)
+        fetch(Site.root + "/api/managedaemon/" + command + "?id=" + host + "&type=" + type + "&daemon=" + daemon)
             .catch(function (r) { return console.log(r); });
     };
     StartStopHandler.prototype.startStop = function (event) {

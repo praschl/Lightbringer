@@ -51,7 +51,7 @@ var OverviewHandler = /** @class */ (function () {
                             hostId: this._hostId,
                             name: daemon
                         });
-                        return [4 /*yield*/, fetch("../api/subscribe", {
+                        return [4 /*yield*/, fetch(Site.root + "/api/subscribe", {
                                 method: "POST",
                                 headers: {
                                     "Accept": "application/json",
@@ -76,5 +76,10 @@ var OverviewHandler = /** @class */ (function () {
         });
     };
     return OverviewHandler;
+}());
+var Site = /** @class */ (function () {
+    function Site() {
+    }
+    return Site;
 }());
 //# sourceMappingURL=OverviewHandler.js.map
