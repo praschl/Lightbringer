@@ -26,7 +26,7 @@ namespace Lightbringer.Web.Core.Store
                     if (!string.IsNullOrEmpty(_config.DbPath))
                         return _config.DbPath;
 
-                    var pathToDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "lightbringer\\db\\");
+                    var pathToDb = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "lightbringer\\database\\");
                     if (!Directory.Exists(pathToDb))
                         Directory.CreateDirectory(pathToDb);
 

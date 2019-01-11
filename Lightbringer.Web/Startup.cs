@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.IO;
+using Autofac;
+using Autofac.Core;
 using Lightbringer.Web.Configuration;
 using Lightbringer.Web.Core;
 using Lightbringer.Web.Core.Store;
@@ -44,8 +46,12 @@ namespace Lightbringer.Web
             builder.Register(c => new LightbringerConfiguration {WebApiUrlTemplate = webApiUrlTemplate}).SingleInstance();
 
             // TODO: need to find a directory that works with default application pool
-            var liteDbConfig = Configuration.GetSection("liteDb").Get<LiteDbStoreConfiguration>() ?? new LiteDbStoreConfiguration();
-            builder.Register(c => liteDbConfig).SingleInstance();
+            var liteDbConfig = Configuration.GetSection("liteDb").Get<LiteDbStoreConfiguration>()
+                               ??
+                               new LiteDbStoreConfiguration();
+            builder.Register(c => liteDbConfig)
+                .OnActivating(ActivateConfig)
+                .SingleInstance();
 
             builder.RegisterType<RestApiProvider>().AsImplementedInterfaces().SingleInstance();
 
@@ -56,6 +62,17 @@ namespace Lightbringer.Web
             builder.RegisterType<DaemonDtoConverter>()
                 .InterceptInterfaces()
                 .AsImplementedInterfaces();
+        }
+
+        private void ActivateConfig(IActivatingEventArgs<LiteDbStoreConfiguration> e)
+        {
+            var hostingEnvironment = e.Context.Resolve<IHostingEnvironment>();
+
+            var dbDirectory = Path.Combine(hostingEnvironment.ContentRootPath, "database");
+            if (!Directory.Exists(dbDirectory))
+                Directory.CreateDirectory(dbDirectory);
+
+            e.Instance.DbPath = Path.Combine(dbDirectory, "lite.db");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

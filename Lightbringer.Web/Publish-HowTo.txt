@@ -1,7 +1,9 @@
 ﻿Install
 - IIS
 -- Basic authentication (Standardauthentfizierung)
+-- WebSocket Protocoll
 - IIS Management Console (Webverwaltungstools / IIS-Verwaltungskonsole)
+
 
 Debugging:
 In
